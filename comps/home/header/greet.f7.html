@@ -1,0 +1,92 @@
+<template>
+  <div class="greet">
+    <span class="greeet">${greet()}</span>
+    <span class="name">${name()}</span>
+    !
+  </div>
+</template>
+<script>
+  export default (props, {$store, $f7, $update, $el, $onMounted}) => {
+
+    function greet() {
+      let now = new Date().getHours()
+
+      let period
+      if (now >= 23 && now <=4) {
+        period = 'night'
+      }else if (now >=5 && now <=10){
+        period = "morning"
+      }else if (now >=11 && now <= 19){
+        period = 'day'
+      }else if (now >=20 && now <=22){
+        period = 'evening'
+      }
+
+      let greets = {
+        morning:[
+          'Доброе утро'
+        ],
+        day:[
+          'Добрый день',
+          'Хорошего дня',
+        ],
+        evening:[
+          'Добрый вечер',
+          'Приятного вечера',
+        ],
+        night:[
+          'Спокойной ночи',
+          'Сладких снов'
+        ]
+      }
+
+      return greets[period][$store.state.gf.getRandomInRange(0,  greets[period].length-1)]
+    }
+
+    $f7.on('e-userNameAnswer', ()=>{
+      $update()
+    })
+
+    function appear(el, time, prewAni) {
+      let oldTransDur=getComputedStyle(el).transitionDuration
+
+      if (prewAni) {
+      el.style.transitionDuration=`${time}ms`
+        
+      }
+      el.style.opacity=0
+
+      setTimeout(() => {
+        el.style.transitionDuration=`${time}ms`
+        el.style.opacity=1
+      }, time);
+      setTimeout(() => {
+        el.style.transitionDuration=oldTransDur
+      }, time+100);
+    }
+
+
+    function name() {
+      let val = ''
+      let storeName=$store.state.userData.name
+      if (storeName !== undefined && storeName !== '' ) {
+        setTimeout(() => {
+          appear(document.querySelector('.greet'), 500)
+          
+        }, 0);
+          val = ', '+storeName
+      }else{
+        console.log(storeName);
+        setTimeout(() => {
+          $f7.emit('e-userNameRequest')
+        }, 5);
+      }
+
+      
+      return val
+        
+    }
+
+    return $render;
+  }
+</script>

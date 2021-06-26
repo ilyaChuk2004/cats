@@ -1,0 +1,90 @@
+<template>
+  <div class="namePrompt">
+    <input type="text" @input=${()=>{inp(this)}} placeholder="как вас зовут?" />
+    ${error!=='-' && $h`
+      <div class="error">${error}</div>
+    `}
+  </div>
+</template>
+<script>
+  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+    let error='-'
+
+    function inp(t) {
+      let el = t.el.firstChild
+      let text = el.value
+
+      el.value=text[0].toUpperCase()+text.slice(1)
+    }
+
+
+      $f7.on('e-userNameRequest', ()=>{
+        setTimeout(() => {
+            let el = $el.value[0].firstChild
+          console.log($el.value[0]);
+
+          $el.value[0].style.display='block'
+          setTimeout(() => {
+          $el.value[0].style.opacity='1'
+            
+          }, 10);
+          
+          
+
+          $(el).keyup(function(e){
+            if(e.keyCode == 13){
+              if (el.value.length>1 && el.value.length<14) {
+                fo()
+              }else if(el.value.length<1){
+                err('напиши что-то!')
+              }else if (el.value.length>14){
+                err('много букав')
+              }
+
+
+
+              function err(text) {
+                error = text
+                $update(()=>{
+                  $el.value[0].lastChild.style.display='block'
+                  setTimeout(() => {
+                    $el.value[0].lastChild.style.opacity=1
+
+                  }, 30);
+
+
+
+                  setTimeout(() => {
+                    $el.value[0].lastChild.style.opacity=0
+                  setTimeout(() => {
+                    $el.value[0].lastChild.style.display='none'
+                  }, 300);
+                  }, 2000);
+                })
+              }
+
+              function fo() {
+                $store.state.userData.name=el.value
+              
+
+              $el.value[0].style.opacity='0'
+              setTimeout(() => {
+                $el.value[0].style.display='none'
+
+                setTimeout(() => {
+                  $f7.emit('e-userNameAnswer')
+                  $f7.emit('e-backp')
+                }, 1000 );
+            
+              }, 500);
+              }
+            }
+          });
+        }, 600);
+
+
+    })
+   
+    return $render;
+  }
+</script>

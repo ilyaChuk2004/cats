@@ -33,3 +33,7 @@ var app = new Framework7({
     path: '/service-worker.js',
   },
 });
+
+window.state=store.state
+
+import { dataControl } from './dataControl'; dataControl(app, store)

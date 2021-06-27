@@ -1,0 +1,80 @@
+<template>
+  <div class="gaugeBox">
+    <div class="cs" innerHTML=${lb}></div>
+  <div class="gauge"></div>
+  </div>
+</template>
+<style>
+  .water .gauge::before{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #66b0bb;
+  }
+  </style>
+<script>
+  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+
+    console.log(props);
+    if ($store.state.userData.water.todayMl == undefined ) {
+        $store.state.userData.water.todayMl=0
+        $f7.emit('e-backp')
+      }
+let lvl=$store.state.userData.water.todayMl
+    let lb =`
+<style>
+  .water .gauge::before{
+    content: '${lvl}мл';
+  }
+  </style>
+`
+    $onMounted(()=>{
+      if ($store.state.userData.water.todayMl == undefined ) {
+        $store.state.userData.water.todayMl=0
+        $f7.emit('e-backp')
+      }
+      if ($store.state.userData.water.goal == undefined ) {
+        $store.state.userData.water.goal=1500
+        $f7.emit('e-backp')
+      }
+      let goal = $store.state.userData.water.goal
+      let valR = $store.state.userData.water.todayMl
+
+      let val = (valR/goal)
+      let ga = $f7.gauge.create({
+        el:$el.value[0].lastChild,
+        value:val,
+        // value:$store.state.userData.lvl!==undefined?$store.state.userData.lvln:'0',
+        size:+props.size,
+        borderWidth:8,
+        borderColor:'#65b7c3',
+        borderBgColor:'#ffffff91',
+      })
+
+      $f7.on('e-waterChange', ()=>{
+        let goall = $store.state.userData.water.goal
+      let valRr = $store.state.userData.water.todayMl
+
+      let val = (valRr/goall)
+        ga.update({
+          value:val
+        })
+
+
+        lb =`
+<style>
+  .water .gauge::before{
+    content: '${valRr}мл';
+  }
+  </style>
+`
+
+        $update()
+      })
+
+    })
+    return $render;
+  }
+</script>

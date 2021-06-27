@@ -1,0 +1,98 @@
+<template>
+  <div @click=${(e)=>redir(e)} class="cardd water">
+
+    ${hold ? $h`
+      
+      <div class="hold">
+      <${gauge} key='y' size='120' fsize='150'/>
+
+      <div class="control">
+        <div class="50">
+          <div class="pl btnn" @click=${(e)=>{ change(50)}}>+</div>
+            50
+          <div class="mi btnn" @click=${(e)=>{ change(-50)}}>-</div>
+        </div>
+        <div class="100">
+          <div class="pl btnn" @click=${(e)=>{ change(100)}}>+</div>
+            100
+          <div class="mi btnn" @click=${(e)=>{ change(-100)}}>-</div>
+        </div>
+        <div class="200">
+          <div class="pl btnn" @click=${(e)=>{ change(200)}}>+</div>
+            200
+          <div class="mi btnn" @click=${(e)=>{ change(-200)}}>-</div>
+        </div>
+      </div>
+      </div>
+
+
+    ` : $h`
+    <span>Водичка</span>
+    <!-- <img src="static/bottle.svg" alt=""/> -->
+    <div class="gaugeControl">
+      <div @click=${(e)=>{change(-100, true, e.target)}} class="minus btn">-100</div>
+      <${gauge} key='l' fsize='100' size='80'/>
+      <div @click=${(e)=>{change(100, true, e.target)}} class="plus btn">+100</div>
+    </div>
+
+    `}
+
+  </div>
+</template>
+<script>
+  import gauge from './waterGauge.f7.html'
+  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+    let hold = false
+    function bouns(el) {
+      el.style.transform='scale(1.1)'
+      setTimeout(() => {
+        el.style.transform='scale(1)'
+      }, 200);
+    }
+
+    function change(ml, b=false, el) {
+      console.log(ml);
+
+      if ($store.state.userData.water.todayMl+ml >= 0) {
+        $store.state.userData.water.todayMl+=ml
+        doo()
+      }else if ($store.state.userData.water.todayMl == 0 && ml<=0){
+
+      }else if ($store.state.userData.water.todayMl+ml <0){
+        $store.state.userData.water.todayMl=0
+        doo()
+      }
+
+      
+
+      function doo() {
+        if (b) { bouns(el)}
+      navigator.vibrate([30])
+      $f7.emit('e-backp')
+      $f7.emit('e-waterChange')
+      }
+
+
+
+    }
+
+    $onMounted(()=>{
+      $('.card,.water').on('taphold', function () {
+        navigator.vibrate([30, 10, 30,])
+        $f7.emit('e-waterCardHold')
+        hold=hold?false:true
+        $update()
+      });
+    })
+
+    function redir(ev) {
+      let path = ev.path
+      let fClasses = [...path[0].classList]
+      let no = ['btn', 'btnn']
+      if (!no.some(el => fClasses.join(' ').includes(el))) {
+        $f7.views.current.router.navigate('water/')
+      }
+    }
+    return $render;
+  }
+</script>

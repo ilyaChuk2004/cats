@@ -20,7 +20,7 @@ import App from '../app.f7.html';
 
 var app = new Framework7({
   name: 'cats', // App name
-  theme: 'auto', // Automatic theme detection
+  theme: 'ios', // Automatic theme detection
   el: '#app', // App root element
   component: App, // App main component
 
@@ -32,8 +32,30 @@ var app = new Framework7({
   serviceWorker: {
     path: '/service-worker.js',
   },
+
+  touch: {
+    tapHold: true, //enable tap hold events
+    mdTouchRipple:true,
+    iosTouchRipple:true,
+    auroraTouchRipple:true,
+    disableContextMenu:true,
+    touchRippleElements:'.ripple, .ripple-dark-white',
+  },
+
+  view: {
+    // browserHistory:true,
+    
+  },
 });
 
 window.state=store.state
+window.app=app
+// store.state.appData.desktop = Framework7.device.desktop;
+// store.state.appData.theme = Framework7.device.prefersColorScheme();
 
 import { dataControl } from './dataControl'; dataControl(app, store)
+
+
+
+//отменяет перетаскивание мышкой ссылок и картинок
+$(document).on("dragstart", 'img, a', function(event) { event.preventDefault(); }); 

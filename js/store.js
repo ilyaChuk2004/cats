@@ -4,7 +4,11 @@ import { createStore } from 'framework7';
 const store = createStore({
   state: {
     userData:{
-      name:''
+      name:'',
+      water:{
+        todayMl:0,
+        streak:0
+      }
     },
     gf:{
       support_format_webp(){var elem=document.createElement("canvas");return!(!elem.getContext||!elem.getContext("2d"))&&0==elem.toDataURL("image/webp").indexOf("data:image/webp")},

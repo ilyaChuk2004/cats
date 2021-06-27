@@ -115,7 +115,7 @@ html,
 body {
   height: 100%;
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   /* iOS Safari */
@@ -149,13 +149,11 @@ h6 {
   font-weight: 900;
 }
 h2 {
-  font-family: "Inter", sans-serif;
   font-size: 26pt;
   color: var(--hColor);
   margin-top: 1.5em;
 }
 h4 {
-  font-family: "Inter", sans-serif;
   font-size: 1.5em;
   color: var(--hColor);
   margin-top: 2em;
@@ -166,7 +164,6 @@ p {
   font-size: 19pt;
   line-height: 30px;
   font-weight: 500;
-  font-family: "Inter", sans-serif;
 }
 @media (max-width: 800px) {
   p {
@@ -185,7 +182,7 @@ non {
   display: inline-block;
 }
 .page {
-  background-color: var(--day-bg);
+  background-color: ;
 }
 .ripple-wave {
   background-color: #00000038;
@@ -201,6 +198,9 @@ non {
 }
 .page[data-name='home'] {
   background-color: #F0F6F4;
+}
+.page[data-name='water'] {
+  background-color: #eefaff;
 }
 .header {
   padding: 1.5rem 2rem;
@@ -246,4 +246,162 @@ non {
   margin: auto;
   margin-top: 1rem;
   display: block;
+}
+.cards {
+  padding: 1rem;
+}
+.cards .cardd {
+  padding: 2rem;
+  background-color: blue;
+  height: 13rem;
+  box-sizing: border-box;
+  border-radius: 3rem;
+  overflow: hidden;
+  position: relative;
+}
+.cards .water {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  transform: scale(1);
+  transition: 0.8s cubic-bezier(0.04, 0.93, 0.76, 0.98);
+  background: linear-gradient(233.81deg, #7DE7FE 4.14%, rgba(87, 255, 174, 0) 112.07%);
+}
+.cards .water::after {
+  content: '';
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.cards .water.active-state {
+  transform: scale(0.93);
+  transition: 0.3s cubic-bezier(0.92, 0.01, 1, 0.9) !important;
+}
+.cards .water .zPlane {
+  content: '';
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.cards .water span {
+  color: #73bcc5;
+  font-weight: 900;
+  font-size: 26pt;
+}
+.cards .water .gaugeControl {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.cards .water .gaugeControl .btn {
+  color: #65b7c3;
+  background-color: rgba(255, 255, 255, 0.52157);
+  border-radius: 10rem;
+  width: 2.5rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8pt;
+  margin: 0.6rem;
+  transform: scale(1);
+  transition: 0.2s;
+  z-index: 4;
+  position: relative;
+}
+.cards .water .gaugeControl .btn::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  left: 0px;
+  top: 0px;
+}
+.cards .water .gaugeControl .gaugeBox {
+  color: red;
+  align-self: flex-end;
+}
+.cards .water .gaugeControl .gaugeBox .gauge {
+  font-size: 85%;
+}
+.cards .water .hold {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+.cards .water .hold .gauge {
+  transform: scale(1);
+  font-size: 120%;
+}
+.cards .water .hold .control {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 4;
+}
+.cards .water .hold .control > div {
+  color: #000000b5;
+  background-color: #ffffff7a;
+  margin: 0.6rem 0rem;
+  box-sizing: border-box;
+  padding: 0.6rem 2.3rem;
+  border-radius: 100rem;
+  border: 1px #65b7c391 solid;
+  position: relative;
+  display: flex;
+}
+.cards .water .hold .control > div .pl {
+  color: #87e2be;
+  font-size: 2.7rem;
+  position: absolute;
+  z-index: 4;
+  right: 3px;
+  top: 50%;
+  line-height: 2.7rem;
+  transform: translateY(-53%);
+}
+.cards .water .hold .control > div .pl::after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 0px;
+  top: 0px;
+}
+.cards .water .hold .control > div .mi {
+  color: #f7a1a1;
+  font-size: 2.7rem;
+  position: absolute;
+  z-index: 4;
+  left: 6px;
+  top: 50%;
+  line-height: 2.7rem;
+  transform: translateY(-53%);
+}
+.cards .water .hold .control > div .mi::after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 0px;
+  top: 0px;
+}
+@keyframes aniScale02 {
+  from {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
 }

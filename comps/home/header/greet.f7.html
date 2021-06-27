@@ -12,7 +12,7 @@
       let now = new Date().getHours()
 
       let period
-      if (now >= 23 && now <=4) {
+      if (now >= 23 || now <=4) {
         period = 'night'
       }else if (now >=5 && now <=10){
         period = "morning"

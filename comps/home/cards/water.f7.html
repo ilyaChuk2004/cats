@@ -1,6 +1,6 @@
 <template>
   <div @click=${(e)=>redir(e)} class="cardd water">
-
+    <div id="teachCircle"></div>
     ${hold ? $h`
       
       <div class="hold">
@@ -42,6 +42,10 @@
 <script>
   import gauge from './waterGauge.f7.html'
   export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+    var bodymovin = require('../../../js/lottie');
+
+
+
     let hold = false
     function bouns(el) {
       el.style.transform='scale(1.1)'
@@ -49,6 +53,13 @@
         el.style.transform='scale(1)'
       }, 200);
     }
+
+
+        
+
+    $f7.on('e-waterChange', (val)=>{
+      change(val)
+    })
 
     function change(ml, b=false, el) {
       console.log(ml);
@@ -76,13 +87,75 @@
 
     }
 
-    $onMounted(()=>{
-      $('.card,.water').on('taphold', function () {
-        navigator.vibrate([30, 10, 30,])
+    function holdChange() {
+      navigator.vibrate([30, 10, 30,])
         $f7.emit('e-waterCardHold')
         hold=hold?false:true
         $update()
+    }
+
+    $onMounted(()=>{
+      $('.card,.water').on('taphold', function () {
+        holdChange()
       });
+
+
+
+
+      if ($store.state.userData.teach.widgetPress !== true) {
+      setTimeout(() => {
+        let toastBottom = $f7.toast.create({
+          text: 'Зажмите на карточке для дополнительных действий',
+          closeButton: true,
+          on: {
+            close: function () {
+              $store.state.userData.teach.widgetPress=true
+              $f7.emit('e-backp')
+            },
+          }
+        });
+        toastBottom.open();
+
+        setTimeout(() => {
+          var animation = lottie.loadAnimation({
+          container: document.getElementById('teachCircle'), // Required
+          path: 'static/teachCircle.json', // Required
+          renderer: 'svg', // Required
+          loop: false,
+          autoplay: false, // Optional
+        })
+        $('.card,.water').css('box-shadow', 'var(--waterCardBSH), 0 0 0 1000px #0000005e')
+
+        animation.play()  
+        animation.pause()  
+        
+        setTimeout(() => {
+          animation.setSpeed(1)  
+          animation.play()  
+        
+
+
+        $('.card,.water').addClass('active-state')
+
+
+        setTimeout(() => {
+          $('.card,.water').removeClass('active-state')
+
+          holdChange()
+          $('#teachCircle').css('opacity', '0')
+          setTimeout(() => {
+            $('#teachCircle').remove()
+             animation.destroy()
+
+            $('.card,.water').css('box-shadow', 'var(--waterCardBSH)')
+
+          }, 500);
+        }, 500);
+        }, 1000);
+        }, 3000);
+      }, 2500);
+
+      }
     })
 
     function redir(ev) {
@@ -93,6 +166,8 @@
         $f7.views.current.router.navigate('water/')
       }
     }
+
+
     return $render;
   }
 </script>

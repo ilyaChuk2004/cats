@@ -8,6 +8,9 @@ const store = createStore({
       water:{
         todayMl:0,
         streak:0
+      },
+      teach:{
+        widgetPress:false
       }
     },
     gf:{

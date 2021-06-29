@@ -1,13 +1,78 @@
 <template>
   <div class="page" data-name="water">
     <div class="page-content">
-      water
+      
+      <div class="info">
+        <div class="header">
+          Водичка
+        </div>
+        <div class="txt">
+          ${$store.state.userData.water.hisVal==undefined ? $h`
+            <p>
+              По умолчанию дневная норма — ${$store.state.userData.water.goal}мл.
+            </p>
+            <p>Вы можете определить свою норму в <a href="#view-settings" class="tab-link">настройках</a></p>
+          ` : $h`
+            <p>Text will be visible when "someVar" is falsy</p>
+          `}
+        </div>
+      </div>
+      <div class="control">
+
+        <${waterBox}/>
+        <div class="la">выберите, сколько выпили:</div>
+        <div class="cups">
+          <${cup} ml='50' img1='cup50'/>
+          <${cup} ml='100' img1='cup100'/>
+          <${cup} ml='200' img1='cup200'/>
+        </div>
+        <div class="la">или укажите поточнее:</div>
+
+        <div class="range-slider" id="waterPageSlider">
+          <input type="range"/>
+        </div>
+        <div @click=${change} class="confirmSlide">
+          записать
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-  export default (props, { $store }) => {
+  import waterBox from './../comps/water/waterBox.f7.html';
+  import cup from './../comps/water/cup.f7.html';
+  export default (props, { $store, $onMounted, $f7 }) => {
+    var val=0;
+    $onMounted(()=>{
+      $f7.range.create({
+        el:'#waterPageSlider',
+        label:true,
+        min:50,
+        step:10,
+        max: 200,
+        scale:true,
+        scaleSteps:3,
+        on:{
+          change:(v)=>{
+            document.querySelector('.confirmSlide').style.display='block'
+            setTimeout(() => {
+              document.querySelector('.confirmSlide').style.opacity='1'
+            }, 10);
 
+            val=v.value
+
+          }
+        }
+      })
+      
+    })
+
+    function change() {
+      $f7.emit('e-waterChange', +val)
+      $f7.emit('e-waterPageChange')
+      
+    }
+    
 
     return $render;
   }

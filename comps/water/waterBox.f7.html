@@ -1,0 +1,56 @@
+<template>
+  <div class="waterBox">
+    <div class="waterMl">${$store.state.userData.water.todayMl}мл</div>
+    <div class="water" id="waterAnii"></div>
+  </div>
+</template>
+<style>
+  </style>
+<script>
+  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+    var bodymovin = require('../../js/lottie');
+
+    $onMounted(()=>{
+        
+      let root = $el.value[0]
+      let mlEl = root.firstChild
+      let waterEl = root.lastChild
+
+      let perc = $store.state.userData.water.todayMl<$store.state.userData.water.goal?
+      $store.state.userData.water.todayMl/$store.state.userData.water.goal*100:100
+
+      waterEl.style.transform= `translateY(${50-(perc/2)}%)`
+
+      var animationn = lottie.loadAnimation({
+          container: waterEl, // Required
+          path: 'static/water.json', // Required
+          renderer: 'svg', // Required
+          loop: false,
+          autoplay: false, // Optional
+        })
+
+        window.an=animationn
+
+        $f7.on('e-waterPageChange', (s)=>{
+          $update(()=>{
+            if (s!='-') {
+              an.play()
+              setTimeout(() => {
+                an.stop()
+                let perc = $store.state.userData.water.todayMl<$store.state.userData.water.goal?
+                $store.state.userData.water.todayMl/$store.state.userData.water.goal*100:100
+                waterEl.style.transform= `translateY(${50-(perc/2)}%)`
+              }, 1000);
+            }else{
+                let perc = $store.state.userData.water.todayMl<$store.state.userData.water.goal?
+                $store.state.userData.water.todayMl/$store.state.userData.water.goal*100:100
+                waterEl.style.transform= `translateY(${50-(perc/2)}%)`
+            }
+          })
+        })
+    })
+
+    
+    return $render;
+  }
+</script>

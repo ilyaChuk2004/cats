@@ -57,6 +57,7 @@
   }
   body {
     --themeBool: white;
+    --waterCardBSH: 0 0 23px -3px #9adae7;
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -181,9 +182,6 @@ non {
   color: var(--nonColor);
   display: inline-block;
 }
-.page {
-  background-color: ;
-}
 .ripple-wave {
   background-color: #00000038;
   z-index: 100;
@@ -198,14 +196,10 @@ non {
 }
 .page[data-name='home'] {
   background-color: #F0F6F4;
-}
-.page[data-name='water'] {
-  background-color: #eefaff;
+  box-shadow: inset -1px 182px 94px -135px #00ff801c;
 }
 .header {
   padding: 1.5rem 2rem;
-}
-.header .greet {
   font-weight: 900;
   font-size: 23pt;
 }
@@ -265,6 +259,7 @@ non {
   flex-direction: column;
   transform: scale(1);
   transition: 0.8s cubic-bezier(0.04, 0.93, 0.76, 0.98);
+  box-shadow: var(--waterCardBSH);
   background: linear-gradient(233.81deg, #7DE7FE 4.14%, rgba(87, 255, 174, 0) 112.07%);
 }
 .cards .water::after {
@@ -279,6 +274,17 @@ non {
 .cards .water.active-state {
   transform: scale(0.93);
   transition: 0.3s cubic-bezier(0.92, 0.01, 1, 0.9) !important;
+}
+.cards .water #teachCircle {
+  height: 4rem;
+  position: absolute;
+  z-index: 5;
+  width: 4rem;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  left: 26%;
+  top: 40%;
+  transform: translate(-50%, -50%);
 }
 .cards .water .zPlane {
   content: '';
@@ -404,4 +410,123 @@ non {
   to {
     transform: scale(1);
   }
+}
+.page[data-name='water'] {
+  --bg: #e9f3f9;
+  background-color: var(--bg);
+  box-shadow: inset -1px 182px 94px -135px #00e4ff1c;
+}
+.page[data-name='water'] .page-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.page[data-name='water'] .info {
+  overflow: scroll;
+  position: relative;
+  z-index: 2;
+}
+.page[data-name='water'] .info .txt {
+  padding: 0rem 1rem;
+  font-size: 12pt;
+  line-height: 140%;
+}
+.page[data-name='water'] .info .txt > * {
+  font-size: inherit;
+  line-height: inherit;
+}
+.page[data-name='water'] .info .header {
+  padding: 1.5rem 2rem;
+}
+.page[data-name='water'] .control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1rem;
+  box-shadow: 0px -11px 20px #0000002e;
+  border-radius: 2rem 2rem 0rem 0rem;
+  position: relative;
+  z-index: 3;
+  background-color: var(--bg);
+  padding-top: 1rem;
+  box-sizing: content-box;
+}
+.page[data-name='water'] .control .la {
+  margin: 1rem 0rem;
+  opacity: 0.5;
+}
+.page[data-name='water'] .control .waterBox {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 1000rem;
+  overflow: hidden;
+  position: relative;
+  border: 5px var(--bg) solid;
+  box-shadow: 8px 9px 20px white, -6px -2px 20px rgba(0, 0, 0, 0.22), inset 8px 9px 20px white, inset -6px -2px 20px #0000001f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+}
+.page[data-name='water'] .control .waterBox .waterMl {
+  font-size: 15pt;
+  font-weight: 700;
+  opacity: 0.7;
+}
+.page[data-name='water'] .control .waterBox .water {
+  position: absolute;
+  /* top: 0; */
+  bottom: 0%;
+  transform: translateY(50%);
+  opacity: 0.6;
+  transition: 0.3s ease;
+  filter: drop-shadow(0px 31px 6px #5881ae);
+}
+.page[data-name='water'] .control .cups {
+  display: flex;
+  width: 100vw;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+}
+.page[data-name='water'] .control .cups .cup {
+  display: flex;
+  flex-direction: column;
+  height: 4rem;
+  width: 3rem;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff54;
+  border-radius: 3rem;
+  padding: 1.4rem;
+  /* border: 1px #00000014 solid; */
+  box-shadow: 0px 0px 20px #00000007;
+}
+.page[data-name='water'] .control .cups .cup img {
+  height: inherit;
+}
+.page[data-name='water'] .control .cups .cup .label {
+  font-size: 10pt;
+  margin-bottom: -1rem;
+  margin-top: 0.1rem;
+  opacity: 0.6;
+}
+.page[data-name='water'] .control .range-slider {
+  width: 90%;
+}
+.page[data-name='water'] .control .confirmSlide {
+  background-color: #e9f3f9;
+  padding: 0.6rem 2rem;
+  border-radius: 10rem;
+  margin-top: 2rem;
+  opacity: 0;
+  box-shadow: 15px 11px 20px -5px white, -6px -5px 20px -5px #00000017;
+  transition: 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .page[data-name='water'] .control .confirmSlide:hover {
+    font-style: inherit ;box-shadow:15px 11px 20px -5px white, -6px -5px 20px -5px #0000002f;
+  }
+}
+.page[data-name='water'] .control .confirmSlide.active-state {
+  font-style: inherit ;box-shadow:15px 11px 20px -5px white, -6px -5px 20px -5px #0000002f;
 }

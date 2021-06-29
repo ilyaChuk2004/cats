@@ -1,0 +1,28 @@
+<template>
+  <div @click=${change} class="cup">
+    <img src="static/img/cups/${props.img1}.webp" alt=""/>
+    <div class="label">${props.ml}</div>
+
+ </div>
+
+</template>
+<style>
+  </style>
+<script>
+  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+
+    function change() {
+      $f7.emit('e-waterChange', +props.ml)
+      $f7.emit('e-waterPageChange')
+      
+    }
+
+    $onMounted(()=>{
+      $($el.value[0]).on('taphold', function () {
+        $f7.emit('e-waterChange', (+props.ml)*-1)
+        $f7.emit('e-waterPageChange', '-')
+      });
+    })
+    return $render;
+  }
+</script>

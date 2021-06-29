@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <div class="cs" innerHTML=${lb}></div>
+  <div class="gaugeCont">
+    <div class="glab">${$store.state.userData.lvl}</div>
   <div class="gauge"></div>
   </div>
 </template>
 <style>
-  .header .gauge::before{
+  .header .glab{
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -55%);
     font-weight: bold;
     font-size: 26pt;
     color: #9FD3C2;
@@ -29,21 +29,70 @@
   </style>
 <script>
   export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
-let lvl=$store.state.userData.lvln!==undefined?$store.state.userData.lvln:'0'
-    let lb =`
-<style>
-  .header .gauge::before{
-    content: '${lvl}';
-  }
-  </style>
-`
+
+    if ($store.state.userData.lvl==undefined) {
+      $store.state.userData.lvl=1
+    }
+    if ($store.state.userData.xp==undefined) {
+      $store.state.userData.xp=0
+    }
+    if ($store.state.userData.xpGoal==undefined) {
+      $store.state.userData.xpGoal=100
+    }
+
+
+
+
+
+
+    
     $onMounted(()=>{
-      $f7.gauge.create({
+      var ga = $f7.gauge.create({
         el:$el.value[0].lastChild,
-        value:$store.state.userData.lvl!==undefined?$store.state.userData.lvln:'0',
+        value:$store.state.userData.xp/$store.state.userData.xpGoal,
         size:80,
         borderWidth:8,
         borderColor:'#87E0C3',
+        borderBgColor:$store.state.appData.theme=='light'?
+        '#eeeeee':'#31423c',
+      })
+
+      $f7.on('e-changeLvl', (xp)=>{
+        if ($store.state.userData.xp+xp>=0) {
+          if ($store.state.userData.xp+xp>=$store.state.userData.xpGoal) {
+            $store.state.userData.lvl++
+            $store.state.userData.xpGoal+=300
+            $store.state.userData.xp=($store.state.userData.xpGoal-300)-xp
+
+            var not = $f7.notification.create({
+        icon: '<i class="f7-icons">gift_fill</i>',
+        title: 'Поздравление',
+        titleRightText: 'сейчас',
+        subtitle: 'У вас новый уровень!',
+        text: `Теперь у вас ${$store.state.userData.lvl} уровень.`,
+        closeTimeout: 3000,
+      });
+
+      not.open()
+          }else{
+            $store.state.userData.xp=$store.state.userData.xp+xp
+          }
+        }else {
+          if ($store.state.userData.lvl>0){
+            $store.state.userData.lvl--
+            $store.state.userData.xpGoal-=300
+          }else{
+            $store.state.userData.lvl=0
+            $store.state.userData.xpGoal=100
+          }
+          $store.state.userData.xp=$store.state.userData.xpGoal+($store.state.userData.xp+xp)
+
+        }
+        ga.update({
+          value: $store.state.userData.xp/$store.state.userData.xpGoal,
+        });
+        $update()
+        $f7.emit('e-backp')
       })
     })
     return $render;

@@ -121,6 +121,19 @@
   body {
     --themeBool: white;
     --waterCardBSH:0 0 23px -3px #9adae7;
+    --mainBg:#F0F6F4;
+    --mainBsh:#00ff801c;
+    --nameInpBg:#F4F9F7;
+    --nameInpBor:rgba(0, 0, 0, 0.06);
+   --nameInpC:#32403c;
+
+   --waterPageBg:#e9f3f9;
+   --waterPageControlBSh:#0000002e;
+   --cupBg:#ffffff54;
+
+
+
+    
     
   }
 }
@@ -135,7 +148,20 @@
     // --f7-elevation-20:0px 10px 13px -6px rgba(209, 209, 209, 0.2), 0px 20px 31px 3px rgba(189, 189, 189, 0.14), 0px 8px 38px 7px rgba(173, 173, 173, 0.12) !important;
 
     --themeBool: black;
-   
+   --mainBg:#0e1211;
+   --mainBsh:#00ff800a;
+
+   --headerC:#d0cccc;
+   --nameInpBg:#171d1b;
+   --nameInpBor:#ffffff0d;
+   --nameInpC:#b7cbc5;
+   --waterCardBSH:0 0 23px -3px #9adae799;
+
+   --waterPageBg:#101518;
+   --waterPageControlBSh:#ffffff0d;
+   --cupBg:#242e34;
+
+
   }
 }
 
@@ -279,10 +305,32 @@ non {
   }
 }
 
-.page[data-name='home']{
-  background-color: #F0F6F4;
+:root {
+  --f7-theme-color: #5acca8;
+  --f7-theme-color-rgb: 90, 204, 168;
+  --f7-theme-color-shade: #3cc197;
+  --f7-theme-color-tint: #79d6b8;
+}
 
-  box-shadow: inset -1px 182px 94px -135px #00ff801c;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.page[data-name='home']{
+  background-color: var(--mainBg);
+
+  box-shadow: inset -1px 182px 94px -135px var(--mainBsh);
 }
 
 
@@ -290,6 +338,7 @@ non {
   padding: 1.5rem 2rem;
   font-weight: 900;
   font-size: 23pt;
+  color: var(--headerC);
   .greet{
       
     .greeet{
@@ -302,8 +351,8 @@ non {
     transition: 0.5s ease;
 
     input{
-      background-color: #F4F9F7;
-      border: 1px solid rgba(0, 0, 0, 0.06);
+      background-color: var(--nameInpBg);
+      border: 1px solid var(--nameInpBor);
       width: 100%;
       text-align: center;
       padding: 0.8rem 0.5rem;
@@ -311,7 +360,7 @@ non {
       margin: 1rem 0rem;
       font-size: 14pt;
       font-weight: 500;
-      color: #32403c;
+      color: var(--nameInpC);
     }
 
     .error{
@@ -330,6 +379,9 @@ non {
       height: 35pt;
       position: absolute;
       filter: brightness(1.1) blur(10px);
+      @media (prefers-color-scheme: dark) {
+        opacity: 0.4;
+      }
     }
   }
 
@@ -338,6 +390,9 @@ non {
     margin: auto;
     margin-top: 1rem;
     display: block;
+    &Cont{
+      position: relative;
+    }
   }
 }
 
@@ -363,7 +418,7 @@ non {
     transition: 0.8s  cubic-bezier(0.04, 0.93, 0.76, 0.98);
     box-shadow: var(--waterCardBSH);
 
-    background: linear-gradient(233.81deg, #7DE7FE 4.14%, rgba(87, 255, 174, 0) 112.07%);
+    background: linear-gradient(233.81deg, #7DE7FE 4.14%, #dffff0 112.07%);
 
     &::after{
       content: '';
@@ -562,8 +617,7 @@ non {
 
 
 .page[data-name='water']{
-  --bg:#e9f3f9;
-  background-color: var(--bg);
+  background-color: var(--waterPageBg);
   box-shadow: inset -1px 182px 94px -135px #00e4ff1c;
 
   .page-content{
@@ -580,6 +634,7 @@ non {
     .txt{
       padding: 0rem 1rem;
       font-size: 12pt;
+      opacity: 0.7;
       line-height: 140%;
       &>*{
         font-size: inherit;
@@ -597,13 +652,16 @@ non {
     flex-direction: column;
     align-items: center;
     padding-bottom: 1rem;
-    box-shadow: 0px -11px 20px #0000002e;
+    box-shadow: 0px -11px 20px var(--waterPageControlBSh);
     border-radius: 2rem 2rem 0rem 0rem;
     position: relative;
     z-index: 3;
-    background-color: var(--bg);
+    background-color: var(--waterPageBg);
     padding-top: 1rem;
     box-sizing: content-box;
+    @media (prefers-color-scheme: dark) {
+      border-top: 1px #ffffff24 solid;
+    }
 
     .la{
       margin: 1rem 0rem;
@@ -616,12 +674,15 @@ non {
       border-radius: 1000rem;
       overflow: hidden;
       position: relative;
-      border: 5px var(--bg) solid;
+      border: 5px var(--waterPageBg) solid;
       box-shadow: 8px 9px 20px white, -6px -2px 20px rgb(0 0 0 / 22%), inset 8px 9px 20px white, inset -6px -2px 20px #0000001f;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 1.3rem;
+      @media (prefers-color-scheme: dark) {
+        box-shadow: 8px 9px 20px #ffffff12, -6px -2px 20px rgb(0 0 0), inset 8px 9px 20px #ffffff14, inset -6px -2px 20px rgb(0 0 0)
+      }
 
       .waterMl{
         font-size: 15pt;
@@ -637,7 +698,7 @@ non {
         opacity: 0.6;
       transition: 0.3s ease;
 
-        filter: drop-shadow(0px 31px 6px #5881ae);
+        filter: drop-shadow(0px 5px 3px #5881ae);
       }
     }
 
@@ -656,7 +717,7 @@ non {
         width: 3rem;
         align-items: center;
         justify-content: center;
-        background-color: #ffffff54;
+        background-color: var(--cupBg);
         border-radius: 3rem;
         padding: 1.4rem;
         /* border: 1px #00000014 solid; */
@@ -680,15 +741,18 @@ non {
     }
 
     .confirmSlide{
-      background-color: #e9f3f9;
+      background-color: var(--waterPageBg);
       padding: 0.6rem 2rem;
       border-radius: 10rem;
       margin-top: 2rem;
       opacity: 0;
       box-shadow: 15px 11px 20px -5px white, -6px -5px 20px -5px #00000017;
       transition: 0.2s ease;
+      @media (prefers-color-scheme: dark) {
+        box-shadow: 15px 11px 20px -5px #ffffff0f, -6px -5px 20px -5px rgb(0 0 0);
+      }
 
-      .hover('box-shadow:15px 11px 20px -5px white, -6px -5px 20px -5px #0000002f')
+      .hover('box-shadow: 15px 11px 20px -5px #ffffff4f, -6px -5px 20px -5px #000000;')
     }
   }
 }

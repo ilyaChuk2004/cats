@@ -55,7 +55,11 @@ window.app=app
 
 import { dataControl } from './dataControl'; dataControl(app, store)
 
-
+store.state.appData.desktop = Framework7.device.desktop;
+store.state.appData.theme = Framework7.device.prefersColorScheme();
+if (Framework7.device.prefersColorScheme()=='dark') {
+  document.body.classList+='theme-dark'
+}
 
 //отменяет перетаскивание мышкой ссылок и картинок
 $(document).on("dragstart", 'img, a', function(event) { event.preventDefault(); }); 

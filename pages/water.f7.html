@@ -13,8 +13,9 @@
             </p>
             <p>Вы можете определить свою норму в <a href="#view-settings" class="tab-link">настройках</a></p>
           ` : $h`
-            <p>Text will be visible when "someVar" is falsy</p>
+            <p>Ваша дненая норма — ${$store.state.userData.water.goal}мл.</p>
           `}
+          <p>Вы достигаете цели ${$store.state.userData.water.streak} дней подряд. С каждым днём будут даваться очки уровня.</p>
         </div>
       </div>
       <div class="control">
@@ -41,7 +42,7 @@
 <script>
   import waterBox from './../comps/water/waterBox.f7.html';
   import cup from './../comps/water/cup.f7.html';
-  export default (props, { $store, $onMounted, $f7 }) => {
+  export default (props, { $store, $onMounted, $f7, $update }) => {
     var val=0;
     $onMounted(()=>{
       $f7.range.create({
@@ -63,6 +64,24 @@
 
           }
         }
+      })
+
+      $f7.on('e-goal', (s)=>{
+        // console.log('gooooal',$store.state.userData.water.streak);
+
+        if (s=="-") {
+          $store.state.userData.water.streak=$store.state.userData.water.streak-1
+        // console.log('gooooal',$store.state.userData.water.streak);
+
+          
+        }else{
+          $store.state.userData.water.streak=$store.state.userData.water.streak+1
+        // console.log('gooooal',$store.state.userData.water.streak);
+
+        }
+        $f7.emit('e-backp')
+        $update()
+        console.log(s);
       })
       
     })

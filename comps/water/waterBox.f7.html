@@ -32,7 +32,6 @@
         window.an=animationn
 
         $f7.on('e-waterPageChange', (s)=>{
-          $update(()=>{
             if (s!='-') {
               an.play()
               setTimeout(() => {
@@ -46,7 +45,11 @@
                 $store.state.userData.water.todayMl/$store.state.userData.water.goal*100:100
                 waterEl.style.transform= `translateY(${50-(perc/2)}%)`
             }
-          })
+
+            setTimeout(() => {
+          $update()
+              
+            }, 600);
         })
     })
 

@@ -10,6 +10,17 @@
   export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
     var bodymovin = require('../../js/lottie');
 
+
+
+    if ($store.state.userData.water.todayMl == undefined ) {
+  $store.state.userData.water.todayMl=0
+  $f7.emit('e-backp')
+}
+if ($store.state.userData.water.goal == undefined ) {
+  $store.state.userData.water.goal=1500
+  $f7.emit('e-backp')
+}
+
     $onMounted(()=>{
         
       let root = $el.value[0]
@@ -21,7 +32,7 @@
 
       waterEl.style.transform= `translateY(${50-(perc/2)}%)`
 
-      var animationn = lottie.loadAnimation({
+      let animationn = lottie.loadAnimation({
           container: waterEl, // Required
           path: 'static/water.json', // Required
           renderer: 'svg', // Required
@@ -29,27 +40,27 @@
           autoplay: false, // Optional
         })
 
-        window.an=animationn
 
         $f7.on('e-waterPageChange', (s)=>{
             if (s!='-') {
-              an.play()
+              animationn.play()
               setTimeout(() => {
-                an.stop()
+                animationn.stop()
                 let perc = $store.state.userData.water.todayMl<$store.state.userData.water.goal?
                 $store.state.userData.water.todayMl/$store.state.userData.water.goal*100:100
                 waterEl.style.transform= `translateY(${50-(perc/2)}%)`
+                console.log(perc);
+
+          $update()
               }, 1000);
             }else{
                 let perc = $store.state.userData.water.todayMl<$store.state.userData.water.goal?
                 $store.state.userData.water.todayMl/$store.state.userData.water.goal*100:100
                 waterEl.style.transform= `translateY(${50-(perc/2)}%)`
+          $update()
             }
 
-            setTimeout(() => {
-          $update()
-              
-            }, 600);
+            
         })
     })
 

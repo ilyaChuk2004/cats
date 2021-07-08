@@ -1,4 +1,4 @@
-// out: app.css, compress: false, sourceMap: false
+
 .noselect {
   -webkit-touch-callout: none;
   /* iOS Safari */
@@ -105,7 +105,7 @@
 @iColor: #6b4124;
 @strongColor: #110e4a;
 @bp-mobile: ~"max-width: 500px";
-@bp-tablet: ~"max-width: 800px";
+@bp-tablet: ~"min-width: 650px";
 
 //night colors
 @night-bg: #151111;
@@ -126,10 +126,13 @@
     --nameInpBg:#F4F9F7;
     --nameInpBor:rgba(0, 0, 0, 0.06);
    --nameInpC:#32403c;
+   --waterCardGrad:linear-gradient(233.81deg, #7DE7FE 4.14%, #dffff0 112.07%);
 
    --waterPageBg:#e9f3f9;
    --waterPageControlBSh:#0000002e;
    --cupBg:#ffffff54;
+
+   --settingsBg:#fcf4ff;
 
 
 
@@ -155,11 +158,15 @@
    --nameInpBg:#171d1b;
    --nameInpBor:#ffffff0d;
    --nameInpC:#b7cbc5;
-   --waterCardBSH:0 0 23px -3px #9adae799;
+   --waterCardBSH:0 0 23px -3px #9adae75e;
+   --waterCardGrad:linear-gradient(233.81deg, #7d8cfe 4.14%, #185046 112.07%);
 
    --waterPageBg:#101518;
    --waterPageControlBSh:#ffffff0d;
    --cupBg:#242e34;
+
+   --settingsBg:#0e0811;
+
 
 
   }
@@ -312,6 +319,86 @@ non {
   --f7-theme-color-tint: #79d6b8;
 }
 
+.ios .notification.modal-in {
+  backdrop-filter: blur(6px);
+}
+
+.menuTooltip{
+  left: 5rem !important;
+  top: 10% !important; 
+  background-color: rgb(44, 44, 44);
+  font-size: 15pt !important;
+  padding: .7rem !important;
+}
+
+
+.menu{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: linear-gradient(
+270deg
+, #77b7ff69 -168.67%, #c4c4c400 162.05%, #c4c4c400 162.05%);
+  z-index: 5001;
+  border-radius: 0rem 7rem 7rem 0rem;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+
+  .glab{
+    font-size: 150%;
+  }
+
+  .items{
+    margin-top: 1rem;
+
+    .it{
+      width: 2.5rem;
+      height: 2.5rem;
+      opacity: 0.7;
+      margin: 3rem auto;
+      filter: drop-shadow(0px 0px 0px #81b989b3);
+      transition: 0.3s ease;
+      cursor: pointer;
+
+      &:hover{
+        filter: drop-shadow(0px 7px 6px #81b989b3);
+      }
+    }
+
+    .itc{
+      position: relative;
+      display: block !important;
+
+      &.tab-link-active{
+        .it{
+        filter: drop-shadow(0px 7px 6px #81b989b3);
+
+        }
+      }
+    }
+    
+    .home.it{
+      background: linear-gradient(
+        223.03deg
+        , #83FFAD -19.09%, #ffdead 132.84%);
+    }
+    .note.it{
+      background: linear-gradient(
+        270deg
+        , #83FFAD -73.42%, #ffdead 135.6%);
+            transform: rotate(
+        -45deg
+        );
+    }
+    .settings.it{
+      background: linear-gradient(
+        223.03deg
+        , #83FFAD -19.09%, #ffdead 132.84%);
+            border-radius: 21.5px;
+    }
+  }
+}
 
 
 
@@ -339,7 +426,13 @@ non {
   font-weight: 900;
   font-size: 23pt;
   color: var(--headerC);
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
   .greet{
+    @media (@bp-tablet) {
+      display: inline-block;
+    }
       
     .greeet{
     }
@@ -361,6 +454,10 @@ non {
       font-size: 14pt;
       font-weight: 500;
       color: var(--nameInpC);
+      @media (@bp-tablet) {
+        width: 40%;
+
+      }
     }
 
     .error{
@@ -374,6 +471,8 @@ non {
   .weather{
     height: 35pt;
     filter: brightness(1.1);
+    cursor: pointer;
+
 
     &Under{
       height: 35pt;
@@ -383,32 +482,46 @@ non {
         opacity: 0.4;
       }
     }
-  }
 
-  .gauge{
-    position: relative;
-    margin: auto;
-    margin-top: 1rem;
-    display: block;
-    &Cont{
-      position: relative;
+    &Block{
+      color: #000;
+      @media (@bp-tablet) {
+        display: inline-block;
+      }
     }
   }
 }
 
 .cards{
   padding: 1rem;
+  @media (@bp-tablet) {
+    display: flex;
+    justify-content: space-around;
+  }
   .cardd{
     padding: 2rem;
     background-color: blue;
-    height: 13rem;
+    height: fit-content;
     box-sizing: border-box;
-    // .border-squircle (30%; 30%);
-    border-radius: 3rem;
+    border-radius: 0rem;
+    .border-squircle (25%; 25%);
     overflow: hidden;
     position: relative;
+    cursor: pointer;
+    @media (@bp-tablet) {
+    border-radius: 3rem;
+    clip-path: none;
+
+      padding: 3rem;
+
+    }
     
   }
+
+
+
+
+
 
   .water{
     display: flex;
@@ -418,9 +531,11 @@ non {
     transition: 0.8s  cubic-bezier(0.04, 0.93, 0.76, 0.98);
     box-shadow: var(--waterCardBSH);
 
-    background: linear-gradient(233.81deg, #7DE7FE 4.14%, #dffff0 112.07%);
+    background: var(--waterCardGrad);
 
     &::after{
+
+
       content: '';
       z-index: 2;
       width: 100%;
@@ -428,7 +543,9 @@ non {
       position: absolute;
       left: 0;
       top: 0;
+
     }
+
 
     &.active-state{
       transform: scale(0.93);
@@ -439,7 +556,7 @@ non {
     #teachCircle{
       height: 4rem;
       position: absolute;
-      z-index: 5;
+      z-index: 2;
       width: 4rem;
       opacity: 1;
       transition: opacity 0.4s ease;
@@ -458,10 +575,54 @@ non {
       top: 0;
     }
 
+    .water{
+      @media (prefers-color-scheme: dark) {
+        opacity: 1  ;
+      }
+    }
+
     span{
       color: #73bcc5;
       font-weight: 900;
       font-size: 26pt;
+      @media (prefers-color-scheme: dark) {
+        color: #3a4768;
+      }
+      @media (@bp-tablet) {
+        font-size: 35pt;
+        margin-bottom: 5rem;
+      }
+    }
+
+    .waterBox{
+      position: absolute;
+      z-index: 2;
+      right: 2.5rem;
+      top: 2.5rem;
+      width: 7rem;
+      height: 7rem;
+      box-shadow: none;
+      border: 4px rgba(0, 0, 0, 0.548) solid;
+
+      &::after{
+        content: '';
+      }
+    }
+
+    .la{
+      opacity: 0.5;
+    margin-left: 1rem;
+    }
+
+    .cups{
+      margin-bottom: 0rem;
+      z-index: 4;
+      position: relative;
+
+      .cup{
+        margin: 1rem 1rem 0rem;
+
+      }
     }
 
     .gaugeControl{
@@ -562,6 +723,16 @@ non {
   }
 }
 
+.gauge{
+  position: relative;
+  margin: auto;
+  margin-top: 1rem;
+  display: block;
+  &Cont{
+    position: relative;
+  }
+}
+
 
 @keyframes aniScale02 {
   from{
@@ -624,18 +795,30 @@ non {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media (@bp-tablet) {
+      justify-content: flex-start;
+    }
   }
 
   .info{
     overflow: scroll;
     position: relative;
     z-index: 2;
+    @media (@bp-tablet) {
+      overflow: initial;
+    }
 
     .txt{
       padding: 0rem 1rem;
       font-size: 12pt;
       opacity: 0.7;
       line-height: 140%;
+      @media (@bp-tablet) {
+        padding: 0rem 2rem;
+        font-size: 14pt;
+        opacity: 0.7;
+        line-height: 140%;
+      }
       &>*{
         font-size: inherit;
         line-height: inherit;
@@ -660,7 +843,38 @@ non {
     padding-top: 1rem;
     box-sizing: content-box;
     @media (prefers-color-scheme: dark) {
-      border-top: 1px #ffffff24 solid;
+      border-top: 1px #ffffff17 solid;
+    }
+    @media (@bp-tablet) {
+      box-shadow: none;
+      border: none;
+    }
+
+
+    .gr{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 70%;
+      margin-bottom: 1rem;
+      grid-gap: 2rem;
+
+      .gr1{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+
+        .cup{
+          border-radius: 4rem;
+          height: 5rem;
+          width: 3rem;
+          padding: 2.4rem;
+          margin: 0rem 1rem;
+        }
+        .la{
+          margin-left: 2rem;
+        }
+      }
     }
 
     .la{
@@ -669,75 +883,23 @@ non {
     }
 
     .waterBox{
-      width: 10rem;
-      height: 10rem;
-      border-radius: 1000rem;
-      overflow: hidden;
-      position: relative;
-      border: 5px var(--waterPageBg) solid;
-      box-shadow: 8px 9px 20px white, -6px -2px 20px rgb(0 0 0 / 22%), inset 8px 9px 20px white, inset -6px -2px 20px #0000001f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.3rem;
-      @media (prefers-color-scheme: dark) {
-        box-shadow: 8px 9px 20px #ffffff12, -6px -2px 20px rgb(0 0 0), inset 8px 9px 20px #ffffff14, inset -6px -2px 20px rgb(0 0 0)
-      }
-
-      .waterMl{
-        font-size: 15pt;
-    font-weight: 700;
-    opacity: 0.7;
-      }
-
-      .water{
-        position: absolute;
-        /* top: 0; */
-        bottom: 0%;
-        transform: translateY(50%);
-        opacity: 0.6;
-      transition: 0.3s ease;
-
-        filter: drop-shadow(0px 5px 3px #5881ae);
-      }
-    }
-
-
-    .cups{
-      display: flex;
-      width: 100vw;
-      justify-content: space-evenly;
-      margin-bottom: 2rem;
-      
-      
-      .cup{
-        display: flex;
-        flex-direction: column;
-        height: 4rem;
-        width: 3rem;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--cupBg);
-        border-radius: 3rem;
-        padding: 1.4rem;
-        /* border: 1px #00000014 solid; */
-        box-shadow: 0px 0px 20px #00000007;
-  
-        img{
-          height: inherit;
-        }
-  
-        .label{
-          font-size: 10pt;
-          margin-bottom: -1rem;
-          margin-top: 0.1rem;
-          opacity: 0.6;
+      @media (@bp-tablet) {
+        width: 20rem;
+        height: 20rem;
+        
+        .waterMl{
+          font-size: 30pt;
         }
       }
     }
+
 
     .range-slider{
       width: 90%;
+
+      @media (@bp-tablet) {
+        width: 60vw;
+      }
     }
 
     .confirmSlide{
@@ -751,9 +913,148 @@ non {
       @media (prefers-color-scheme: dark) {
         box-shadow: 15px 11px 20px -5px #ffffff0f, -6px -5px 20px -5px rgb(0 0 0);
       }
+      @media (@bp-tablet) {
+        padding: 1rem 3rem;
+        font-size: 13pt;
+        cursor: pointer;
+      }
 
       .hover('box-shadow: 15px 11px 20px -5px #ffffff4f, -6px -5px 20px -5px #000000;')
     }
   }
 }
 
+.waterBox{
+  width: 10rem;
+  height: 10rem;
+  border-radius: 1000rem;
+  overflow: hidden;
+  position: relative;
+  border: 5px var(--waterPageBg) solid;
+  box-shadow: 8px 9px 20px white, -6px -2px 20px #00000063, inset 8px 9px 20px white, inset -6px -2px 20px #0000001f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+  @media (prefers-color-scheme: dark) {
+    box-shadow: 8px 9px 20px #ffffff12, -6px -2px 20px rgb(0 0 0), inset 8px 9px 20px #ffffff14, inset -6px -2px 20px rgb(0 0 0)
+  }
+
+  .waterMl{
+    font-size: 15pt;
+font-weight: 700;
+opacity: 0.7;
+position: relative;
+z-index: 1;
+  }
+
+  .water{
+    position: absolute;
+    /* top: 0; */
+    opacity: 0.6;
+    bottom: 0%;
+    width: 100%;
+    transform: translateY(50%);
+    // opacity: 0.6;
+  transition: 0.3s ease;
+
+    filter: drop-shadow(0px 5px 3px #5881ae);
+  }
+}
+
+.cups{
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+  
+  
+  .cup{
+    display: flex;
+    flex-direction: column;
+    height: 4rem;
+    width: 3rem;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cupBg);
+    border-radius: 3rem;
+    padding: 1.4rem;
+    /* border: 1px #00000014 solid; */
+    transition: 0.2s ease;
+    transform: scale(1);
+    box-shadow: 0px 0px 20px #00000007;
+    cursor: pointer;
+    // .hover('box-shadow:0px 0px 20px rgb(0 0 0 / 61%);')
+    &:hover{
+      box-shadow:0px 0px 20px #0000007a;
+    }
+
+    &::after{
+      content: '';
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    img{
+      height: inherit;
+    }
+
+    .label{
+      font-size: 10pt;
+      margin-bottom: -1rem;
+      margin-top: 0.1rem;
+      opacity: 0.6;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.page[data-name='settings']{
+  background-color: var(--settingsBg);
+  box-shadow: inset -1px 182px 94px -135px #ea00ff11;
+
+  .page-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    .ava{
+      border-radius: 100rem;
+      height: 5rem;
+      width: 5rem;
+
+    }
+    .name{
+      text-align: center;
+    }
+  }
+
+  .links-list{
+    width: 100%;
+  }
+}
+
+.codcwss{
+  display: block;
+}

@@ -1,11 +1,13 @@
 <template>
   <div class="gaugeCont">
+    
+  <div class="gauge">
     <div class="glab">${$store.state.userData.lvl}</div>
-  <div class="gauge"></div>
+  </div>
   </div>
 </template>
 <style>
-  .header .glab{
+  .glab{
     position: absolute;
     left: 50%;
     top: 50%;
@@ -14,7 +16,7 @@
     font-size: 26pt;
     color: #9FD3C2;
   }
-  .header .gauge::after{
+  .gauge::after{
     content: 'уровень';
     color: rgba(97, 130, 119, 0.47);
     width: 100%;
@@ -43,14 +45,12 @@
 
 
 
-
-
     
     $onMounted(()=>{
       var ga = $f7.gauge.create({
         el:$el.value[0].lastChild,
         value:$store.state.userData.xp/$store.state.userData.xpGoal,
-        size:80,
+        size:props.size==undefined?80:props.size,
         borderWidth:8,
         borderColor:'#87E0C3',
         borderBgColor:$store.state.appData.theme=='light'?

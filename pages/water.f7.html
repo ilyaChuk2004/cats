@@ -20,21 +20,70 @@
       </div>
       <div class="control">
 
+        
+
+
+
+
+        ${$store.state.appData.desktop ? $h`
+
+
+
+          <div class="gr">
+            <${waterBox} />
+            <div class="gr1">
+              <div class="la">выберите, сколько выпили:</div>
+              <div class="cups">
+                <${cup} ml='50' scale='0.6' img1='cup50' />
+                <${cup} ml='100' scale='0.8' img1='cup100' />
+                <${cup} ml='200' scale='1' img1='cup200' />
+              </div>
+            </div>
+          </div>
+
+          <div class="la">или укажите поточнее:</div>
+          <div class="range-slider" id="waterPageSlider">
+            <input type="range" />
+          </div>
+          <div @click=${(e)=>{change(e)}} class="confirmSlide">
+            записать
+          </div>
+
+
+
+
+
+        ` : $h`
+
+
+
         <${waterBox}/>
         <div class="la">выберите, сколько выпили:</div>
         <div class="cups">
-          <${cup} ml='50' img1='cup50'/>
-          <${cup} ml='100' img1='cup100'/>
-          <${cup} ml='200' img1='cup200'/>
+          <${cup} ml='50' scale='0.6' img1='cup50'/>
+          <${cup} ml='100' scale='0.8' img1='cup100'/>
+          <${cup} ml='200' scale='1' img1='cup200'/>
         </div>
         <div class="la">или укажите поточнее:</div>
 
         <div class="range-slider" id="waterPageSlider">
           <input type="range"/>
         </div>
-        <div @click=${change} class="confirmSlide">
+        <div @click=${(e)=>{change(e)}} class="confirmSlide">
           записать
         </div>
+
+
+
+        
+        `}
+
+
+
+
+
+
+
       </div>
     </div>
   </div>
@@ -86,7 +135,10 @@
       
     })
 
-    function change() {
+    function change(e) {
+      $store.state.gf.bounse(e.target)
+      navigator.vibrate([30])
+
       $f7.emit('e-waterChange', +val)
       $f7.emit('e-waterPageChange')
       

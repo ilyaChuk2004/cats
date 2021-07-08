@@ -3,7 +3,9 @@
     <${greet}/>
     <${weather}/>
     <${namePrompt}/>
-    <${lvl}/>
+    ${!$store.state.appData.desktop && $h`
+      <${lvl}/>
+    `}
   </div>
 </template>
 <script>

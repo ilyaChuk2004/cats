@@ -63,3 +63,13 @@ if (Framework7.device.prefersColorScheme()=='dark') {
 
 //отменяет перетаскивание мышкой ссылок и картинок
 $(document).on("dragstart", 'img, a', function(event) { event.preventDefault(); }); 
+
+app.on('e-appMount', ()=>{
+  document.getElementById('appCss97').innerHTML=`
+  <style>
+  .page-content{
+    padding-left:${document.querySelector('.menu').offsetWidth}px
+  }
+  </style>`
+})
+

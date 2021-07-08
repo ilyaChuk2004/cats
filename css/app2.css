@@ -83,8 +83,8 @@
     --nameInpBg: #171d1b;
     --nameInpBor: #ffffff0d;
     --nameInpC: #b7cbc5;
-    --waterCardBSH: 0 0 23px -3px #9adae75e;
-    --waterCardGrad: linear-gradient(233.81deg, #7d8cfe 4.14%, #185046 112.07%);
+    --waterCardBSH: 0 0 23px -3px #9adae799;
+    --waterCardGrad: linear-gradient(233.81deg, #977dfe 4.14%, #175538 112.07%);
     --waterPageBg: #101518;
     --waterPageControlBSh: #ffffff0d;
     --cupBg: #242e34;
@@ -263,10 +263,6 @@ non {
 }
 .menu .items .itc {
   position: relative;
-  display: block !important;
-}
-.menu .items .itc.tab-link-active .it {
-  filter: drop-shadow(0px 7px 6px #81b989b3);
 }
 .menu .items .home.it {
   background: linear-gradient(223.03deg, #83FFAD -19.09%, #ffdead 132.84%);
@@ -362,16 +358,12 @@ non {
   background-color: blue;
   height: fit-content;
   box-sizing: border-box;
-  border-radius: 0rem;
-  clip-path: polygon(100% 50%, 100% 68.2%, 100% 71.6%, 100% 73.9%, 100% 75.7%, 100% 77.2%, 99.9% 78.4%, 99.9% 79.5%, 99.9% 80.5%, 99.8% 81.4%, 99.8% 82.3%, 99.8% 83%, 99.7% 83.8%, 99.7% 84.4%, 99.6% 85.1%, 99.6% 85.7%, 99.5% 86.2%, 99.4% 86.8%, 99.4% 87.3%, 99.3% 87.8%, 99.2% 88.2%, 99.1% 88.7%, 99.1% 89.1%, 99% 89.5%, 98.9% 89.9%, 98.8% 90.3%, 98.7% 90.7%, 98.6% 91%, 98.5% 91.4%, 98.4% 91.7%, 98.2% 92%, 98.1% 92.4%, 98% 92.7%, 97.8% 93%, 97.7% 93.2%, 97.6% 93.5%, 97.4% 93.8%, 97.3% 94%, 97.1% 94.3%, 96.9% 94.5%, 96.8% 94.8%, 96.6% 95%, 96.4% 95.2%, 96.2% 95.4%, 96% 95.6%, 95.9% 95.9%, 95.6% 96%, 95.4% 96.2%, 95.2% 96.4%, 95% 96.6%, 94.8% 96.8%, 94.5% 96.9%, 94.3% 97.1%, 94% 97.3%, 93.8% 97.4%, 93.5% 97.6%, 93.2% 97.7%, 93% 97.8%, 92.7% 98%, 92.4% 98.1%, 92% 98.2%, 91.7% 98.4%, 91.4% 98.5%, 91% 98.6%, 90.7% 98.7%, 90.3% 98.8%, 89.9% 98.9%, 89.5% 99%, 89.1% 99.1%, 88.7% 99.1%, 88.2% 99.2%, 87.8% 99.3%, 87.3% 99.4%, 86.8% 99.4%, 86.2% 99.5%, 85.7% 99.6%, 85.1% 99.6%, 84.4% 99.7%, 83.8% 99.7%, 83% 99.8%, 82.3% 99.8%, 81.4% 99.8%, 80.5% 99.9%, 79.5% 99.9%, 78.4% 99.9%, 77.2% 100%, 75.7% 100%, 73.9% 100%, 71.6% 100%, 68.2% 100%, 50% 100%, 31.8% 100%, 28.4% 100%, 26.1% 100%, 24.3% 100%, 22.8% 100%, 21.6% 99.9%, 20.5% 99.9%, 19.5% 99.9%, 18.6% 99.8%, 17.7% 99.8%, 17% 99.8%, 16.2% 99.7%, 15.6% 99.7%, 14.9% 99.6%, 14.3% 99.6%, 13.8% 99.5%, 13.2% 99.4%, 12.7% 99.4%, 12.2% 99.3%, 11.8% 99.2%, 11.3% 99.1%, 10.9% 99.1%, 10.5% 99%, 10.1% 98.9%, 9.7% 98.8%, 9.3% 98.7%, 9% 98.6%, 8.6% 98.5%, 8.3% 98.4%, 8% 98.2%, 7.6% 98.1%, 7.3% 98%, 7% 97.8%, 6.8% 97.7%, 6.5% 97.6%, 6.2% 97.4%, 6% 97.3%, 5.7% 97.1%, 5.5% 96.9%, 5.2% 96.8%, 5% 96.6%, 4.8% 96.4%, 4.6% 96.2%, 4.4% 96%, 4.1% 95.9%, 4% 95.6%, 3.8% 95.4%, 3.6% 95.2%, 3.4% 95%, 3.2% 94.8%, 3.1% 94.5%, 2.9% 94.3%, 2.7% 94%, 2.6% 93.8%, 2.4% 93.5%, 2.3% 93.2%, 2.2% 93%, 2% 92.7%, 1.9% 92.4%, 1.8% 92%, 1.6% 91.7%, 1.5% 91.4%, 1.4% 91%, 1.3% 90.7%, 1.2% 90.3%, 1.1% 89.9%, 1% 89.5%, 0.9% 89.1%, 0.9% 88.7%, 0.8% 88.2%, 0.7% 87.8%, 0.6% 87.3%, 0.6% 86.8%, 0.5% 86.2%, 0.4% 85.7%, 0.4% 85.1%, 0.3% 84.4%, 0.3% 83.8%, 0.2% 83%, 0.2% 82.3%, 0.2% 81.4%, 0.1% 80.5%, 0.1% 79.5%, 0.1% 78.4%, 0% 77.2%, 0% 75.7%, 0% 73.9%, 0% 71.6%, 0% 68.2%, 0% 50%, 0% 31.8%, 0% 28.4%, 0% 26.1%, 0% 24.3%, 0% 22.8%, 0.1% 21.6%, 0.1% 20.5%, 0.1% 19.5%, 0.2% 18.6%, 0.2% 17.7%, 0.2% 17%, 0.3% 16.2%, 0.3% 15.6%, 0.4% 14.9%, 0.4% 14.3%, 0.5% 13.8%, 0.6% 13.2%, 0.6% 12.7%, 0.7% 12.2%, 0.8% 11.8%, 0.9% 11.3%, 0.9% 10.9%, 1% 10.5%, 1.1% 10.1%, 1.2% 9.7%, 1.3% 9.3%, 1.4% 9%, 1.5% 8.6%, 1.6% 8.3%, 1.8% 8%, 1.9% 7.6%, 2% 7.3%, 2.2% 7%, 2.3% 6.8%, 2.4% 6.5%, 2.6% 6.2%, 2.7% 6%, 2.9% 5.7%, 3.1% 5.5%, 3.2% 5.2%, 3.4% 5%, 3.6% 4.8%, 3.8% 4.6%, 4% 4.4%, 4.1% 4.1%, 4.4% 4%, 4.6% 3.8%, 4.8% 3.6%, 5% 3.4%, 5.2% 3.2%, 5.5% 3.1%, 5.7% 2.9%, 6% 2.7%, 6.2% 2.6%, 6.5% 2.4%, 6.8% 2.3%, 7% 2.2%, 7.3% 2%, 7.6% 1.9%, 8% 1.8%, 8.3% 1.6%, 8.6% 1.5%, 9% 1.4%, 9.3% 1.3%, 9.7% 1.2%, 10.1% 1.1%, 10.5% 1%, 10.9% 0.9%, 11.3% 0.9%, 11.8% 0.8%, 12.2% 0.7%, 12.7% 0.6%, 13.2% 0.6%, 13.8% 0.5%, 14.3% 0.4%, 14.9% 0.4%, 15.6% 0.3%, 16.2% 0.3%, 17% 0.2%, 17.7% 0.2%, 18.6% 0.2%, 19.5% 0.1%, 20.5% 0.1%, 21.6% 0.1%, 22.8% 0%, 24.3% 0%, 26.1% 0%, 28.4% 0%, 31.8% 0%, 50% 0%, 68.2% 0%, 71.6% 0%, 73.9% 0%, 75.7% 0%, 77.2% 0%, 78.4% 0.1%, 79.5% 0.1%, 80.5% 0.1%, 81.4% 0.2%, 82.3% 0.2%, 83% 0.2%, 83.8% 0.3%, 84.4% 0.3%, 85.1% 0.4%, 85.7% 0.4%, 86.2% 0.5%, 86.8% 0.6%, 87.3% 0.6%, 87.8% 0.7%, 88.2% 0.8%, 88.7% 0.9%, 89.1% 0.9%, 89.5% 1%, 89.9% 1.1%, 90.3% 1.2%, 90.7% 1.3%, 91% 1.4%, 91.4% 1.5%, 91.7% 1.6%, 92% 1.8%, 92.4% 1.9%, 92.7% 2%, 93% 2.2%, 93.2% 2.3%, 93.5% 2.4%, 93.8% 2.6%, 94% 2.7%, 94.3% 2.9%, 94.5% 3.1%, 94.8% 3.2%, 95% 3.4%, 95.2% 3.6%, 95.4% 3.8%, 95.6% 4%, 95.9% 4.1%, 96% 4.4%, 96.2% 4.6%, 96.4% 4.8%, 96.6% 5%, 96.8% 5.2%, 96.9% 5.5%, 97.1% 5.7%, 97.3% 6%, 97.4% 6.2%, 97.6% 6.5%, 97.7% 6.8%, 97.8% 7%, 98% 7.3%, 98.1% 7.6%, 98.2% 8%, 98.4% 8.3%, 98.5% 8.6%, 98.6% 9%, 98.7% 9.3%, 98.8% 9.7%, 98.9% 10.1%, 99% 10.5%, 99.1% 10.9%, 99.1% 11.3%, 99.2% 11.8%, 99.3% 12.2%, 99.4% 12.7%, 99.4% 13.2%, 99.5% 13.8%, 99.6% 14.3%, 99.6% 14.9%, 99.7% 15.6%, 99.7% 16.2%, 99.8% 17%, 99.8% 17.7%, 99.8% 18.6%, 99.9% 19.5%, 99.9% 20.5%, 99.9% 21.6%, 100% 22.8%, 100% 24.3%, 100% 26.1%, 100% 28.4%, 100% 31.8%, 100% 0);
+  border-radius: 3rem;
   overflow: hidden;
   position: relative;
-  cursor: pointer;
 }
 @media (min-width: 650px) {
   .cards .cardd {
-    border-radius: 3rem;
-    clip-path: none;
     padding: 3rem;
   }
 }
@@ -400,7 +392,7 @@ non {
 .cards .water #teachCircle {
   height: 4rem;
   position: absolute;
-  z-index: 2;
+  z-index: 5;
   width: 4rem;
   opacity: 1;
   transition: opacity 0.4s ease;
@@ -416,11 +408,6 @@ non {
   position: absolute;
   left: 0;
   top: 0;
-}
-@media (prefers-color-scheme: dark) {
-  .cards .water .water {
-    opacity: 1  ;
-  }
 }
 .cards .water span {
   color: #73bcc5;
@@ -592,34 +579,16 @@ non {
   flex-direction: column;
   justify-content: space-between;
 }
-@media (min-width: 650px) {
-  .page[data-name='water'] .page-content {
-    justify-content: flex-start;
-  }
-}
 .page[data-name='water'] .info {
   overflow: scroll;
   position: relative;
   z-index: 2;
-}
-@media (min-width: 650px) {
-  .page[data-name='water'] .info {
-    overflow: initial;
-  }
 }
 .page[data-name='water'] .info .txt {
   padding: 0rem 1rem;
   font-size: 12pt;
   opacity: 0.7;
   line-height: 140%;
-}
-@media (min-width: 650px) {
-  .page[data-name='water'] .info .txt {
-    padding: 0rem 2rem;
-    font-size: 14pt;
-    opacity: 0.7;
-    line-height: 140%;
-  }
 }
 .page[data-name='water'] .info .txt > * {
   font-size: inherit;
@@ -646,55 +615,12 @@ non {
     border-top: 1px #ffffff17 solid;
   }
 }
-@media (min-width: 650px) {
-  .page[data-name='water'] .control {
-    box-shadow: none;
-    border: none;
-  }
-}
-.page[data-name='water'] .control .gr {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 70%;
-  margin-bottom: 1rem;
-  grid-gap: 2rem;
-}
-.page[data-name='water'] .control .gr .gr1 {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-.page[data-name='water'] .control .gr .gr1 .cup {
-  border-radius: 4rem;
-  height: 5rem;
-  width: 3rem;
-  padding: 2.4rem;
-  margin: 0rem 1rem;
-}
-.page[data-name='water'] .control .gr .gr1 .la {
-  margin-left: 2rem;
-}
 .page[data-name='water'] .control .la {
   margin: 1rem 0rem;
   opacity: 0.5;
 }
-@media (min-width: 650px) {
-  .page[data-name='water'] .control .waterBox {
-    width: 20rem;
-    height: 20rem;
-  }
-  .page[data-name='water'] .control .waterBox .waterMl {
-    font-size: 30pt;
-  }
-}
 .page[data-name='water'] .control .range-slider {
   width: 90%;
-}
-@media (min-width: 650px) {
-  .page[data-name='water'] .control .range-slider {
-    width: 60vw;
-  }
 }
 .page[data-name='water'] .control .confirmSlide {
   background-color: var(--waterPageBg);
@@ -708,13 +634,6 @@ non {
 @media (prefers-color-scheme: dark) {
   .page[data-name='water'] .control .confirmSlide {
     box-shadow: 15px 11px 20px -5px #ffffff0f, -6px -5px 20px -5px #000000;
-  }
-}
-@media (min-width: 650px) {
-  .page[data-name='water'] .control .confirmSlide {
-    padding: 1rem 3rem;
-    font-size: 13pt;
-    cursor: pointer;
   }
 }
 @media (hover: hover) and (pointer: fine) {
@@ -732,7 +651,7 @@ non {
   overflow: hidden;
   position: relative;
   border: 5px var(--waterPageBg) solid;
-  box-shadow: 8px 9px 20px white, -6px -2px 20px #00000063, inset 8px 9px 20px white, inset -6px -2px 20px #0000001f;
+  box-shadow: 8px 9px 20px white, -6px -2px 20px rgba(0, 0, 0, 0.22), inset 8px 9px 20px white, inset -6px -2px 20px #0000001f;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -747,16 +666,13 @@ non {
   font-size: 15pt;
   font-weight: 700;
   opacity: 0.7;
-  position: relative;
-  z-index: 1;
 }
 .waterBox .water {
   position: absolute;
   /* top: 0; */
-  opacity: 0.6;
   bottom: 0%;
-  width: 100%;
   transform: translateY(50%);
+  opacity: 0.6;
   transition: 0.3s ease;
   filter: drop-shadow(0px 5px 3px #5881ae);
 }
@@ -780,10 +696,6 @@ non {
   transition: 0.2s ease;
   transform: scale(1);
   box-shadow: 0px 0px 20px #00000007;
-  cursor: pointer;
-}
-.cups .cup:hover {
-  box-shadow: 0px 0px 20px #0000007a;
 }
 .cups .cup::after {
   content: '';
@@ -816,7 +728,6 @@ non {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 }
 .page[data-name='settings'] .profile .ava {
   border-radius: 100rem;
@@ -827,8 +738,8 @@ non {
   text-align: center;
 }
 .page[data-name='settings'] .links-list {
-  width: 100%;
+  width: 100vw;
 }
-.codcwss {
+.codcws {
   display: block;
 }

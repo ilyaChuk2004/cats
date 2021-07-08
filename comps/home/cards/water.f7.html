@@ -29,17 +29,28 @@
     ` : $h`
     <span>Водичка</span>
     <!-- <img src="static/bottle.svg" alt=""/> -->
-    <div class="gaugeControl">
-      <div @click=${(e)=>{change(-100, true, e.target)}} class="minus btn">-100</div>
-      <${gauge} key='l' fsize='100' size='80'/>
-      <div @click=${(e)=>{change(100, true, e.target)}} class="plus btn">+100</div>
-    </div>
-
+    ${!$store.state.appData.desktop ? $h`
+      <div class="gaugeControl">
+        <div @click=${(e)=>{change(-100, true, e.target)}} class="minus btn">-100</div>
+        <${gauge} key='l' fsize='100' size='80'/>
+        <div @click=${(e)=>{change(100, true, e.target)}} class="plus btn">+100</div>
+      </div>
+      ` : $h`
+      <${waterBox}/>
+      <div class="la">выберите, сколько выпили:</div>
+      <div class="cups">
+        <${cup} ml='50' scale='0.6' img1='cup50'/>
+        <${cup} ml='100' scale='0.8' img1='cup100'/>
+        <${cup} ml='200' scale='1' img1='cup200'/>
+      </div>
+      `}
     `}
 
   </div>
 </template>
 <script>
+    import waterBox from './../../water/waterBox.f7.html';
+  import cup from './../../water/cup.f7.html';
   import gauge from './waterGauge.f7.html'
   export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
     var bodymovin = require('../../../js/lottie');
@@ -110,17 +121,8 @@
         $update()
     }
 
-    $onMounted(()=>{
-      $('.card,.water').on('taphold', function () {
-        holdChange()
-      });
 
-
-
-
-      if ($store.state.userData.teach.widgetPress !== true) {
-      setTimeout(() => {
-        let toastBottom = $f7.toast.create({
+    var toastBottom = $f7.toast.create({
           text: 'Зажмите на карточке для дополнительных действий',
           closeButton: true,
           on: {
@@ -130,6 +132,24 @@
             },
           }
         });
+
+
+    $onMounted(()=>{
+      $('.card,.water').on('taphold', function () {
+        if ($store.state.userData.teach.widgetPress !== true) {
+          $store.state.userData.teach.widgetPress = true
+          $f7.emit('e-backp')
+        }
+        toastBottom.close()
+        holdChange()
+      });
+
+
+
+
+      if ($store.state.userData.teach.widgetPress !== true && !$store.state.appData.desktop) {
+      setTimeout(() => {
+        
         toastBottom.open();
 
         setTimeout(() => {
@@ -177,7 +197,7 @@
     function redir(ev) {
       let path = ev.path
       let fClasses = [...path[0].classList]
-      let no = ['btn', 'btnn']
+      let no = ['btn', 'btnn', 'cup']
       if (!no.some(el => fClasses.join(' ').includes(el))) {
         $f7.views.current.router.navigate('water/')
       }

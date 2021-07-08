@@ -1,8 +1,9 @@
 <template>
-  <div @click=${change} class="cup">
-    <img src="static/img/cups/${props.img1}.webp" alt=""/>
+  <div @click=${(e)=>{change(e)}} class="cup" >
+    <img src="static/img/cups/${props.img1}.webp" alt="" style='transform:scale(${props.scale})'/>
     <div class="label">${props.ml}</div>
 
+    <div style="position: absolute;" class="teach"></div>
  </div>
 
 </template>
@@ -10,18 +11,77 @@
   </style>
 <script>
   export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+    var bodymovin = require('../../js/lottie');
 
-    function change() {
+
+
+
+    var toastBottom = $f7.toast.create({
+            text: 'Клик правой кнокой мыши для отмены',
+            closeButton: true,
+            on: {
+              close: function () {
+                $store.state.userData.teach.rightCup=true
+                $f7.emit('e-backp')
+              },
+            }
+          });
+
+    function change(e) {
+      $store.state.gf.bounse(e.target)
+      navigator.vibrate([30])
+
+
+
       $f7.emit('e-waterChange', +props.ml)
       $f7.emit('e-waterPageChange')
+
+      if ($store.state.appData.desktop && !$store.state.userData.teach.rightCup) {
+        setTimeout(() => {
+          toastBottom.open();
+          setTimeout(() => {
+          var animation = lottie.loadAnimation({
+            container: $el.value[0].lastChild, // Required
+            path: 'static/rClick.json', // Required
+            renderer: 'svg', // Required
+            loop: false,
+            autoplay: false, // Optional
+          })
+
+          animation.play()  
+        animation.pause()
+
+          setTimeout(() => {
+            animation.setSpeed(1)  
+          animation.play() 
+          setTimeout(() => {
+            animation.destroy()
+          }, 2000);
+            
+          }, 2000);
+        }, 3000);
+        }, 1000);
+      }
       
     }
+
+    
 
     $onMounted(()=>{
       $($el.value[0]).on('taphold', function () {
         $f7.emit('e-waterChange', (+props.ml)*-1)
         $f7.emit('e-waterPageChange', '-')
       });
+
+      $($el.value[0]).on('contextmenu', function (e) {
+      toastBottom.close()
+
+        $store.state.userData.teach.rightCup=true
+
+        e.preventDefault()
+        $f7.emit('e-waterChange', (+props.ml)*-1)
+        $f7.emit('e-waterPageChange', '-')
+      })
     })
     return $render;
   }

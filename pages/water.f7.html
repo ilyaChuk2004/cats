@@ -115,23 +115,10 @@
         }
       })
 
-      $f7.on('e-goal', (s)=>{
-        // console.log('gooooal',$store.state.userData.water.streak);
-
-        if (s=="-") {
-          $store.state.userData.water.streak=$store.state.userData.water.streak-1
-        // console.log('gooooal',$store.state.userData.water.streak);
-
-          
-        }else{
-          $store.state.userData.water.streak=$store.state.userData.water.streak+1
-        // console.log('gooooal',$store.state.userData.water.streak);
-
-        }
-        $f7.emit('e-backp')
+      $f7.on('e-waterPageChange', (s)=>{
         $update()
-        console.log(s);
       })
+
       
     })
 

@@ -49,7 +49,6 @@ if ($store.state.userData.water.goal == undefined ) {
                 let perc = $store.state.userData.water.todayMl<$store.state.userData.water.goal?
                 $store.state.userData.water.todayMl/$store.state.userData.water.goal*100:100
                 waterEl.style.transform= `translateY(${50-(perc/2)}%)`
-                console.log(perc);
 
           $update()
               }, 1000);

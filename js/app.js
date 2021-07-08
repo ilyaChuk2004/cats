@@ -73,3 +73,11 @@ app.on('e-appMount', ()=>{
   </style>`
 })
 
+app.on('e-goal', (s) => {
+  if (s == "-") {
+    store.state.userData.water.streak = store.state.userData.water.streak - 1
+  } else {
+    store.state.userData.water.streak = store.state.userData.water.streak + 1
+  }
+  app.emit('e-waterPageChange')
+})

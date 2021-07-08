@@ -58,6 +58,7 @@
 
 
     let hold = false
+    
     function bouns(el) {
       el.style.transform='scale(1.1)'
       setTimeout(() => {
@@ -73,10 +74,10 @@
     })
 
     function change(ml, b=false, el) {
-      // console.log(ml);
 
       if ($store.state.userData.water.todayMl >= $store.state.userData.water.goal &&
       $store.state.userData.water.todayMl+ml < $store.state.userData.water.goal) {
+
         $f7.emit('e-goal', '-')
         $f7.emit('e-changeLvl', -100)
       }else if($store.state.userData.water.todayMl < $store.state.userData.water.goal &&

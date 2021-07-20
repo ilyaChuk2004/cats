@@ -8,7 +8,9 @@ const store = createStore({
       name:'',
       water:{
         todayMl:0,
-        streak:0
+        streak:0,
+        goal:1500,
+        lastUpdate:false
       },
       teach:{
         widgetPress:false

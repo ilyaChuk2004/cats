@@ -55,7 +55,8 @@ window.app=app
 
 import { dataControl } from './dataControl'; dataControl(app, store)
 
-store.state.appData.desktop = Framework7.device.desktop;
+store.state.appData.desktop = Framework7.device.desktop||Framework7.device.ipad?
+  true:false
 store.state.appData.theme = Framework7.device.prefersColorScheme();
 if (Framework7.device.prefersColorScheme()=='dark') {
   document.body.classList+='theme-dark'
@@ -73,11 +74,6 @@ app.on('e-appMount', ()=>{
   </style>`
 })
 
-app.on('e-goal', (s) => {
-  if (s == "-") {
-    store.state.userData.water.streak = store.state.userData.water.streak - 1
-  } else {
-    store.state.userData.water.streak = store.state.userData.water.streak + 1
-  }
-  app.emit('e-waterPageChange')
-})
+
+
+import { waterControl } from './waterControl'; waterControl(app, store)

@@ -13,11 +13,9 @@ export function waterControl(app, store) {
     setInterval(() => {
         if (new Date().getDate() !== store.state.userData.water.lastUpdate) {
             store.state.userData.water.lastUpdate=new Date().getDate()
-            console.log('updDay');
 
             if (store.state.userData.water.todayMl<store.state.userData.water.goal) {
                 store.state.userData.water.streak=0
-                debugger
             }
 
             store.state.userData.water.todayMl=0

@@ -129,7 +129,7 @@
   width: 6px;
   height: 0px;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   ::-webkit-scrollbar {
     width: 0px;
   }
@@ -183,12 +183,11 @@ h4 {
 }
 p {
   color: var(--pColor);
-  margin: 30px 90px;
   font-size: 19pt;
   line-height: 30px;
   font-weight: 500;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   p {
     margin: 0px;
     font-size: 14pt;
@@ -203,6 +202,14 @@ non {
   opacity: 0.5;
   color: var(--nonColor);
   display: inline-block;
+}
+.mediaFlag500 {
+  display: none;
+}
+@media (min-width: 900px) {
+  .mediaFlag500 {
+    display: block;
+  }
 }
 .ripple-wave {
   background-color: #00000038;
@@ -292,7 +299,7 @@ non {
   text-align: left;
   box-sizing: border-box;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .header .greet {
     display: inline-block;
   }
@@ -314,7 +321,7 @@ non {
   font-weight: 500;
   color: var(--nameInpC);
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .header .namePrompt input {
     width: 40%;
   }
@@ -343,7 +350,7 @@ non {
 .header .weatherBlock {
   color: #000;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .header .weatherBlock {
     display: inline-block;
   }
@@ -351,7 +358,7 @@ non {
 .cards {
   padding: 1rem;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .cards {
     display: flex;
     justify-content: space-around;
@@ -368,7 +375,7 @@ non {
   position: relative;
   cursor: pointer;
 }
-@media (min-width: 650px) {
+@media (min-width: 480px) {
   .cards .cardd {
     border-radius: 3rem;
     clip-path: none;
@@ -432,7 +439,7 @@ non {
     color: #3a4768;
   }
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .cards .water span {
     font-size: 35pt;
     margin-bottom: 5rem;
@@ -592,7 +599,7 @@ non {
   flex-direction: column;
   justify-content: space-between;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .page[data-name='water'] .page-content {
     justify-content: flex-start;
   }
@@ -602,7 +609,7 @@ non {
   position: relative;
   z-index: 2;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .page[data-name='water'] .info {
     overflow: initial;
   }
@@ -613,7 +620,7 @@ non {
   opacity: 0.7;
   line-height: 140%;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .page[data-name='water'] .info .txt {
     padding: 0rem 2rem;
     font-size: 14pt;
@@ -646,7 +653,7 @@ non {
     border-top: 1px #ffffff17 solid;
   }
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .page[data-name='water'] .control {
     box-shadow: none;
     border: none;
@@ -658,6 +665,7 @@ non {
   width: 70%;
   margin-bottom: 1rem;
   grid-gap: 2rem;
+  align-items: center;
 }
 .page[data-name='water'] .control .gr .gr1 {
   display: flex;
@@ -679,19 +687,19 @@ non {
   margin: 1rem 0rem;
   opacity: 0.5;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .page[data-name='water'] .control .waterBox {
-    width: 20rem;
-    height: 20rem;
+    width: 21vw;
+    height: 21vw;
   }
   .page[data-name='water'] .control .waterBox .waterMl {
-    font-size: 30pt;
+    font-size: 2.5vw;
   }
 }
 .page[data-name='water'] .control .range-slider {
   width: 90%;
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .page[data-name='water'] .control .range-slider {
     width: 60vw;
   }
@@ -710,7 +718,7 @@ non {
     box-shadow: 15px 11px 20px -5px #ffffff0f, -6px -5px 20px -5px #000000;
   }
 }
-@media (min-width: 650px) {
+@media (min-width: 900px) {
   .page[data-name='water'] .control .confirmSlide {
     padding: 1rem 3rem;
     font-size: 13pt;

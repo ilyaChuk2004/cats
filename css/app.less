@@ -105,7 +105,7 @@
 @iColor: #6b4124;
 @strongColor: #110e4a;
 @bp-mobile: ~"max-width: 1024px";
-@bp-tablet: ~"min-width: 650px";
+@bp-tablet: ~"min-width: 900px";
 
 //night colors
 @night-bg: #151111;
@@ -262,7 +262,6 @@ h4 {
 
 p {
   color: var(--pColor);
-  margin: 30px 90px;
   font-size: 19pt;
   line-height: 30px;
   font-weight: 500;
@@ -287,6 +286,11 @@ non {
   opacity: 0.5;
   color: var(--nonColor);
   display: inline-block;
+}
+
+.mediaFlag500{display:none}
+@media (@bp-tablet) {
+	.mediaFlag500{display:block}
 }
 
 .page {
@@ -364,6 +368,8 @@ non {
       &:hover{
         filter: drop-shadow(0px 7px 6px #81b989b3);
       }
+
+      
     }
 
     .itc{
@@ -508,7 +514,7 @@ non {
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    @media (@bp-tablet) {
+    @media (min-width:480px) {
     border-radius: 3rem;
     clip-path: none;
 
@@ -857,6 +863,7 @@ non {
       width: 70%;
       margin-bottom: 1rem;
       grid-gap: 2rem;
+      align-items: center;
 
       .gr1{
         display: flex;
@@ -884,11 +891,11 @@ non {
 
     .waterBox{
       @media (@bp-tablet) {
-        width: 20rem;
-        height: 20rem;
+        width: 21vw;
+        height: 21vw;
         
         .waterMl{
-          font-size: 30pt;
+          font-size: 2.5vw;
         }
       }
     }

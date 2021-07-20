@@ -57,10 +57,12 @@ import { dataControl } from './dataControl'; dataControl(app, store)
 
 store.state.appData.desktop = Framework7.device.desktop||Framework7.device.ipad?
   true:false
+store.state.appData.desktop = getComputedStyle(document.querySelector('.mediaFlag500')).display !== 'block'?
+  false:true
 store.state.appData.theme = Framework7.device.prefersColorScheme();
 if (Framework7.device.prefersColorScheme()=='dark') {
   document.body.classList+='theme-dark'
-}
+} 
 
 //отменяет перетаскивание мышкой ссылок и картинок
 $(document).on("dragstart", 'img, a', function(event) { event.preventDefault(); }); 
@@ -77,3 +79,17 @@ app.on('e-appMount', ()=>{
 
 
 import { waterControl } from './waterControl'; waterControl(app, store)
+
+$(document).on('click', '.tab-link', (e)=>{                     //возвращение назад при повтором нажатии на таб
+  if (app.view.current.index==store.state.appData.view) {
+    app.views[app.view.current.index].router.back()
+
+  }
+  store.state.appData.view=app.view.current.index
+})
+
+
+if(getComputedStyle(document.querySelector('.mediaFlag500')).display == 'block'){
+  mf500=1;
+  
+}

@@ -1,0 +1,156 @@
+<template>
+  <div class="cardd mood">
+
+    ${hold ? $h`
+
+    <div class="hold">
+      <${pcVer}/>
+    </div>
+
+
+    ` : $h`
+    ${!$store.state.appData.desktop ? $h`
+    <span>Настроениe</span>
+    <div class="la">${nameQ} себя чувствуешь?</div>
+    <div class="emojies">
+      <${emoji} img='-1' />
+      <${emoji} img='0' />
+      <${emoji} img='1' />
+      <${emoji} img='2' />
+    </div>
+    ` : $h`
+    <${pcVer}/>
+    `}
+    `}
+
+  </div>
+</template>
+<script>
+
+  import emoji from './mood/emoji.f7.html'
+
+  export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
+
+
+    const q_textarea = (props, { $h }) => {
+      return () => $h`
+      <textarea placeholder="Расскажи что-то..." @input=${(e)=>{inp(e)}} class="resizable"></textarea>
+      `;
+    }
+    const pcVer = (props, { $h }) => {
+      return () => $h`
+      <div>
+        <span>Настроениe</span>
+      <div class="la">${nameQ} себя чувствуешь?</div>
+      <div class="emojies">
+        <${emoji} img='-1' />
+        <${emoji} img='0' />
+        <${emoji} img='1' />
+        <${emoji} img='2' />
+      </div>
+      <${q_textarea} />
+      <button class="ripple ripple-dark-white overflow-hidden">записать</button>
+      </div>
+      `;
+    }
+
+    let hold = false
+    
+    let nameQ = $store.state.userData.name==''?'Как ты':`${$store.state.userData.name}, как ты`
+    $f7.on('e-userNameAnswer', ()=>{
+      nameQ = $store.state.userData.name==''?'Как ты':`${$store.state.userData.name}, как ты`
+      $update()
+    })
+
+    function bouns(el) {
+      el.style.transform = 'scale(1.1)'
+      setTimeout(() => {
+        el.style.transform = ''
+      }, 200);
+    }
+
+
+    function holdChange() {
+      // navigator.vibrate([30, 10, 30,])
+      $store.state.gf.vibrate([30, 10, 30,])
+
+      hold = hold ? false : true
+      $update(() => {
+        setTimeout(() => {
+          $f7.emit('e-moodCardHold')
+
+          if ($el.value[0].querySelector('textarea').value=='') {
+          $el.value[0].querySelector('textarea').value=$store.state.userData.moodTextarea
+        }
+        }, 10);
+      })
+    }
+
+    $onMounted(() => {
+      $($el.value[0]).on('taphold', function () {
+        holdChange()
+      });
+
+      function nav() {
+        if (!$store.state.userData.teach.cardClick) {
+          $store.state.userData.teach.cardClick = true
+          $f7.emit('e-backp')
+
+          toastClickCard.close()
+        }
+        app.views.current.router.navigate('/mood/')
+      }
+
+
+      function redir(ev, skip) {
+
+        let path = ev.path
+        let fClasses = [...path[0].classList]
+        let no = ['btn', 'btnn', 'cup']
+        if (!no.some(el => fClasses.join(' ').includes(el))) {
+          nav()
+        }
+
+
+      }
+
+
+      $('.cardd.mood').on('click', (e) => {
+
+        if (e.altitudeAngle == null && e.toElement.classList.contains('cardd')) {
+          nav()
+        } else if (e.target.classList.contains('cardd')) {
+          nav()
+        }
+
+
+      })
+
+
+      $($el.value[0].querySelector('textarea')).on('change', (e)=>{
+        console.log(e);
+      })
+
+      setTimeout(() => {
+        console.log($el.value[0].querySelector('textarea'));
+        if ($el.value[0].querySelector('textarea').value=='') {
+          $el.value[0].querySelector('textarea').value=$store.state.userData.moodTextarea
+        }
+      }, 10);
+
+    })
+
+    function inp(e) {
+      let val = e.target.value
+
+      $store.state.userData.moodTextarea=val
+      $f7.emit('e-backp', '-')
+    }
+
+
+
+
+
+    return $render;
+  }
+</script>

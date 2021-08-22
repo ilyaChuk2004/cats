@@ -68,6 +68,8 @@ body {
   --waterPageControlBSh: #0000002e;
   --cupBg: #ffffff96;
   --settingsBg: #fcf4ff;
+  --moodCardGrad: linear-gradient(233.81deg, #FFA06A 4.14%, #ffd7c0 112.07%);
+  --moodCardBSH: 0 0 23px -3px #ff822e87;
 }
 @media (prefers-color-scheme: dark) {
   #mediaFlag500 {
@@ -89,6 +91,8 @@ body {
     --waterPageControlBSh: #ffffff0d;
     --cupBg: #242e34b5;
     --settingsBg: #0e0811;
+    --moodCardGrad: linear-gradient(233.81deg, #FFA06A 4.14%, #ba6f45 112.07%);
+    --moodCardBSH: 0 0 23px -3px #ffa35996;
   }
 }
 :root {
@@ -225,6 +229,9 @@ non {
 .ripple.overflow-hidden {
   overflow: hidden;
 }
+.ripple.ripple-dark-white .ripple-wave {
+  background-color: rgba(0, 0, 0, 0.075);
+}
 @media (prefers-color-scheme: dark) {
   .ripple.ripple-dark-white .ripple-wave {
     background-color: #ffffff1c;
@@ -248,6 +255,10 @@ non {
 }
 .router-transition-f7-circle-backward .page-current {
   animation: f7-circle-current-to-next 500ms forwards;
+}
+.toast.toast-with-icon .toast-text {
+  margin-top: 1rem;
+  font-size: 14pt;
 }
 @media not screen and (min-width: 900px) {
   .dialog {
@@ -461,7 +472,7 @@ non {
     padding: 3rem;
   }
 }
-.cards .water {
+.cards > .water {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -469,8 +480,14 @@ non {
   transition: 0.8s cubic-bezier(0.04, 0.93, 0.76, 0.98);
   box-shadow: var(--waterCardBSH);
   background: var(--waterCardGrad);
+  margin-bottom: 2rem;
 }
-.cards .water::after {
+@media (min-width: 900px) {
+  .cards > .water {
+    margin-right: 1rem;
+  }
+}
+.cards > .water::after {
   content: '';
   z-index: 2;
   width: 100%;
@@ -479,16 +496,16 @@ non {
   left: 0;
   top: 0;
 }
-.cards .water.active-state {
+.cards > .water.active-state {
   transform: scale(0.93);
   transition: 0.3s cubic-bezier(0.92, 0.01, 1, 0.9) !important;
 }
 @media (min-width: 900px) {
-  .cards .water.active-state {
+  .cards > .water.active-state {
     transform: scale(0.99);
   }
 }
-.cards .water #teachCircle {
+.cards > .water #teachCircle {
   height: 4rem;
   position: absolute;
   z-index: 2;
@@ -499,7 +516,7 @@ non {
   top: 40%;
   transform: translate(-50%, -50%);
 }
-.cards .water .zPlane {
+.cards > .water .zPlane {
   content: '';
   z-index: 3;
   width: 100%;
@@ -509,27 +526,27 @@ non {
   top: 0;
 }
 @media (prefers-color-scheme: dark) {
-  .cards .water .water {
+  .cards > .water .water {
     opacity: 0.7;
   }
 }
-.cards .water span {
+.cards > .water span {
   color: #73bcc5;
   font-weight: 900;
   font-size: 26pt;
 }
 @media (prefers-color-scheme: dark) {
-  .cards .water span {
+  .cards > .water span {
     color: #3a4768;
   }
 }
 @media (min-width: 900px) {
-  .cards .water span {
+  .cards > .water span {
     font-size: 35pt;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
   }
 }
-.cards .water .waterBox {
+.cards > .water .waterBox {
   position: absolute;
   z-index: 2;
   right: 2.5rem;
@@ -541,32 +558,32 @@ non {
   border: 4px #ffffff59 solid;
 }
 @media (prefers-color-scheme: dark) {
-  .cards .water .waterBox {
+  .cards > .water .waterBox {
     border: 4px rgba(0, 0, 0, 0.548) solid;
     color: #a7c0cc;
   }
 }
-.cards .water .waterBox::after {
+.cards > .water .waterBox::after {
   content: '';
 }
-.cards .water .la {
+.cards > .water .la {
   opacity: 0.5;
   margin-left: 1rem;
 }
-.cards .water .cups {
+.cards > .water .cups {
   margin-bottom: 0rem;
   z-index: 4;
   position: relative;
 }
-.cards .water .cups .cup {
+.cards > .water .cups .cup {
   margin: 1rem 1rem 0rem;
 }
-.cards .water .gaugeControl {
+.cards > .water .gaugeControl {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
-.cards .water .gaugeControl .btn {
+.cards > .water .gaugeControl .btn {
   color: #65b7c3;
   background-color: rgba(255, 255, 255, 0.52157);
   border-radius: 10rem;
@@ -583,11 +600,11 @@ non {
   position: relative;
 }
 @media (prefers-color-scheme: dark) {
-  .cards .water .gaugeControl .btn {
+  .cards > .water .gaugeControl .btn {
     color: #136c79;
   }
 }
-.cards .water .gaugeControl .btn::before {
+.cards > .water .gaugeControl .btn::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -597,31 +614,31 @@ non {
   top: 50%;
   transform: translate(-50%, -50%);
 }
-.cards .water .gaugeControl .gaugeBox {
+.cards > .water .gaugeControl .gaugeBox {
   color: red;
   align-self: flex-end;
 }
-.cards .water .gaugeControl .gaugeBox .gauge {
+.cards > .water .gaugeControl .gaugeBox .gauge {
   font-size: 85%;
 }
-.cards .water .hold {
+.cards > .water .hold {
   display: flex;
   justify-content: space-around;
   flex-direction: row;
   align-items: center;
   height: 100%;
 }
-.cards .water .hold .gauge {
+.cards > .water .hold .gauge {
   transform: scale(1);
   font-size: 120%;
 }
-.cards .water .hold .control {
+.cards > .water .hold .control {
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 4;
 }
-.cards .water .hold .control > div {
+.cards > .water .hold .control > div {
   color: #000000b5;
   background-color: #ffffff7a;
   margin: 0.6rem 0rem;
@@ -632,7 +649,7 @@ non {
   position: relative;
   display: flex;
 }
-.cards .water .hold .control > div .pl {
+.cards > .water .hold .control > div .pl {
   color: #87e2be;
   font-size: 2.7rem;
   position: absolute;
@@ -642,7 +659,7 @@ non {
   line-height: 2.7rem;
   transform: translateY(-53%);
 }
-.cards .water .hold .control > div .pl::before {
+.cards > .water .hold .control > div .pl::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -652,7 +669,7 @@ non {
   top: 50%;
   transform: translate(-50%, -50%);
 }
-.cards .water .hold .control > div .mi {
+.cards > .water .hold .control > div .mi {
   color: #f7a1a1;
   font-size: 2.7rem;
   position: absolute;
@@ -662,7 +679,7 @@ non {
   line-height: 2.7rem;
   transform: translateY(-53%);
 }
-.cards .water .hold .control > div .mi::before {
+.cards > .water .hold .control > div .mi::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -671,6 +688,136 @@ non {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.cards .mood {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  transform: scale(1);
+  transition: 0.8s cubic-bezier(0.04, 0.93, 0.76, 0.98);
+  box-shadow: var(--moodCardBSH);
+  background: var(--moodCardGrad);
+}
+.cards .mood::after {
+  content: '';
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.cards .mood.active-state {
+  transform: scale(0.93);
+  transition: 0.3s cubic-bezier(0.92, 0.01, 1, 0.9) !important;
+}
+@media (min-width: 900px) {
+  .cards .mood.active-state {
+    transform: scale(0.99);
+  }
+}
+.cards .mood .la {
+  opacity: 0.5;
+  color: #ffffff;
+}
+.cards .mood span {
+  color: #d75c178f;
+  font-weight: 900;
+  font-size: 26pt;
+}
+@media (prefers-color-scheme: dark) {
+  .cards .mood span {
+    color: #aa3d008f;
+  }
+}
+@media (min-width: 900px) {
+  .cards .mood span {
+    font-size: 35pt;
+  }
+}
+.cards .mood .emojies {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.7rem;
+}
+.cards .mood .emojies .emoji {
+  opacity: 0.8;
+  position: relative;
+  z-index: 4;
+  filter: drop-shadow(0px 0px transparent);
+  transition: 0.3s cubic-bezier(0.42, 0, 0.31, 2.5);
+  margin: 0rem 0.5rem;
+  transform: scale(1);
+}
+.cards .mood .emojies .emoji:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.cards .mood .emojies .emoji:hover {
+  opacity: 1;
+  transform: scale(0.95);
+}
+.cards .mood .emojies .emoji.active {
+  opacity: 1;
+  filter: drop-shadow(0px 12px 11px #00000042);
+  transform: scale(1.1);
+}
+.cards .mood .emojies .emoji.active-state {
+  transform: scale(0.9);
+}
+.cards .mood .emojies .emoji img {
+  width: 4rem;
+  height: 4rem;
+}
+.cards .mood button {
+  z-index: 5;
+  cursor: pointer;
+  border: none;
+  background: #ffffff2e;
+  border: 1px solid #ffffff45;
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 12pt;
+  color: #000000ba;
+  position: relative;
+  border-radius: 90rem;
+  width: auto;
+  margin: 1rem auto -1rem;
+  display: block;
+  padding: 0.5rem 2rem !important;
+  transition: 0.3s ease;
+}
+.cards .mood button:hover {
+  background: #ffffff6b;
+  box-shadow: 0 0 8px #0000001a;
+}
+.cards .mood button .ripple-wave {
+  background-color: #00000010;
+}
+.cards .mood textarea {
+  z-index: 8;
+  position: relative;
+  transition: 0.3s ease, 0s height;
+  width: 100%;
+  border-radius: 1.5rem;
+  background: #ffffff45;
+  border: 1px solid #ffffff45;
+  padding: 0.7rem 1rem;
+  font-size: 13pt;
+  font-weight: 500;
+  color: #000000c4;
+  margin-top: 0.8rem;
+}
+.cards .mood textarea:focus {
+  background: #ffffff73;
+  box-shadow: 0 0 8px #0000001a;
+}
+.cards .mood textarea::placeholder {
+  opacity: 0.7;
 }
 .gauge {
   position: relative;
@@ -875,6 +1022,7 @@ non {
   /* top: 0; */
   opacity: 0.6;
   bottom: 0%;
+  left: 0;
   width: 100%;
   transform: translateY(50%);
   transition: 0.9s ease-out;
@@ -1050,6 +1198,9 @@ non {
   .page[data-name='settings'] .list .f7-icons.water {
     color: #7d96e4;
   }
+}
+.page[data-name='settings'] .list .f7-icons.mood {
+  color: #ffcc60;
 }
 .picker {
   overflow: hidden;

@@ -12,6 +12,7 @@ const store = createStore({
     userData:{
       name:'',
       ava:'static/img/avas/l1/ava2.webp',
+      moodTextarea:'',
       water:{
         todayMl:0,
         streak:0,

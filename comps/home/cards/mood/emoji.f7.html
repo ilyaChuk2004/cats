@@ -1,0 +1,76 @@
+<template>
+  <div @click=${(e)=>{cl(e)}} data-em='${props.img}' class="emoji">
+    <img src="static/img/emoji/${props.img}.png" alt="" />
+  </div>
+</template>
+<style>
+</style>
+<script>
+  export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
+
+
+    let toastClose = $f7.toast.create({
+      text: 'Нажмите ещё раз, чтобы записать',
+      closeButton: true,
+      closeButtonText: 'Окс'
+    })
+    toastClose.on('closeButtonClick', ()=>{
+      $store.state.userData.teach.doubleClickEmoji=true
+      $f7.emit('e-backp')
+    })
+
+    function cl(e) {
+      console.log(e.target.getAttribute('data-em'));
+
+      let el = e.target
+      if (el.classList.contains('active')) {
+        $(el).removeClass('active')
+        $store.state.appData.selectedEmoji = ''
+
+        let toast = $f7.toast.create({
+          icon: '<i class="f7-icons">👍</i>',
+          text: 'Настроение записано',
+          position: 'center',
+          horizontalPosition: 'center',
+          closeTimeout: 2000
+        })
+
+        toast.open()
+        $store.state.gf.vibrate([40, 30, 20])
+
+        $store.state.userData.teach.doubleClickEmoji=true
+        $f7.emit('e-backp')
+      } else {
+        $(el.parentElement.querySelector('.active')).removeClass('active')
+        el.classList.add("active")
+        $store.state.appData.selectedEmoji = props.img
+
+        if (!$store.state.userData.teach.doubleClickEmoji) {
+          setTimeout(() => {
+            toastClose.open()
+          }, 500);
+        }
+      }
+
+
+    }
+
+
+
+    $onMounted(() => {
+      var ell = $el.value[0]
+      $f7.on('e-moodCardHold', () => {
+        console.log(props.img, $store.state.appData.selectedEmoji, ell);
+        if (props.img == $store.state.appData.selectedEmoji) {
+          // debugger
+          console.log('yessss', ell);
+
+          ell.classList.add("active")
+          console.log(ell.classList);
+
+        }
+      })
+    })
+    return $render;
+  }
+</script>

@@ -5,7 +5,8 @@ const store = createStore({
   state: {
     appData:{
       weatherClicks:0,
-      xpFromWaterStreak:100
+      xpFromWaterStreak:100,
+      rihtClickTeachTime:0
     },
     userData:{
       name:'',

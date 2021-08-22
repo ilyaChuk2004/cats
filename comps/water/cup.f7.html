@@ -36,13 +36,14 @@
 
       $f7.emit('e-waterChange', +props.ml)
       $f7.emit('e-waterPageChange')
-
-      if ($store.state.appData.desktop && !$store.state.userData.teach.rightCup) {
+      var animation=false
+      if ($store.state.appData.desktop && !$store.state.userData.teach.rightCup && +new Date - $store.state.appData.rihtClickTeachTime > 5000) {
+        $store.state.appData.rihtClickTeachTime=+new Date
         setTimeout(() => {
           toastBottom.open();
           setTimeout(() => {
-          var animation = lottie.loadAnimation({
-            container: $el.value[0].lastChild, // Required
+          animation = lottie.loadAnimation({
+            container: $el.value[0].querySelector('.teach'), // Required
             path: 'static/rClick.json', // Required
             renderer: 'svg', // Required
             loop: false,

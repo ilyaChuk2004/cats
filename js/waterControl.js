@@ -8,7 +8,7 @@ export function waterControl(app, store) {
             store.state.userData.water.streak = store.state.userData.water.yesterdayStreak + 1
             app.emit('e-changeLvl', store.state.appData.xpFromWaterStreak)
         }
-        app.emit('e-waterPageChange')
+        app.emit('e-waterPageChange', '-')
     })
     
 
@@ -27,7 +27,7 @@ export function waterControl(app, store) {
             store.state.userData.water.todayMl=0
 
             app.emit('e-waterChange')
-            app.emit('e-waterPageChange')
+            app.emit('e-waterPageChange', '-')
             
             app.emit('e-backp') 
         }

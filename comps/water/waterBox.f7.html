@@ -81,14 +81,16 @@ if ($store.state.userData.water.goal == undefined ) {
         }
 
 
-        setTimeout(() => {
+        if (!$store.state.appData.desktop) {
+          setTimeout(() => {
           if ($el.value[0].offsetWidth!==$el.value[0].offsetHeight) {
           console.log($el.value[0].offsetWidth, $el.value[0].offsetHeight);
           $el.value[0].style.width=`${$el.value[0].offsetHeight}px`
         }else{
           console.log($el.value[0].offsetWidth, $el.value[0].offsetHeight);
         }
-        }, 10);
+        }, 20);
+        }
     })
 
     

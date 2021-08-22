@@ -44,6 +44,10 @@ var app = new Framework7({
 
   view: {
     // browserHistory:true,
+    stackPages:true,
+    browserHistorySeparator:'#',
+    // browserHistoryRoot:'i',
+    // iosSwipeBackActiveArea:70
     
   },
 });

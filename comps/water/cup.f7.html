@@ -1,18 +1,18 @@
 <template>
   <div @click=${(e)=>{change(e)}} class="cup holdEv" >
     <div class="cupIn ripple ripple-dark-white overflow-hidden">
-      <img src="static/img/cups/${props.img1}.webp" alt="" style='transform:scale(${props.scale})'/>
-    <div class="label">${props.ml}</div>
+      <img src="static/img/cups/${props.img1}.webp" alt="" style='transform:scale(${props.scale})' />
+      <div class="label">${props.ml}</div>
 
-    <div style="position: absolute;" class="teach"></div>
+      <div style="position: absolute;" class="teach"></div>
     </div>
- </div>
+  </div>
 
 </template>
 <style>
-  </style>
+</style>
 <script>
-  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+  export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
     var bodymovin = require('../../js/lottie');
 
 
@@ -23,9 +23,9 @@
       closeButton: true,
       on: {
         close: function () {
-        $store.state.userData.teach.rightCup = true
-        $f7.emit('e-backp')
-      },
+          $store.state.userData.teach.rightCup = true
+          $f7.emit('e-backp')
+        },
       }
     });
     toastBottom.on('closeButtonClick', () => {
@@ -37,10 +37,20 @@
       text: 'Зажмите, чтобы убрать воду',
       closeButton: true
     });
-    toastPress.on('closeButtonClick', ()=>{
-      $store.state.userData.teach.pressCup=true
+    toastPress.on('closeButtonClick', () => {
+      $store.state.userData.teach.pressCup = true
       $f7.emit('e-backp')
     })
+
+    function shake(el) {
+      el.style.transform = 'translateX(-4px)'
+      setTimeout(() => {
+        el.style.transform = 'translateX(4px)'
+      }, 70);
+      setTimeout(() => {
+        el.style.transform = ''
+      }, 140);
+    }
 
     function change(e) {
       $store.state.gf.bounse(e.target)
@@ -49,122 +59,124 @@
 
       $f7.emit('e-waterChange', +props.ml)
       $f7.emit('e-waterPageChange')
-      var animation=false
+      var animation = false
       if ($store.state.appData.desktop && !$store.state.userData.teach.rightCup && +new Date - $store.state.appData.rihtClickTeachTime > 5000) {
-        $store.state.appData.rihtClickTeachTime=+new Date
+        $store.state.appData.rihtClickTeachTime = +new Date
         setTimeout(() => {
           toastBottom.open();
           setTimeout(() => {
-          animation = lottie.loadAnimation({
-            container: $el.value[0].querySelector('.teach'), // Required
-            path: 'static/rClick.json', // Required
-            renderer: 'svg', // Required
-            loop: false,
-            autoplay: false, // Optional
-          })
+            animation = lottie.loadAnimation({
+              container: $el.value[0].querySelector('.teach'), // Required
+              path: 'static/rClick.json', // Required
+              renderer: 'svg', // Required
+              loop: false,
+              autoplay: false, // Optional
+            })
 
-          animation.play()  
-        animation.pause()
+            animation.play()
+            animation.pause()
 
-          setTimeout(() => {
-            animation.setSpeed(1)  
-          animation.play() 
-          setTimeout(() => {
-            animation.destroy()
-          }, 2000);
-            
-          }, 2000);
-        }, 3000);
+            setTimeout(() => {
+              animation.setSpeed(1)
+              animation.play()
+              setTimeout(() => {
+                animation.destroy()
+              }, 2000);
+
+            }, 2000);
+          }, 3000);
         }, 1000);
       }
-      if(!$store.state.appData.desktop && !$store.state.userData.teach.pressCup && +new Date - $store.state.appData.pressCupTeachTime > 8000){
-        $store.state.appData.pressCupTeachTime=+new Date
-        
+      if (!$store.state.appData.desktop && !$store.state.userData.teach.pressCup && +new Date - $store.state.appData.pressCupTeachTime > 8000) {
+        $store.state.appData.pressCupTeachTime = +new Date
+
 
         setTimeout(() => {
           toastPress.open();
           setTimeout(() => {
-          animation = lottie.loadAnimation({
-            container: $el.value[0].querySelector('.teach'), // Required
-            path: 'static/teachCircle.json', // Required
-            renderer: 'svg', // Required
-            loop: false,
-            autoplay: false, // Optional
-          })
+            animation = lottie.loadAnimation({
+              container: $el.value[0].querySelector('.teach'), // Required
+              path: 'static/teachCircle.json', // Required
+              renderer: 'svg', // Required
+              loop: false,
+              autoplay: false, // Optional
+            })
 
-          animation.play()  
-        animation.pause()
+            animation.play()
+            animation.pause()
 
 
-        
 
-          setTimeout(() => {
-            animation.setSpeed(1)  
-          animation.play()
-          $el.value[0].querySelector('.teach').style.transform='scale(0.8)'
 
-          $($el.value[0].firstChild).addClass('active-state')
-
-          ////////todo уменьшение кружка анимацияs
-          setTimeout(() => {
-            $el.value[0].querySelector('.teach').style.transform='scale(1)'
-            $($el.value[0].firstChild).removeClass('active-state')
-          }, 800);
-          setTimeout(() => {
-            animation.destroy()
-
-            
-
-            $f7.emit('e-waterChange', (+props.ml)*-1)
-            $f7.emit('e-waterPageChange', '-')
-
-            let el = $el.value[0].firstChild
-            el.style.transform = 'translateX(-10px)'
             setTimeout(() => {
-              el.style.transform = 'translateX(10px)'
-            }, 50);
-            setTimeout(() => {
-              el.style.transform = 'translateX(0px)'
-            }, 100);
-            
-          }, 1000);
-            
-          }, 500);
-        }, 3000);
+              animation.setSpeed(1)
+              animation.play()
+              $el.value[0].querySelector('.teach').style.transform = 'scale(0.8)'
+
+              $($el.value[0].firstChild).addClass('active-state')
+
+              ////////todo уменьшение кружка анимацияs
+              setTimeout(() => {
+                $el.value[0].querySelector('.teach').style.transform = 'scale(1)'
+                $($el.value[0].firstChild).removeClass('active-state')
+              }, 800);
+              setTimeout(() => {
+                animation.destroy()
+
+
+
+                $f7.emit('e-waterChange', (+props.ml) * -1)
+                $f7.emit('e-waterPageChange', '-')
+
+                shake($el.value[0].firstChild)
+
+              }, 1000);
+
+            }, 500);
+          }, 3000);
         }, 1000);
       }
-      
+
     }
 
-    
 
-    $onMounted(()=>{
+
+    $onMounted(() => {
 
       if ($store.state.appData.desktop) {
         $($el.value[0]).on('contextmenu', function (e) {
-        toastBottom.close()
+          toastBottom.close()
 
-        $store.state.userData.teach.rightCup=true
+          $store.state.userData.teach.rightCup = true
 
-        e.preventDefault()
-        $f7.emit('e-waterChange', (+props.ml)*-1)
-        $f7.emit('e-waterPageChange', '-')
-      })
-      }else{
+          let el = $el.value[0].firstChild
+          el.style.transform = 'scale(1.05) translateX(-4px)'
+          setTimeout(() => {
+            el.style.transform = 'scale(1.05) translateX(4px)'
+          }, 70);
+          setTimeout(() => {
+            el.style.transform = ''
+          }, 140);
+
+          e.preventDefault()
+          $f7.emit('e-waterChange', (+props.ml) * -1)
+          $f7.emit('e-waterPageChange', '-')
+        })
+      } else {
         $($el.value[0]).on('taphold', function () {
-        $f7.emit('e-waterChange', (+props.ml)*-1)
-        $f7.emit('e-waterPageChange', '-')
+          $f7.emit('e-waterChange', (+props.ml) * -1)
+          $f7.emit('e-waterPageChange', '-')
 
-        $store.state.gf.vibrate([30, 20, 30])
+          $store.state.gf.vibrate([30, 20, 30])
 
-        toastPress.close()
-        $store.state.userData.teach.pressCup=true
-        $f7.emit('e-backp')
-      });
+          toastPress.close()
+          $store.state.userData.teach.pressCup = true
+          $f7.emit('e-backp')
+        });
       }
-        
 
-      
+
+
     })
     return $render;
   }

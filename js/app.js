@@ -29,9 +29,9 @@ var app = new Framework7({
   // App routes
   routes: routes,
   // Register service worker
-  serviceWorker: {
-    path: '/service-worker.js',
-  },
+  // serviceWorker: {
+  //   path: '/service-worker.js',
+  // },
 
   touch: {
     tapHold: true, //enable tap hold events
@@ -57,39 +57,17 @@ import { dataControl } from './dataControl'; dataControl(app, store)
 
 store.state.appData.desktop = Framework7.device.desktop||Framework7.device.ipad?
   true:false
-store.state.appData.desktop = getComputedStyle(document.querySelector('.mediaFlag500')).display !== 'block'?
+store.state.appData.desktop = window.innerWidth<=900?
   false:true
 store.state.appData.theme = Framework7.device.prefersColorScheme();
 if (Framework7.device.prefersColorScheme()=='dark') {
   document.body.classList+='theme-dark'
 } 
 
-//отменяет перетаскивание мышкой ссылок и картинок
-$(document).on("dragstart", 'img, a', function(event) { event.preventDefault(); }); 
 
-app.on('e-appMount', ()=>{
-  document.getElementById('appCss97').innerHTML=`
-  <style>
-  .page-content{
-    padding-left:${document.querySelector('.menu').offsetWidth}px
-  }
-  </style>`
-})
 
 
 
 import { waterControl } from './waterControl'; waterControl(app, store)
+import { globalEvents } from './globalEvents'; globalEvents(app, store, $)
 
-$(document).on('click', '.tab-link', (e)=>{                     //возвращение назад при повтором нажатии на таб
-  if (app.view.current.index==store.state.appData.view) {
-    app.views[app.view.current.index].router.back()
-
-  }
-  store.state.appData.view=app.view.current.index
-})
-
-
-if(getComputedStyle(document.querySelector('.mediaFlag500')).display == 'block'){
-  mf500=1;
-  
-}

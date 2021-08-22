@@ -1,84 +1,84 @@
-
 <template>
   <div id="app">
 
     <div class="views tabs safe-areas">
       <!-- Tabbar for switching views-tabs -->
-      
 
 
-        
 
 
-       
-        ${$store.state.appData.desktop ? $h`
-          <div class="menu">
-            <${lvl} size='60'/>
-            <a class="items">
-              <a href="#view-home" data-way='home' class="itc home tab-link tab-link-active">
-                <div data-way='home' class="it home"></div>
-              </a>
-              <a href="#view-catalog" data-way="note" class="itc note tab-link">
-                <div class="it note" data-way="note"></div>
-              </a>
-              <a href="#view-settings" data-way="settings" class="itc settings tab-link">
-                <div class="it settings " data-way="settings"></div> 
-              </a>
-            </div>
-          </div>
-        ` : $h`
-        <div class="toolbar toolbar-bottom tabbar-labels">
-          <div class="toolbar-inner">
-          <a href="#view-home" data-way='home' class="tab-link tab-link-active">
-            <i class="icon f7-icons if-not-md" data-way='home'>house_fill</i>
-            <i class="icon material-icons if-md" data-way='home'>home</i>
-            <span class="tabbar-label" data-way='home'>дом</span>
+
+
+
+      ${$store.state.appData.desktop ? $h`
+      <div class="menu">
+        <${lvl} size='60' />
+        <a class="items">
+          <a href="#view-home" data-way='home' class="itc home tab-link tab-link-active">
+            <div data-way='home' class="it home"></div>
           </a>
-          <a href="#view-catalog" data-way="note" class="tab-link">
-            <i class="icon f7-icons if-not-md" data-way="note">square_list_fill</i>
-            <i class="icon material-icons if-md" data-way="note">view_list</i>
-            <span class="tabbar-label" data-way="note">Catalog</span>
+          <a href="#view-catalog" data-way="note" class="itc note tab-link">
+            <div class="it note" data-way="note"></div>
           </a>
-          <a href="#view-settings" class="tab-link" data-way="settings">
-            <i class="icon f7-icons if-not-md" data-way="settings">gear</i>
-            <i class="icon material-icons if-md" data-way="settings">settings</i>
-            <span class="tabbar-label" data-way="settings">настройки</span>
+          <a href="#view-settings" data-way="settings" class="itc settings tab-link">
+            <div class="it settings " data-way="settings"></div>
           </a>
-        </div>
-        </div>
-        `}
-
-
-
-
-
-
-
-      <div id="view-home" class="view view-main view-init tab tab-active" data-url="/" data-browser-history='true'>
-        <${home}/>
+        </a>
+    </div>
+    ` : $h`
+    <div class="toolbar toolbar-bottom tabbar-labels">
+      <div class="toolbar-inner">
+        <a href="#view-home" data-way='home' class="tab-link tab-link-active ripple-dark-white ripple">
+          <i class="icon f7-icons if-not-md" data-way='home'>house_fill</i>
+          <i class="icon material-icons if-md" data-way='home'>home</i>
+          <span class="tabbar-label" data-way='home'>дом</span>
+        </a>
+        <a href="#view-catalog" data-way="note" class="tab-link ripple-dark-white ripple">
+          <i class="icon f7-icons if-not-md" data-way="note">square_list_fill</i>
+          <i class="icon material-icons if-md" data-way="note">view_list</i>
+          <span class="tabbar-label" data-way="note">Catalog</span>
+        </a>
+        <a href="#view-settings" class="tab-link ripple-dark-white ripple" data-way="settings">
+          <i class="icon f7-icons if-not-md" data-way="settings">gear</i>
+          <i class="icon material-icons if-md" data-way="settings">settings</i>
+          <span class="tabbar-label" data-way="settings">настройки</span>
+        </a>
       </div>
+    </div>
+    `}
 
-      <div id="view-catalog" class="view view-init tab" data-name="catalog" data-url="/catalog/">
-      </div>
 
 
-      <div id="view-settings" class="view view-init tab" data-name="settings" data-url="/settings/" data-browser-history='true'>
-        <${settings}/>
 
-      </div>
+
+
+
+    <div id="view-home" class="view view-main view-init tab tab-active" data-url="/" data-browser-history='true'>
+      <${home} />
+    </div>
+
+    <div id="view-catalog" class="view view-init tab" data-name="catalog" data-url="/catalog/">
     </div>
 
 
-<div id="appCss97"></div>
+    <div id="view-settings" class="view view-init tab" data-name="settings" data-url="/settings/"
+      data-browser-history='true'>
+      <${settings} />
+
+    </div>
+  </div>
+
+
+  <div id="appCss97"></div>
   </div>
 </template>
 <script>
-    import home from './pages/home.f7.html'
+  import home from './pages/home.f7.html'
   import catalog from './pages/catalog.f7.html'
   import settings from './pages/settings.f7.html'
 
   import lvl from './comps/home/header/lvlGauge.f7.html'
-  export default (props, { $f7, $update, $el, $, $onMounted}) => {
+  export default (props, { $f7, $update, $el, $, $onMounted }) => {
     // Login screen demo data
     let username = '';
     let password = '';
@@ -97,43 +97,43 @@
       });
     }
 
-    $onMounted(()=>{
+    $onMounted(() => {
       console.log($('.itc.home')[0]);
       setTimeout(() => {
         $f7.tooltip.create({
-        targetEl:$('.itc.home')[0],
-        text:'Дом',
-        cssClass:'menuTooltip',
-        containerEl:$('.itc.home')[0]
-      })
+          targetEl: $('.itc.home')[0],
+          text: 'Дом',
+          cssClass: 'menuTooltip',
+          containerEl: $('.itc.home')[0]
+        })
         $f7.tooltip.create({
-        targetEl:$('.itc.note')[0],
-        text:'Блокнот',
-        cssClass:'menuTooltip',
-        containerEl:$('.itc.note')[0]
-      })
+          targetEl: $('.itc.note')[0],
+          text: 'Блокнот',
+          cssClass: 'menuTooltip',
+          containerEl: $('.itc.note')[0]
+        })
         $f7.tooltip.create({
-        targetEl:$('.itc.settings')[0],
-        text:'Настройки',
-        cssClass:'menuTooltip',
-        containerEl:$('.itc.settings')[0]
-      })
+          targetEl: $('.itc.settings')[0],
+          text: 'Настройки',
+          cssClass: 'menuTooltip',
+          containerEl: $('.itc.settings')[0]
+        })
       }, 50);
 
 
 
 
       setTimeout(() => {
-      $f7.emit('e-appMount')
-        
+        $f7.emit('e-appMount')
+
       }, 5);
       setTimeout(() => {
-      $f7.emit('e-appMount')
-        
+        $f7.emit('e-appMount')
+
       }, 30);
       setTimeout(() => {
-      $f7.emit('e-appMount')
-        
+        $f7.emit('e-appMount')
+
       }, 50);
     })
 

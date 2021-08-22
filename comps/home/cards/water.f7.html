@@ -1,26 +1,26 @@
 <template>
-  <div @click=${(e)=>redir(e)} class="cardd water">
+  <div class="cardd water">
     <div id="teachCircle"></div>
     ${hold ? $h`
       
       <div class="hold">
-      <${gauge} key='y' size='120' fsize='150'/>
+      <${eee} key='y' size='120' fsize='150'/>
 
       <div class="control">
         <div class="50">
-          <div class="pl btnn" @click=${(e)=>{ change(50)}}>+</div>
-            50
-          <div class="mi btnn" @click=${(e)=>{ change(-50)}}>-</div>
-        </div>
-        <div class="100">
           <div class="pl btnn" @click=${(e)=>{ change(100)}}>+</div>
             100
           <div class="mi btnn" @click=${(e)=>{ change(-100)}}>-</div>
         </div>
-        <div class="200">
+        <div class="100">
           <div class="pl btnn" @click=${(e)=>{ change(200)}}>+</div>
             200
           <div class="mi btnn" @click=${(e)=>{ change(-200)}}>-</div>
+        </div>
+        <div class="200">
+          <div class="pl btnn" @click=${(e)=>{ change(300)}}>+</div>
+            300
+          <div class="mi btnn" @click=${(e)=>{ change(-300)}}>-</div>
         </div>
       </div>
       </div>
@@ -32,16 +32,16 @@
     ${!$store.state.appData.desktop ? $h`
       <div class="gaugeControl">
         <div @click=${(e)=>{change(-100, true, e.target)}} class="minus btn">-100</div>
-        <${gauge} key='l' fsize='100' size='80'/>
+        <${eee} key='l' fsize='100' size='80'/>
         <div @click=${(e)=>{change(100, true, e.target)}} class="plus btn">+100</div>
       </div>
       ` : $h`
       <${waterBox}/>
       <div class="la">выберите, сколько выпили:</div>
       <div class="cups">
-        <${cup} ml='50' scale='0.6' img1='cup50'/>
-        <${cup} ml='100' scale='0.8' img1='cup100'/>
-        <${cup} ml='200' scale='1' img1='cup200'/>
+        <${cup} ml='100' scale='0.6' img1='cup50'/>
+        <${cup} ml='200' scale='0.8' img1='cup100'/>
+        <${cup} ml='300' scale='1' img1='cup200'/>
       </div>
       `}
     `}
@@ -52,6 +52,7 @@
     import waterBox from './../../water/waterBox.f7.html';
   import cup from './../../water/cup.f7.html';
   import gauge from './waterGauge.f7.html'
+  import eee from './eee.f7.html'
   export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
     var bodymovin = require('../../../js/lottie');
 
@@ -73,21 +74,21 @@
       change(val)
     })
 
+    let arrr = [0,1,2]
+
+    let newarrr = document
+
     function change(ml, b=false, el) {
+
+
 
       if ($store.state.userData.water.todayMl >= $store.state.userData.water.goal &&
       $store.state.userData.water.todayMl+ml < $store.state.userData.water.goal) {
 
         $f7.emit('e-goal', '-')
-        $f7.emit('e-changeLvl', -100)
       }else if($store.state.userData.water.todayMl < $store.state.userData.water.goal &&
       $store.state.userData.water.todayMl+ml >= $store.state.userData.water.goal){
         $f7.emit('e-goal', '+')
-        $f7.emit('e-changeLvl', 100)
-      }
-
-      if ($store.state.userData.water.todayMl+ml >= $store.state.userData.water.goal) {
-        
       }
 
       if ($store.state.userData.water.todayMl+ml >= 0) {
@@ -106,7 +107,8 @@
 
       function doo() {
         if (b) { bouns(el)}
-      navigator.vibrate([30])
+      $store.state.gf.vibrate(40)
+
       $f7.emit('e-backp')
       $f7.emit('e-waterChange')
       }
@@ -116,7 +118,8 @@
     }
 
     function holdChange() {
-      navigator.vibrate([30, 10, 30,])
+      // navigator.vibrate([30, 10, 30,])
+      $store.state.gf.vibrate([30, 10, 30,])
         $f7.emit('e-waterCardHold')
         hold=hold?false:true
         $update()
@@ -136,7 +139,7 @@
 
 
     $onMounted(()=>{
-      $('.card,.water').on('taphold', function () {
+      $($el.value[0]).on('taphold', function () {
         if ($store.state.userData.teach.widgetPress !== true) {
           $store.state.userData.teach.widgetPress = true
           $f7.emit('e-backp')
@@ -161,7 +164,7 @@
           loop: false,
           autoplay: false, // Optional
         })
-        $('.card,.water').css('box-shadow', 'var(--waterCardBSH), 0 0 0 1000px #0000005e')
+        $($el.value[0]).css('box-shadow', 'var(--waterCardBSH), 0 0 0 1000px #0000005e')
 
         animation.play()  
         animation.pause()  
@@ -172,11 +175,11 @@
         
 
 
-        $('.card,.water').addClass('active-state')
+        $($el.value[0]).addClass('active-state')
 
 
         setTimeout(() => {
-          $('.card,.water').removeClass('active-state')
+          $($el.value[0]).removeClass('active-state')
 
           holdChange()
           $('#teachCircle').css('opacity', '0')
@@ -184,7 +187,7 @@
             $('#teachCircle').remove()
              animation.destroy()
 
-            $('.card,.water').css('box-shadow', 'var(--waterCardBSH)')
+            $($el.value[0]).css('box-shadow', 'var(--waterCardBSH)')
 
           }, 500);
         }, 500);
@@ -193,16 +196,42 @@
       }, 2500);
 
       }
-    })
 
-    function redir(ev) {
-      let path = ev.path
+      function nav(){
+        app.views.current.router.navigate('/water/')
+      }
+
+
+      function redir(ev, skip) {
+        
+        let path = ev.path
       let fClasses = [...path[0].classList]
       let no = ['btn', 'btnn', 'cup']
       if (!no.some(el => fClasses.join(' ').includes(el))) {
-        $f7.views.current.router.navigate('water/')
+        nav()
       }
+
+      
     }
+
+
+    $('.cardd.water').on('click', (e)=>{
+      
+      if (e.altitudeAngle==null && e.toElement.classList.contains('cardd')) {
+        nav()
+      }else if(e.target.classList.contains('cardd')){
+        nav()
+      }
+      
+      
+    })
+
+    
+
+    })
+
+    
+
 
 
     return $render;

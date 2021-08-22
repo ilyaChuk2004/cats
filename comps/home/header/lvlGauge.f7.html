@@ -1,7 +1,9 @@
 <template>
   <div class="gaugeCont">
+  <div class="st" innerHTML=${st}></div>
+
     
-  <div class="gauge">
+  <div class="gauge" id=${rid}>
     <div class="glab">${$store.state.userData.lvl}</div>
   </div>
   </div>
@@ -42,14 +44,43 @@
       $store.state.userData.xpGoal=100
     }
 
+    props.title=props.title==undefined?'уровень':props.title;
 
+        //TODO: 1 раз -100 потом циклом -300
+        function get300(i) {
+      let n=i
+      if (n-100>=0) {
+        n-=100
+      }
+      while (n-300>=0) {
+        if ($store.state.userData.lvl==1) {
+          n=n
+        }else {n=n-300}
+
+      }
+      return n
+    }
+
+
+
+    let rid = 'id'+$store.state.gf.getRandomInRange(0,10000000)
+    let st = `
+    <style>
+    .gauge#${rid}::after{
+      content: '${props.title}';
+    }
+    </style>`
 
 
     
     $onMounted(()=>{
+
+      let lvl2 = $store.state.userData.lvl>1?300:100
+        console.log($store.state.userData.xp, get300($store.state.userData.xp),$store.state.userData.xpGoal,lvl2, get300($store.state.userData.xp)/lvl2);
+
       var ga = $f7.gauge.create({
         el:$el.value[0].lastChild,
-        value:$store.state.userData.xp/$store.state.userData.xpGoal,
+        value:get300($store.state.userData.xp)/lvl2,
         size:props.size==undefined?80:props.size,
         borderWidth:8,
         borderColor:'#87E0C3',
@@ -57,39 +88,57 @@
         '#eeeeee':'#31423c',
       })
 
-      $f7.on('e-changeLvl', (xp)=>{
-        if ($store.state.userData.xp+xp>=0) {
+      $f7.on('e-changeLvl', (xp, newXp)=>{
+        xp=+xp
+        console.log('xp='+xp);
+        if (xp>=0) {
           if ($store.state.userData.xp+xp>=$store.state.userData.xpGoal) {
             $store.state.userData.lvl++
             $store.state.userData.xpGoal+=300
-            $store.state.userData.xp=($store.state.userData.xpGoal-300)-xp
+            $store.state.userData.xp+=xp
+            // $store.state.userData.xp=newXp==false?$store.state.userData.xp:$store.state.userData.xp+xp
+
 
             var not = $f7.notification.create({
-        icon: '<i class="f7-icons">gift_fill</i>',
-        title: 'Поздравление',
-        titleRightText: 'сейчас',
-        subtitle: 'У вас новый уровень!',
-        text: `Теперь у вас ${$store.state.userData.lvl} уровень.`,
-        closeTimeout: 3000,
-      });
+              icon: '<i class="f7-icons">gift_fill</i>',
+              title: 'Поздравление',
+              titleRightText: 'сейчас',
+              subtitle: 'У вас новый уровень!',
+              text: `Теперь у вас ${$store.state.userData.lvl} уровень.`,
+              closeTimeout: 3000,
+            });
 
-      not.open()
+           not.open()
+           if ($store.state.userData.xp>$store.state.userData.xpGoal) {
+             $f7.emit('e-changeLvl', 0, false)
+           }
+           
+
+           
+
           }else{
             $store.state.userData.xp=$store.state.userData.xp+xp
           }
         }else {
-          if ($store.state.userData.lvl>0){
-            $store.state.userData.lvl--
-            $store.state.userData.xpGoal-=300
-          }else{
-            $store.state.userData.lvl=0
-            $store.state.userData.xpGoal=100
+          console.log($store.state.userData.xp, xp, $store.state.userData.xp + xp, $store.state.userData.xpGoal-300, $store.state.userData.xp + xp < $store.state.userData.xpGoal-300);
+          if ($store.state.userData.xp + xp < $store.state.userData.xpGoal-300) {
+            if ($store.state.userData.lvl > 1) {
+              $store.state.userData.lvl--
+              $store.state.userData.xpGoal -= 300
+            } else {
+              $store.state.userData.lvl = 0
+              $store.state.userData.xpGoal = 100
+            }
           }
-          $store.state.userData.xp=$store.state.userData.xpGoal+($store.state.userData.xp+xp)
+          $store.state.userData.xp=$store.state.userData.xp+xp
+          
+          
 
         }
+        let lvl2 = $store.state.userData.lvl>1?300:100
+        console.log($store.state.userData.xp, get300($store.state.userData.xp),$store.state.userData.xpGoal,lvl2, get300($store.state.userData.xp)/lvl2);
         ga.update({
-          value: $store.state.userData.xp/$store.state.userData.xpGoal,
+          value: get300($store.state.userData.xp)/lvl2,
         });
         $update()
         $f7.emit('e-backp')

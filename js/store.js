@@ -3,14 +3,19 @@ import { createStore } from 'framework7';
 
 const store = createStore({
   state: {
-    appData:{},
+    appData:{
+      weatherClicks:0,
+      xpFromWaterStreak:100
+    },
     userData:{
       name:'',
+      ava:'static/img/avas/l1/ava2.webp',
       water:{
         todayMl:0,
         streak:0,
         goal:1500,
-        lastUpdate:false
+        lastUpdate:false,
+        yesterdayStreak:0
       },
       teach:{
         widgetPress:false
@@ -34,7 +39,15 @@ const store = createStore({
           !0 !== optionValue && (updatedCookie += "=" + optionValue)
         }
         document.cookie = updatedCookie
-      }
+      },
+      vibrate(ms){
+        /**
+         * Вибрация
+         * @param {number | array} ms длительность вибрации 
+         */
+        const canVibrate = window.navigator.vibrate
+        if (canVibrate) window.navigator.vibrate(ms)
+      },
     },
   },
   getters: {

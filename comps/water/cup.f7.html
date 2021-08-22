@@ -1,9 +1,11 @@
 <template>
-  <div @click=${(e)=>{change(e)}} class="cup" >
-    <img src="static/img/cups/${props.img1}.webp" alt="" style='transform:scale(${props.scale})'/>
+  <div @click=${(e)=>{change(e)}} class="cup holdEv" >
+    <div class="cupIn ripple ripple-dark-white overflow-hidden">
+      <img src="static/img/cups/${props.img1}.webp" alt="" style='transform:scale(${props.scale})'/>
     <div class="label">${props.ml}</div>
 
     <div style="position: absolute;" class="teach"></div>
+    </div>
  </div>
 
 </template>
@@ -29,7 +31,8 @@
 
     function change(e) {
       $store.state.gf.bounse(e.target)
-      navigator.vibrate([30])
+      // navigator.vibrate([30])
+      $store.state.gf.vibrate(30)
 
       $f7.emit('e-waterChange', +props.ml)
       $f7.emit('e-waterPageChange')
@@ -66,13 +69,10 @@
     
 
     $onMounted(()=>{
-      $($el.value[0]).on('taphold', function () {
-        $f7.emit('e-waterChange', (+props.ml)*-1)
-        $f7.emit('e-waterPageChange', '-')
-      });
 
-      $($el.value[0]).on('contextmenu', function (e) {
-      toastBottom.close()
+      if ($store.state.appData.desktop) {
+        $($el.value[0]).on('contextmenu', function (e) {
+        toastBottom.close()
 
         $store.state.userData.teach.rightCup=true
 
@@ -80,6 +80,15 @@
         $f7.emit('e-waterChange', (+props.ml)*-1)
         $f7.emit('e-waterPageChange', '-')
       })
+      }else{
+        $($el.value[0]).on('taphold', function () {
+        $f7.emit('e-waterChange', (+props.ml)*-1)
+        $f7.emit('e-waterPageChange', '-')
+      });
+      }
+        
+
+      
     })
     return $render;
   }

@@ -1,16 +1,257 @@
 <template>
-<div class="page" data-name="settings">
-  <div class="page-content">
-    <div class="header">
-      Настройки воды
-    </div>
+  <div class="page" data-name="settings">
+    <div class="page-content">
+      <div class="header">
+        Настройки воды <br /><br />
+        Ваша норма — ${$store.state.userData.water.goal}мл
+      </div>
+      <div class="list links-list inset block-strong">
+      <div class="title padding">Воспользуйтесь калькулятором:</div>
 
+        <ul>
+
+          <li class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Пол</div>
+              <div class="item-input-wrap input-dropdown-wrap">
+                <select class="gen" placeholder="Please choose...">
+                  <option value="Male">Мужской</option>
+                  <option value="Female">Женский</option>
+                </select>
+              </div>
+            </div>
+          </li>
+
+          <li class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Вес (кг)</div>
+              <div class="item-input-wrap">
+                <div class="range-slider range-slider-init" data-label="true">
+                  <input class="weight" type="range" value="65" min="5" max="150" step="1" />
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="item-content item-input">
+            <div class="item-inner">
+              <div class="item-title item-label">Часы активности за день</div>
+              <div class="item-input-wrap">
+                <div class="range-slider range-slider-init" data-label="true">
+                  <input class="hours" type="range" value="5" min="0" max="24" step="1" />
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <button class="col button button-outline button-round ripple ripple-dark-white overflow-hidden" @click=${count}>Рассчитать</button>
+
+        </ul>
+      </div>
+
+      <div class="block no-padding-horizontal no-margin">
+        <button class="col button button-outline button-round no-margin-bottom ripple ripple-dark-white overflow-hidden"  @click=${openPicker}>
+          Или выберите норму вручную...
+        </button>
+      </div>
+
+
+
+      <div class="list accordion-list inset block-strong ">
+      <div class="title padding">Сколько выбрать 🤔</div>
+
+        <ul>
+          <li class="accordion-item">
+            <a href="" class="item-link item-content">
+              <div class="item-inner">
+                <div class="item-title">Калькулятор</div>
+              </div>
+            </a>
+            <div class="accordion-item-content"><div class="block">
+              <p>
+                Вы можете довериться калькулятору. Он подберёт рекомендуемое количество воды. Укажите ваш пол, вес, сколько часов в день у вас активности: тренировка, не сидячая работа, прогулки.
+              </p>
+              <p>
+                Только помните, вы не такой как все и стоит больше верить себе, чем таким расчётам. Отрегулируйте цель вручную если чувствуете что так надо.
+              </p>
+            </div></div>
+          </li>
+          <li class="accordion-item">
+            <a href="" class="item-link item-content">
+              <div class="item-inner">
+                <div class="item-title">Как стоит сделать</div>
+              </div>
+            </a>
+            <div class="accordion-item-content"><div class="block">
+              <p>Говорят, при ОРВИ и инфекционных болезнях надо пить больше, чтобы скорее выздороветь.</p>
+              <p>Если пьёте кофе, то надо побольше воды, а то оно хорошо жидкость выводит.</p>
+            </div></div>
+          </li>
+          <li class="accordion-item">
+            <a href="" class="item-link item-content">
+              <div class="item-inner">
+                <div class="item-title">Спросите у врача</div>
+              </div>
+            </a>
+            <div class="accordion-item-content"><div class="block">
+              <p>При проблемах с почками, сердцем лучше узнать у врача, сколько вам надо пить.</p>
+            </div></div>
+          </li>
+          <li class="accordion-item">
+            <a href="" class="item-link item-content">
+              <div class="item-inner">
+                <div class="item-title">Что такое вода</div>
+              </div>
+            </a>
+            <div class="accordion-item-content"><div class="block">
+              <p>Алкоголь, сладкая газировка не счиаются. Они в этом случае относятся к еде. Вот так вот.</p>
+            </div></div>
+          </li>
+        </ul>
+      </div>
+
+
+
+    </div>
   </div>
-</div>
 </template>
 <script>
 
-export default (props, {$store}) => {
-  return $render;
-};
+  export default (props, { $store, $onMounted, $f7, $, $update, $el }) => {
+
+    var pickerDevice;
+
+    function openPicker() {
+      pickerDevice.open()
+    }
+
+    function done(val) {
+      //val - новая цель
+
+      // if (+val < $store.state.userData.water.goal && $store.state.userData.water.goal > $store.state.userData.water.todayMl) {
+      //   $f7.emit('e-goal', '+')
+      // }else if (+val >  $store.state.userData.water.goal && $store.state.userData.water.goal < $store.state.userData.water.todayMl) {
+      //   $f7.emit('e-goal', '-')
+      // }
+
+      // if ($store.state.userData.water.todayMl >= $store.state.userData.water.goal &&  old---------------
+      // $store.state.userData.water.todayMl+ml < $store.state.userData.water.goal) {
+
+      //   $f7.emit('e-goal', '-')
+      // }else if($store.state.userData.water.todayMl < $store.state.userData.water.goal &&
+      // $store.state.userData.water.todayMl+ml >= $store.state.userData.water.goal){
+      //   $f7.emit('e-goal', '+')
+      // }
+      let oldG = $store.state.userData.water.goal
+      let todayMl = $store.state.userData.water.todayMl
+
+      if (val>oldG && oldG <= todayMl && val > todayMl) {
+        $f7.emit('e-goal', '-')
+      } else if (val < oldG && oldG > todayMl && val <= todayMl){
+        $f7.emit('e-goal', '+')
+      }
+      
+      $store.state.userData.water.goal = +(val)
+      $store.state.userData.water.hisVal = true
+
+      app.emit('e-waterChange', 0)
+      app.emit('e-waterPageChange')
+
+      
+      
+
+      $store.state.gf.vibrate([30, 60, 30])
+
+      $update()
+      $f7.emit('e-backp')
+    }
+
+    function count() {
+      let hours = $el.value[0].querySelector('.hours').value
+      let weight = $el.value[0].querySelector('.weight').value
+      let gen = $el.value[0].querySelector('.gen').value
+
+      let water
+      if (gen == 'Male') {
+        water = (weight * 0.02) + hours * 0.3
+      } else {
+        water = (weight * 0.015) + hours * 0.25
+      }
+
+      let waterMl=Math.trunc(water * 1000)
+
+      let confirm = $f7.dialog.create({
+        closeByBackdropClick:true,
+        title:'Настройки воды',
+        text:`По расчётам, ваша норма — ${waterMl}мл. Установить её?`,
+        buttons:[
+          {
+            text:'не то',
+            keyCodes:[27],
+          },
+          {
+            text:'да',
+            bold:true,
+            keyCodes:[13],
+            onClick:()=>{
+              done(waterMl)
+            }
+          }
+        ]
+      })
+
+      if ($store.state.userData.water.goal!==waterMl) {
+        confirm.open()
+      }
+    }
+
+
+    $onMounted(() => {
+
+      let arr144 = []
+      for (let i = 0; i < 101; i = i + 2) {
+        arr144.push(i * 100 + 'мл')
+      }
+
+
+      pickerDevice = $f7.picker.create({
+        inputEl: '#demo-picker-device',
+        rotateEffect: true,
+        backdrop: true,
+        cssClass: 'picker',
+        openIn: 'popover',
+        routableModals: true,
+        toolbarCloseText: 'как раз для меня',
+        cols: [
+          {
+            values: arr144.slice(1)
+          }
+        ]
+      });
+
+      pickerDevice.once('opened', (el) => {
+        el.setValue([Math.round(($store.state.userData.water.goal / 100)) * 100 + 'мл'], 300)
+
+      })
+
+      pickerDevice.on('opened', (el) => {
+
+        $('.picker-3d .sheet-close').on('click', () => {
+          done(+(pickerDevice.value[0].slice(0, -2)))
+
+        })
+
+        $('.picker-3d .picker-item').on('click', (e) => {
+          console.log([...e.target.parentElement.classList].indexOf('picker-item-selected') !== -1);
+        })
+      })
+      pickerDevice.on('change', (el) => {
+
+        $store.state.gf.vibrate(30)
+      })
+
+
+    })
+    return $render;
+  };
 </script>

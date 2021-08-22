@@ -1,0 +1,168 @@
+<template>
+  <div id='avaChangePopup' class="popup">
+    <div class="view">
+      <div class="page">
+        <div style="padding-left: 0px;" class="page-content">
+          <div id="avaChangeHandler"></div>
+        <h1>Изменить аватарку</h1>
+
+
+
+
+
+          <div class="prew">
+            <span>Изменить аватарку на эту?</span>
+            <img src="static/img/avas/l1/ava.webp" alt=""/>
+            <div class="bt">
+              <div @click='${changeAva}' class="yes">Да</div>
+              <div @click='${closePrew}' class="no">Нет</div>
+            </div>
+          </div>
+          <div @click='${closePrew}' class="prewBg"></div>
+
+
+
+
+
+        <div class="sec lock_open_">
+          <p class="tit">
+            <i class="f7-icons">lock_open_fill</i>
+            1 уровень
+          </p>
+          <div class="avas">
+            <${ava} l='1' n='' />
+            <${ava} l='1' n='2' />
+            <${ava} l='1' n='3' />
+            <${ava} l='1' n='4' />
+          </div>
+        </div>
+        <div class="sec ${l3}">
+          <p class="tit">
+            <i class="f7-icons">${l3}fill</i>
+            3 уровень
+          </p>
+          <div class="avas">  
+            <${ava} l='3' n='1' />
+            <${ava} l='3' n='2' />
+          </div>
+        </div>
+        <div class="sec ${l9}">
+          <p class="tit">
+            <i class="f7-icons">${l9}fill</i>
+            9 уровень
+          </p>
+          <div class="avas">
+            <${ava} l='9' n='1' />
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
+<style>
+
+</style>
+<script>
+  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+    
+
+    const ava = (props, {$h}) => {
+      return () => $h`
+    <div class="ava" lvl='${props.l}'>
+      <img src="static/img/avas/l${props.l}/ava${props.n}.webp" alt=""/>
+    </div>
+      `
+}
+
+    let l3 = 'lock_'
+    if ($store.state.userData.lvl>=3) {
+      l3='lock_open_'
+    }
+    let l9 = 'lock_'
+    if ($store.state.userData.lvl>=9) {
+      l9='lock_open_'
+    }
+
+
+    $f7.on('e-changeLvl', ()=>{
+      $update()
+    })
+
+    $(document).on('click', '.sec.lock_ .ava', (e) => {
+      console.log(e.target);
+
+      let el = e.target
+      el.style.transform = 'translateX(-11px)'
+      setTimeout(() => {
+        el.style.transform = 'translateX(11px)'
+      }, 50);
+      setTimeout(() => {
+        el.style.transform = 'translateX(0px)'
+      }, 100);
+
+
+      $store.state.gf.vibrate([30, 30, 30, 30])
+      
+
+      let toastBottom = $f7.toast.create({
+          text: `Недостаточный уровень. Требуется ${el.getAttribute('lvl')}, а у вас — ${$store.state.userData.lvl}`,
+          closeTimeout: 3000,
+      });
+
+      toastBottom.open()
+    })
+
+var selectedAvaSrc=''
+
+    $(document).on('click', '.sec.lock_open_ .ava', (e) => {
+      console.log(e.target);
+      selectedAvaSrc = e.target.firstChild.getAttribute('src')
+
+      $('#avaChangePopup .prew')[0].querySelector('img').setAttribute('src',
+      selectedAvaSrc)
+
+      $('#avaChangePopup .prew')[0].style.display='flex'
+      setTimeout(() => {
+        $('#avaChangePopup .prew')[0].style.opacity='1'
+        // if ($store.state.appData.desktop) {
+          $('#avaChangePopup .prew')[0].style.transform='translate(-50%, -50%) scale(1)'
+        // }
+      }, 20);
+
+      $('#avaChangePopup .prewBg')[0].style.display='flex'
+      setTimeout(() => {
+        $('#avaChangePopup .prewBg')[0].style.opacity='1'
+      }, 20);
+      
+    })
+
+    function closePrew() {
+      $('#avaChangePopup .prew')[0].style.opacity='0'
+      $('#avaChangePopup .prewBg')[0].style.opacity='0'
+      // if ($store.state.appData.desktop) {
+         $('#avaChangePopup .prew')[0].style.transform='translate(-50%, -50%) scale(0)'
+      // }
+      setTimeout(() => {
+        $('#avaChangePopup .prew')[0].style.display='none'
+        $('#avaChangePopup .prewBg')[0].style.display='none'
+      }, 300);
+
+      
+    }
+
+    function changeAva() {
+      $store.state.userData.ava=selectedAvaSrc
+      closePrew()
+      $f7.emit('e-avaChanged')
+      $f7.emit('e-backp')
+      $store.state.gf.vibrate([30,30,20])
+
+      setTimeout(() => {
+        $f7.views.current.router.back()
+      }, 150);
+    }
+    return $render;
+  }
+</script>

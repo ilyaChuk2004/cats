@@ -6,21 +6,103 @@
     </div>
 
     <div class="profile">
-      <img src="static/img/ava.webp" alt="" class="ava"/>
-      <div class="name">Илья</div>
-      <div class="list links-list">
-        <ul>
-          <li><a href="/waterSet/">вода</a></li>
-        </ul>
-      </div>
-
+      <a href="/popup-content/" class="avaEdit">
+        <i class="f7-icons">square_pencil</i>
+        <img src="${$store.state.userData.ava}" class="ava"/>
+      </a>
+      
+      <div class="name" @click=${changeName}>${name()}</div>
+      <!-- <i class="f7-icons">square_pencil</i> -->
+    </div>
+    <div class="list inset block-strong">
+      <ul>
+        <li>
+          
+          <a href="/waterSet/" class="item-link item-content">
+            <div class="item-media">
+              <i class="f7-icons water">drop_fill</i>
+            </div>
+            <div class="item-inner">
+              <div class="item-title">Вода</div>
+            </div>
+          </a>
+        </li>
+        <li><button class="button button-outline button-round" @click=${clear}>удалить данные</button></li>
+      </ul>
     </div>
   </div>
+
+
+
 </div>
 </template>
 <script>
 
-export default (props, {$store}) => {
+export default (props, {$store, $f7, $update, $onMounted, $}) => {
+
+
+
+  var name = ()=>{
+    if ($store.state.userData.name!=='' && $store.state.userData.name!==undefined) {
+      return $store.state.userData.name
+    }else{
+      return 'Укажите имя'
+    }
+  }
+
+  function clear() {
+    app.dialog.confirm('точно точно удалить все данные о вас? мы полностью забудем ваши достижения.', ()=>{
+      localStorage.userData= ''
+    document.location.reload()
+    }, ()=>{
+
+    })
+  }
+
+
+
+  function changeName() {
+
+    $f7.dialog.prompt('Введите имя', (n) => {
+      if (n.length > 1 && n.length < 14) {
+
+        if ($store.state.userData.name == undefined || $store.state.userData.name == '') {
+          $f7.emit('e-changeLvl', 30)
+        }
+
+
+        $store.state.userData.name=n[0].toUpperCase()+n.slice(1)
+        $f7.emit('e-backp')
+        $f7.emit('e-userNameAnswer')
+
+
+      } else if (n.length < 1) {
+        app.dialog.alert('Мало букв')
+      } else if (n.length > 14) {
+        app.dialog.alert('Много букв')
+      }
+    }, () => {},)
+
+  }
+
+  $f7.on('e-userNameAnswer', ()=>{
+      $update()
+    })
+
+
+
+  $onMounted(()=>{
+
+  })
+
+  $f7.on('e-avaChanged', ()=>{
+    $update()
+  })
+
+  setTimeout(() => {
+    $update()
+  }, 50);
+
   return $render;
 };
 </script>

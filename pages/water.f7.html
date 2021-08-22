@@ -13,7 +13,7 @@
             </p>
             <p>Вы можете определить свою норму в <a href="/waterSet/" class="tab-link">настройках</a></p>
           ` : $h`
-            <p>Ваша дненая норма — ${$store.state.userData.water.goal}мл.</p>
+            <p>Ваша дневная норма — ${$store.state.userData.water.goal}мл.</p>
           `}
           <p>Вы достигаете цели ${$store.state.userData.water.streak} дней подряд. С каждым днём будут даваться очки уровня.</p>
         </div>
@@ -34,9 +34,9 @@
             <div class="gr1">
               <div class="la">выберите, сколько выпили:</div>
               <div class="cups">
-                <${cup} ml='50' scale='0.6' img1='cup50' />
-                <${cup} ml='100' scale='0.8' img1='cup100' />
-                <${cup} ml='200' scale='1' img1='cup200' />
+                <${cup} ml='100' scale='0.6' img1='cup50' />
+                <${cup} ml='200' scale='0.8' img1='cup100' />
+                <${cup} ml='300' scale='1' img1='cup200' />
               </div>
             </div>
           </div>
@@ -45,7 +45,7 @@
           <div class="range-slider" id="waterPageSlider">
             <input type="range" />
           </div>
-          <div @click=${(e)=>{change(e)}} class="confirmSlide">
+          <div @click=${(e)=>{change(e)}} class="confirmSlide ripple ripple-dark-white overflow-hidden">
             записать
           </div>
 
@@ -60,16 +60,16 @@
         <${waterBox}/>
         <div class="la">выберите, сколько выпили:</div>
         <div class="cups">
-          <${cup} ml='50' scale='0.6' img1='cup50'/>
-          <${cup} ml='100' scale='0.8' img1='cup100'/>
-          <${cup} ml='200' scale='1' img1='cup200'/>
+          <${cup} ml='100' scale='0.6' img1='cup50'/>
+          <${cup} ml='200' scale='0.8' img1='cup100'/>
+          <${cup} ml='300' scale='1' img1='cup200'/>
         </div>
         <div class="la">или укажите поточнее:</div>
 
         <div class="range-slider" id="waterPageSlider">
           <input type="range"/>
         </div>
-        <div @click=${(e)=>{change(e)}} class="confirmSlide">
+        <div @click=${(e)=>{change(e)}} class="confirmSlide ripple ripple-dark-white overflow-hidden">
           записать
         </div>
 
@@ -99,7 +99,7 @@
         label:true,
         min:50,
         step:10,
-        max: 200,
+        max: 350,
         scale:true,
         scaleSteps:3,
         on:{
@@ -124,7 +124,7 @@
 
     function change(e) {
       $store.state.gf.bounse(e.target)
-      navigator.vibrate([30])
+      // $store.state.gf.vibrate([30])
 
       $f7.emit('e-waterChange', +val)
       $f7.emit('e-waterPageChange')

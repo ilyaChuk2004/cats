@@ -1,7 +1,7 @@
 <template>
   <div class="weatherBlock">
-    <video class="weatherUnder" src="static/clouds.webm"></video>
-    <video class="weather" @click=${()=>{cl(this)}} src="static/clouds.webm"></video>
+    <video class="weatherUnder ${downF}" src="static/${weatherName}.webm"></video>
+    <video class="weather ${downF}" @click=${()=>{cl(this)}} src="static/${weatherName}.webm"></video>
   </div>
 </template>
 <style>
@@ -22,7 +22,91 @@
       setTimeout(() => {
         ell.el.style.animation='none'
       }, 600);
+
+      $store.state.appData.weatherClicks++
+
+      var not50 = $f7.notification.create({
+        icon: '<i class="f7-icons">gift_fill</i>',
+        title: 'Поздравление',
+        titleRightText: 'сейчас',
+        subtitle: 'Кликер',
+        text: `Вы кликнули 50 раз! Продолжайте`,
+        closeTimeout: 5000,
+      });
+      var not200 = $f7.notification.create({
+        icon: '<i class="f7-icons">gift_fill</i>',
+        title: 'Поздравление',
+        titleRightText: 'сейчас',
+        subtitle: 'Кликер',
+        text: `Ого, вы кликнули 200 раз!`,
+        closeTimeout: 5000,
+      });
+      var not500 = $f7.notification.create({
+        icon: '<i class="f7-icons">gift_fill</i>',
+        title: 'Поздравление',
+        titleRightText: 'сейчас',
+        subtitle: 'Кликер',
+        text: `Нифига, вы кликнули 500 раз!!`,
+        closeTimeout: 5000,
+      });
+      var not1000 = $f7.notification.create({
+        icon: '<i class="f7-icons">gift_fill</i>',
+        title: 'Поздравление',
+        titleRightText: 'сейчас',
+        subtitle: 'Кликер',
+        text: `ВЫ КИКНУЛИ ТЫСЯЧУ РАЗ!! Остановитесь, пожалуйста`,
+        closeTimeout: 6000,
+      });
+
+
+      switch ($store.state.appData.weatherClicks) {
+        case 50:
+          not50.open()
+          $f7.emit('e-changeLvl', 100)
+        break;
+        case 200:
+          not200.open()
+          $f7.emit('e-changeLvl', 400)
+
+        break;
+        case 500:
+          not500.open()
+          $f7.emit('e-changeLvl', 800)
+
+        break;
+        case 1000:
+          not1000.open()
+          $f7.emit('e-changeLvl', 2000)
+
+        break;
+      
+        default:
+          break;
+      }
     }
+
+    let weatherName
+    let downF=''
+
+    let weatherNameF = ()=>{
+      switch ($store.state.gf.getRandomInRange(1,3)) {
+        case 1:
+          weatherName = 'clouds'
+        break;
+        case 2:
+          weatherName = 'rain'
+          downF = 'down'
+        break;
+        case 3:
+          weatherName = 'snow'
+          downF = 'down'
+        break;
+      }
+    }
+
+    weatherNameF()
+
+    
 
     return $render;
   }

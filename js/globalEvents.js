@@ -14,13 +14,13 @@ export function globalEvents(app, store, $) {
     //эффект при зажатии
     $(document).on('taphold', '.holdEv', function (ev) {
         let el = ev.target
-        el.style.transform = 'translateX(-10px)'
+        el.style.transform = 'translateX(-4px)'
         setTimeout(() => {
-            el.style.transform = 'translateX(10px)'
-        }, 50);
+            el.style.transform = 'translateX(4px)'
+        }, 70);
         setTimeout(() => {
-            el.style.transform = 'translateX(0px)'
-        }, 100);
+            el.style.transform = ''
+        }, 140);
     });
 
     //отменяет перетаскивание мышкой ссылок и картинок

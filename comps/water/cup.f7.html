@@ -95,17 +95,25 @@
           animation.play()  
         animation.pause()
 
+
+        
+
           setTimeout(() => {
             animation.setSpeed(1)  
           animation.play()
           $el.value[0].querySelector('.teach').style.transform='scale(0.8)'
 
+          $($el.value[0].firstChild).addClass('active-state')
+
           ////////todo уменьшение кружка анимацияs
           setTimeout(() => {
             $el.value[0].querySelector('.teach').style.transform='scale(1)'
-          }, 500);
+            $($el.value[0].firstChild).removeClass('active-state')
+          }, 800);
           setTimeout(() => {
             animation.destroy()
+
+            
 
             $f7.emit('e-waterChange', (+props.ml)*-1)
             $f7.emit('e-waterPageChange', '-')
@@ -146,6 +154,8 @@
         $($el.value[0]).on('taphold', function () {
         $f7.emit('e-waterChange', (+props.ml)*-1)
         $f7.emit('e-waterPageChange', '-')
+
+        $store.state.gf.vibrate([30, 20, 30])
 
         toastPress.close()
         $store.state.userData.teach.pressCup=true

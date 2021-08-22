@@ -1116,15 +1116,21 @@ z-index: 1;
       padding: 1.4rem;
       /* border: 1px #00000014 solid; */
       transition: 0.2s ease;
-      transform: scale(1);
+      transform: scale(1) translateX(0);
       cursor: pointer;
       .border-squircle (70%; 70%);
       // .hover('box-shadow:0px 0px 20px rgb(0 0 0 / 61%);')
 
       &:hover{
         @media (@bp-tablet) {
-          transform:scale(1.05);
+          transform:scale(1.05) translateX(0);
         }
+      }
+
+      &.active-state{
+        // @media not screen and (@bp-tablet) {
+          transform: scale(0.9) translateX(0);
+        // }
       }
 
 

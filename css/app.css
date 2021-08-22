@@ -410,6 +410,9 @@ non {
     display: inline-block;
   }
 }
+.header img.weather {
+  cursor: default;
+}
 .cards {
   padding: 1rem;
 }

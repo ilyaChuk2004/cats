@@ -43,7 +43,7 @@
 
       
 
-      if (el.value.length>=minSymb && el.value.length<maxSymb) {
+      if (el.value.trim().length>=minSymb && el.value.trim().length<maxSymb) {
         el.value=text[0].toUpperCase()+text.slice(1)
 
         $el.value[0].querySelector('.confirm').style.display='flex'
@@ -65,11 +65,11 @@
 
     function submit() {
       let el = $el.value[0].firstChild
-            if (el.value.length>=minSymb && el.value.length<maxSymb) {
+            if (el.value.trim().length>=minSymb && el.value.trim().length<maxSymb) {
                 fo()
-              }else if(el.value.length<minSymb){
+              }else if(el.value.trim().length<minSymb){
                 err('напиши что-то!')
-              }else if (el.value.length>maxSymb){
+              }else if (el.value.trim().length>maxSymb){
                 err('много букав')
               }
 
@@ -100,7 +100,7 @@
                 if ($store.state.userData.name == undefined || $store.state.userData.name=='') {
                   $f7.emit('e-changeLvl', 30)
                 }
-                $store.state.userData.name=el.value
+                $store.state.userData.name=el.value.trim()
                 $store.state.gf.vibrate([40, 30, 20])
               
 

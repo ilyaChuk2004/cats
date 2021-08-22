@@ -63,7 +63,7 @@
     function bouns(el) {
       el.style.transform='scale(1.1)'
       setTimeout(() => {
-        el.style.transform='scale(1)'
+        el.style.transform=''
       }, 200);
     }
 
@@ -127,21 +127,38 @@
 
 
     var toastBottom = $f7.toast.create({
-          text: 'Зажмите на карточке для дополнительных действий',
-          closeButton: true,
-          on: {
-            close: function () {
-              $store.state.userData.teach.widgetPress=true
-              $f7.emit('e-backp')
-            },
-          }
-        });
+      text: 'Зажмите на карточке для дополнительных действий',
+      closeButton: true
+    });
+    toastBottom.on('closeButtonClick', ()=>{
+      $store.state.userData.teach.widgetPress = true
+      callCardClickTeach()
+      $f7.emit('e-backp')
+    })
+
+    let toastClickCard = $f7.toast.create({
+      text: 'Клик по карточке — перейти на отдельную страницу',
+      closeButton: true
+    });
+    toastClickCard.on('closeButtonClick', ()=>{
+      $store.state.userData.teach.cardClick=true
+      $f7.emit('e-backp')
+    })
+
+    function callCardClickTeach() {
+      if (!$store.state.userData.teach.cardClick) {
+        setTimeout(() => {
+          toastClickCard.open()
+        }, 2000);
+      }
+    }
 
 
     $onMounted(()=>{
       $($el.value[0]).on('taphold', function () {
         if ($store.state.userData.teach.widgetPress !== true) {
-          $store.state.userData.teach.widgetPress = true
+          $store.state.userData.teach.widgetPress=true
+          callCardClickTeach()
           $f7.emit('e-backp')
         }
         toastBottom.close()
@@ -196,8 +213,18 @@
       }, 2500);
 
       }
+      
+      if (!$store.state.userData.teach.cardClick && $store.state.appData.desktop){
+        callCardClickTeach()
+      }
 
       function nav(){
+        if (!$store.state.userData.teach.cardClick) {
+          $store.state.userData.teach.cardClick=true
+          $f7.emit('e-backp')
+
+          toastClickCard.close()
+        }
         app.views.current.router.navigate('/water/')
       }
 

@@ -64,21 +64,21 @@ export default (props, {$store, $f7, $update, $onMounted, $}) => {
   function changeName() {
 
     $f7.dialog.prompt('Введите имя', (n) => {
-      if (n.length > 1 && n.length < 14) {
+      if (n.trim().length > 1 && n.trim().length < 14) {
 
         if ($store.state.userData.name == undefined || $store.state.userData.name == '') {
           $f7.emit('e-changeLvl', 30)
         }
 
 
-        $store.state.userData.name=n[0].toUpperCase()+n.slice(1)
+        $store.state.userData.name=n.trim()[0].toUpperCase()+n.trim().slice(1)
         $f7.emit('e-backp')
         $f7.emit('e-userNameAnswer')
 
 
-      } else if (n.length < 1) {
+      } else if (n.trim().length < 1) {
         app.dialog.alert('Мало букв')
-      } else if (n.length > 14) {
+      } else if (n.trim().length > 14) {
         app.dialog.alert('Много букв')
       }
     }, () => {},)

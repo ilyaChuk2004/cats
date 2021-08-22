@@ -523,6 +523,7 @@ non {
     position: relative;
     @media (@bp-tablet) {
       width: 40%;
+      max-width: 22rem;
     } 
 
     input{
@@ -1097,6 +1098,11 @@ z-index: 1;
   
   .cup{
     filter: drop-shadow(0px 2px 7px #0000001a);
+    transition:0.3s;
+
+    
+      
+    
 
     .cupIn{
       display: flex;
@@ -1111,10 +1117,16 @@ z-index: 1;
       /* border: 1px #00000014 solid; */
       transition: 0.2s ease;
       transform: scale(1);
-      
       cursor: pointer;
       .border-squircle (70%; 70%);
       // .hover('box-shadow:0px 0px 20px rgb(0 0 0 / 61%);')
+
+      &:hover{
+        @media (@bp-tablet) {
+          transform:scale(1.05);
+        }
+      }
+
 
       &::after{
         content: '';
@@ -1137,6 +1149,12 @@ z-index: 1;
       margin-bottom: -1rem;
       margin-top: 0.1rem;
       opacity: 0.6;
+    }
+
+    .teach{
+      position: absolute;
+    transition: 0.3s ease;
+    transform: scale(1);
     }
   }
 }

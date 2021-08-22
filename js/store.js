@@ -6,7 +6,8 @@ const store = createStore({
     appData:{
       weatherClicks:0,
       xpFromWaterStreak:100,
-      rihtClickTeachTime:0
+      rihtClickTeachTime:0,
+      pressCupTeachTime:0
     },
     userData:{
       name:'',
@@ -23,7 +24,7 @@ const store = createStore({
       }
     },
     gf:{
-      bounse(el) {el.style.transform='scale(1.1)';setTimeout(() => {el.style.transform='scale(1)'}, 200);},
+      bounse(el) {el.style.transform='scale(1.1)';setTimeout(() => {el.style.transform=''}, 200);},
       support_format_webp(){var elem=document.createElement("canvas");return!(!elem.getContext||!elem.getContext("2d"))&&0==elem.toDataURL("image/webp").indexOf("data:image/webp")},
       getRandomInRange(min, max){return Math.floor(Math.random() * (max - min + 1)) + min},
       getCookie(name) {let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));

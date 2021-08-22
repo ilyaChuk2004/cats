@@ -19,15 +19,28 @@
 
 
     var toastBottom = $f7.toast.create({
-            text: 'Клик правой кнокой мыши для отмены',
-            closeButton: true,
-            on: {
-              close: function () {
-                $store.state.userData.teach.rightCup=true
-                $f7.emit('e-backp')
-              },
-            }
-          });
+      text: 'Клик правой кнокой мыши для отмены',
+      closeButton: true,
+      on: {
+        close: function () {
+        $store.state.userData.teach.rightCup = true
+        $f7.emit('e-backp')
+      },
+      }
+    });
+    toastBottom.on('closeButtonClick', () => {
+      $store.state.userData.teach.rightCup = true
+      $f7.emit('e-backp')
+    })
+
+    var toastPress = $f7.toast.create({
+      text: 'Зажмите, чтобы убрать воду',
+      closeButton: true
+    });
+    toastPress.on('closeButtonClick', ()=>{
+      $store.state.userData.teach.pressCup=true
+      $f7.emit('e-backp')
+    })
 
     function change(e) {
       $store.state.gf.bounse(e.target)
@@ -64,6 +77,54 @@
         }, 3000);
         }, 1000);
       }
+      if(!$store.state.appData.desktop && !$store.state.userData.teach.pressCup && +new Date - $store.state.appData.pressCupTeachTime > 8000){
+        $store.state.appData.pressCupTeachTime=+new Date
+        
+
+        setTimeout(() => {
+          toastPress.open();
+          setTimeout(() => {
+          animation = lottie.loadAnimation({
+            container: $el.value[0].querySelector('.teach'), // Required
+            path: 'static/teachCircle.json', // Required
+            renderer: 'svg', // Required
+            loop: false,
+            autoplay: false, // Optional
+          })
+
+          animation.play()  
+        animation.pause()
+
+          setTimeout(() => {
+            animation.setSpeed(1)  
+          animation.play()
+          $el.value[0].querySelector('.teach').style.transform='scale(0.8)'
+
+          ////////todo уменьшение кружка анимацияs
+          setTimeout(() => {
+            $el.value[0].querySelector('.teach').style.transform='scale(1)'
+          }, 500);
+          setTimeout(() => {
+            animation.destroy()
+
+            $f7.emit('e-waterChange', (+props.ml)*-1)
+            $f7.emit('e-waterPageChange', '-')
+
+            let el = $el.value[0].firstChild
+            el.style.transform = 'translateX(-10px)'
+            setTimeout(() => {
+              el.style.transform = 'translateX(10px)'
+            }, 50);
+            setTimeout(() => {
+              el.style.transform = 'translateX(0px)'
+            }, 100);
+            
+          }, 1000);
+            
+          }, 500);
+        }, 3000);
+        }, 1000);
+      }
       
     }
 
@@ -85,6 +146,10 @@
         $($el.value[0]).on('taphold', function () {
         $f7.emit('e-waterChange', (+props.ml)*-1)
         $f7.emit('e-waterPageChange', '-')
+
+        toastPress.close()
+        $store.state.userData.teach.pressCup=true
+        $f7.emit('e-backp')
       });
       }
         

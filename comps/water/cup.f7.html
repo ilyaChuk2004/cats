@@ -1,5 +1,5 @@
 <template>
-  <div @click=${(e)=>{change(e)}} class="cup holdEv" >
+  <div @click=${(e)=>{change(e)}} class="cup" >
     <div class="cupIn ripple ripple-dark-white overflow-hidden">
       <img src="static/img/cups/${props.img1}.webp" alt="" style='transform:scale(${props.scale})' />
       <div class="label">${props.ml}</div>
@@ -55,7 +55,7 @@
     function change(e) {
       $store.state.gf.bounse(e.target)
       // navigator.vibrate([30])
-      $store.state.gf.vibrate(30)
+      $store.state.gf.vibrate('lil success')
 
       $f7.emit('e-waterChange', +props.ml)
       $f7.emit('e-waterPageChange')
@@ -149,7 +149,35 @@
 
           $store.state.userData.teach.rightCup = true
 
-          let el = $el.value[0].firstChild
+          
+
+          e.preventDefault()
+          minusWater('desktop')
+        })
+      } else {
+        $($el.value[0]).on('taphold', function () {
+          minusWater('mobile')
+
+          
+
+          toastPress.close()
+          $store.state.userData.teach.pressCup = true
+          $f7.emit('e-backp')
+        });
+      }
+
+      function minusWater(device){
+        if ($store.state.userData.water.todayMl>0) {
+          $f7.emit('e-waterChange', (+props.ml) * -1)
+          $f7.emit('e-waterPageChange', '-')
+        }
+        if (device == 'desktop') {
+          
+        }else if (device == 'mobile'){
+          $store.state.gf.vibrate('fail')
+        }
+
+        let el = $el.value[0].firstChild
           el.style.transform = 'scale(1.05) translateX(-4px)'
           setTimeout(() => {
             el.style.transform = 'scale(1.05) translateX(4px)'
@@ -157,22 +185,6 @@
           setTimeout(() => {
             el.style.transform = ''
           }, 140);
-
-          e.preventDefault()
-          $f7.emit('e-waterChange', (+props.ml) * -1)
-          $f7.emit('e-waterPageChange', '-')
-        })
-      } else {
-        $($el.value[0]).on('taphold', function () {
-          $f7.emit('e-waterChange', (+props.ml) * -1)
-          $f7.emit('e-waterPageChange', '-')
-
-          $store.state.gf.vibrate([30, 20, 30])
-
-          toastPress.close()
-          $store.state.userData.teach.pressCup = true
-          $f7.emit('e-backp')
-        });
       }
 
 

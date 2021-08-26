@@ -103,11 +103,12 @@
       }, 100);
 
 
-      $store.state.gf.vibrate([30, 30, 30, 30])
+      $store.state.gf.vibrate('bigFail')
       
 
       let toastBottom = $f7.toast.create({
           text: `Недостаточный уровень. Требуется ${el.getAttribute('lvl')}, а у вас — ${$store.state.userData.lvl}`,
+          cssClass:'error',
           closeTimeout: 3000,
       });
 
@@ -157,7 +158,7 @@ var selectedAvaSrc=''
       closePrew()
       $f7.emit('e-avaChanged')
       $f7.emit('e-backp')
-      $store.state.gf.vibrate([30,30,20])
+      $store.state.gf.vibrate('big success')
 
       setTimeout(() => {
         $f7.views.current.router.back()

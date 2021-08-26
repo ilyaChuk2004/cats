@@ -72,7 +72,7 @@
 
     function holdChange() {
       // navigator.vibrate([30, 10, 30,])
-      $store.state.gf.vibrate([30, 10, 30,])
+      $store.state.gf.vibrate('success')
 
       hold = hold ? false : true
       $update(() => {

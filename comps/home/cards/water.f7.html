@@ -107,7 +107,7 @@
 
       function doo() {
         if (b) { bouns(el)}
-      $store.state.gf.vibrate(40)
+      $store.state.gf.vibrate('lil success')
 
       $f7.emit('e-backp')
       $f7.emit('e-waterChange')
@@ -119,7 +119,7 @@
 
     function holdChange() {
       // navigator.vibrate([30, 10, 30,])
-      $store.state.gf.vibrate([30, 10, 30,])
+      $store.state.gf.vibrate('success')
         $f7.emit('e-waterCardHold')
         hold=hold?false:true
         $update()

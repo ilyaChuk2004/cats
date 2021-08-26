@@ -5,6 +5,7 @@ import SettingsPage from '../pages/settings.f7.html';
 import water from '../pages/water.f7.html';
 import mood from '../pages/mood.f7.html';
 import waterSet from '../pages/waterSettings.f7.html';
+import moodSet from '../pages/moodSettings.f7.html';
 import avaChange from '../comps/avaChange.f7.html';
 import Framework7 from 'framework7/bundle';
 
@@ -57,6 +58,13 @@ var routes = [
   {
     path: '/waterSet/',
     component: waterSet,  
+    options: {
+      transition: transition,
+    },
+  },
+  {
+    path: '/moodSet/',
+    component: moodSet,  
     options: {
       transition: transition,
     },

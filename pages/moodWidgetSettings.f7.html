@@ -1,0 +1,170 @@
+<template>
+  <div class="page ws" data-name="settings">
+    <div class="page-content">
+      <div class="header">
+        Настройки виджета настроения
+      </div>
+
+      <div class="cards">
+        <div class="inset list links-list block c">
+          <div class="title padding">Выберите, какой смайлик поменять:</div>
+          <${mood} role='settings' />
+        </div>
+
+
+      </div>
+      <div class="inset list links-list block-strong slide">
+
+        <div class="title padding">Введите смайлик, на который заменить:</div>
+        <div class='actions'>
+          <div class="error">
+            <input autocomplete="off" id="smileInput" placeholder="😎" type="text" />
+          </div>
+          <div class="confirm" @click='${()=>{confirm()}}'>
+            ок
+          </div>
+        </div>
+        <div id="msExamples" class="examples">
+          <div class="cry">
+            <div class="title margin-top padding-top padding-horizontal">Например, очень грустные:</div>
+            <div class="smiles margin-horizontal">
+              <span>😢</span>
+              <span>😭</span>
+              <span>😔</span>
+              <span>😞</span>
+              <span>😖</span>
+              <span>😡</span>
+            </div>
+          </div>
+          <div class="sad">
+            <div class="title margin-top padding-top padding-horizontal">Грустные:</div>
+            <div class="smiles margin-horizontal">
+              <span>😟</span>
+              <span>☹</span>
+              <span>😒</span>
+              <span>😕</span>
+              <span>🙁</span>
+            </div>
+          </div>
+          <div class="smile">
+            <div class="title margin-top padding-top padding-horizontal">Улыбчивые:</div>
+            <div class="smiles margin-horizontal">
+              <span>😊</span>
+              <span>🙂</span>
+              <span>😉</span>
+            </div>
+          </div>
+          <div class="happy">
+            <div class="title margin-top padding-top padding-horizontal">Радостные:</div>
+            <div class="smiles margin-horizontal">
+              <span>😃</span>
+              <span>😄</span>
+              <span>😁</span>
+              <span>😀</span>
+              <span>😆</span>
+              <span>😋</span>
+              <span>🤤</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+  import mood from '../comps/home/cards/mood.f7.html'
+  import '../css/moodWidgetSettings.css';
+
+  export default (props, { $store, $onMounted, $f7, $, $update, $el }) => {
+    var ems = require('emoji-slice').stringSlice
+    let inputSlideOpened = false;
+
+    function confirm(smile){
+      let parent = inputSlideOpened.parentElement
+      let newSmile = smile!==undefined?smile:$el.value[0].querySelector('#smileInput').value
+      console.log($(inputSlideOpened).index(), $store.state.userData.mood.['emo'+($(inputSlideOpened).index()+1)]);
+      $store.state.userData.mood.['emo'+($(inputSlideOpened).index()+1)]=newSmile
+      $f7.emit('e-backp')
+      $f7.emit('e-changeEmoji')
+
+      $store.state.gf.vibrate('big success')
+    }
+
+    $onMounted(() => {
+      $f7.on('e-moodCardEmojiClicked', (el) => {
+        if (!inputSlideOpened) {
+          $el.value[0].querySelector('.slide').style.opacity = '1'
+          $el.value[0].querySelector('.slide').style.transform = 'translateY(0px) scale(1)'
+        }
+        inputSlideOpened = el
+      })
+
+      if ($f7.device.windows) {
+        var inputHelpTooltip = $f7.tooltip.create({
+          targetEl: $el.value[0].querySelector('#smileInput'),
+          text: 'Win+ю чтобы открыть меню'
+        });
+      }
+      
+      var errorTooltip = $f7.tooltip.create({
+        targetEl: $el.value[0].querySelector('.error'),
+        text: 'Нет, нужен именно эмодзи',
+        trigger: 'manual',
+        cssClass: 'error'
+      });
+
+      $($el.value[0].querySelector('#smileInput')).on('input', (e) => {
+
+
+
+        if (/\p{Extended_Pictographic}/u.test(e.target.value) || e.target.value == '') {
+          errorTooltip.hide()
+          let confirmEl = $el.value[0].querySelector('.confirm')
+          if (e.target.value !== '') {
+            confirmEl.style.display='block'
+          setTimeout(() => {
+            confirmEl.style.opacity='1'
+          }, 10);
+          }else{
+            confirmEl.style.opacity='0'
+          setTimeout(() => {
+            confirmEl.style.display='none'
+          }, 250);
+          }
+        } else {
+          let confirmEl = $el.value[0].querySelector('.confirm')
+          $store.state.gf.vibrate('fail')
+          errorTooltip.show()
+          confirmEl.style.opacity='0'
+          setTimeout(() => {
+            confirmEl.style.display='none'
+          }, 250);
+          setTimeout(() => {
+            if (!(/\p{Extended_Pictographic}/u.test(e.target.value) || e.target.value == '')) {
+              e.target.value=''
+              errorTooltip.hide()
+            }
+          }, 2500);
+        }
+
+        if (e.target.value.length>1) {
+          e.target.value=ems(e.target.value, -1)
+        }
+      })
+
+
+      $($el.value[0].querySelector('#smileInput')).on('focusout', (e) => {
+        errorTooltip.hide()
+      })
+
+      $('#msExamples span').on('click', (e)=>{confirm(e.target.innerText)})
+    })
+    return $render;
+  };
+</script>

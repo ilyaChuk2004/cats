@@ -170,7 +170,7 @@
         if ($store.state.userData.water.todayMl>0) {
           $f7.emit('e-waterChange', (+props.ml) * -1)
           $f7.emit('e-waterPageChange', '-')
-        }
+        
         if (device == 'desktop') {
           
         }else if (device == 'mobile'){
@@ -185,6 +185,7 @@
           setTimeout(() => {
             el.style.transform = ''
           }, 140);
+        }
       }
 
 

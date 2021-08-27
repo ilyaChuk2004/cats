@@ -1,13 +1,13 @@
 <template>
-  <div @click=${(e)=>{cl(e)}} data-em='${props.img}' class="emoji">
-    <img src="static/img/emoji/${props.img}.png" alt="" />
+  <div @click=${(e)=>{cl(e)}} data-em='${props.emo}' data-num='${props.num}' class="emoji">
+    ${props.emoji}
   </div>
 </template>
 <style>
 </style>
 <script>
   export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
-
+    console.log(props);
 
     let toastClose = $f7.toast.create({
       text: 'Нажмите ещё раз, чтобы записать',
@@ -19,11 +19,16 @@
       $f7.emit('e-backp')
     })
 
+    $f7.on('e-changeEmoji', ()=>{
+      $update()
+    })
+
     function cl(e) {
-      console.log(e.target.getAttribute('data-em'));
 
       let el = e.target
-      if (el.classList.contains('active')) {
+      console.log(props.role, el.classList);
+      if (props.role=='carddd') { 
+        if (el.classList.contains('active')) {
         $(el).removeClass('active')
         $store.state.appData.selectedEmoji = ''
 
@@ -43,13 +48,18 @@
       } else {
         $(el.parentElement.querySelector('.active')).removeClass('active')
         el.classList.add("active")
-        $store.state.appData.selectedEmoji = props.img
+        $store.state.appData.selectedEmoji = props.emo
 
         if (!$store.state.userData.teach.doubleClickEmoji) {
           setTimeout(() => {
             toastClose.open()
           }, 500);
         }
+        }
+      }else{
+        $(el.parentElement.querySelector('.active')).removeClass('active')
+        el.classList.add("active")
+        $f7.emit('e-moodCardEmojiClicked', el)
       }
 
 
@@ -60,8 +70,8 @@
     $onMounted(() => {
       var ell = $el.value[0]
       $f7.on('e-moodCardHold', () => {
-        console.log(props.img, $store.state.appData.selectedEmoji, ell);
-        if (props.img == $store.state.appData.selectedEmoji) {
+        console.log(props.emo, $store.state.appData.selectedEmoji, ell);
+        if (props.emo == $store.state.appData.selectedEmoji) {
           // debugger
           console.log('yessss', ell);
 

@@ -4,7 +4,7 @@
     ${hold ? $h`
 
     <div class="hold">
-      <${pcVer}/>
+      <${pcVer} role=${props.role}/>
     </div>
 
 
@@ -13,43 +13,186 @@
     <span>Настроениe</span>
     <div class="la">${nameQ} себя чувствуешь?</div>
     <div class="emojies">
-      <${emoji} img='-1' />
-      <${emoji} img='0' />
-      <${emoji} img='1' />
-      <${emoji} img='2' />
+      <${emoji} emo='-1' role=${props.role} num='0' emoji=${$store.state.userData.mood.emo1} />
+      <${emoji} emo='0' role=${props.role} num='1' emoji=${$store.state.userData.mood.emo2} />
+      <${emoji} emo='1' role=${props.role} num='2' emoji=${$store.state.userData.mood.emo3} />
+      <${emoji} emo='2' role=${props.role} num='3' emoji=${$store.state.userData.mood.emo4} />
     </div>
     ` : $h`
-    <${pcVer}/>
+    <${pcVer} role=${props.role}/>
     `}
     `}
 
   </div>
 </template>
+<style>
+ .cardd.mood {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  transform: scale(1);
+  transition: 0.8s cubic-bezier(0.04, 0.93, 0.76, 0.98);
+  box-shadow: var(--moodCardBSH);
+  background: var(--moodCardGrad);
+}
+.cardd.mood::after {
+  content: '';
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.cardd.mood.active-state {
+  transform: scale(0.93);
+  transition: 0.3s cubic-bezier(0.92, 0.01, 1, 0.9) !important;
+}
+@media (min-width: 900px) {
+  .cardd.mood.active-state {
+    transform: scale(0.99);
+  }
+}
+.cardd.mood .la {
+  opacity: 0.5;
+  color: #ffffff;
+}
+.cardd.mood span {
+  color: #d75c178f;
+  font-weight: 900;
+  font-size: 26pt;
+}
+@media (prefers-color-scheme: dark) {
+  .cardd.mood span {
+    color: #aa3d008f;
+  }
+}
+@media (min-width: 900px) {
+  .cardd.mood span {
+    font-size: 35pt;
+  }
+}
+.cardd.mood .emojies {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.7rem;
+}
+.cardd.mood .emojies .emoji {
+  opacity: 0.8;
+  position: relative;
+  z-index: 4;
+  filter: drop-shadow(0px 0px transparent);
+  transition: 0.3s cubic-bezier(0.42, 0, 0.31, 2.5);
+  margin: 0rem 0.5rem;
+  font-size: 3.3rem;
+  transform: scale(1);
+}
+.cardd.mood .emojies .emoji:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.cardd.mood .emojies .emoji:hover {
+  opacity: 1;
+  transform: scale(0.95);
+}
+.cardd.mood .emojies .emoji.active {
+  opacity: 1;
+  filter: drop-shadow(0px 12px 11px #00000042);
+  transform: scale(1.1);
+}
+.cardd.mood .emojies .emoji.active-state {
+  transform: scale(0.9);
+}
+.cardd.mood .emojies .emoji img {
+  width: 4rem;
+  height: 4rem;
+}
+.cardd.mood button {
+  z-index: 5;
+  cursor: pointer;
+  border: none;
+  background: #ffffff2e;
+  border: 1px solid #ffffff45;
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 12pt;
+  color: #000000ba;
+  position: relative;
+  border-radius: 90rem;
+  width: auto;
+  margin: 1rem auto -1rem;
+  display: block;
+  padding: 0.5rem 2rem !important;
+  transition: 0.3s ease;
+}
+.cardd.mood button:hover {
+  background: #ffffff6b;
+  box-shadow: 0 0 8px #0000001a;
+}
+.cardd.mood button .ripple-wave {
+  background-color: #00000010;
+}
+.cardd.mood button.settings {
+  display: none;
+}
+.cardd.mood textarea {
+  z-index: 8;
+  position: relative;
+  transition: 0.3s ease, 0s height;
+  width: 100%;
+  border-radius: 1.5rem;
+  background: #ffffff45;
+  border: 1px solid #ffffff45;
+  padding: 0.7rem 1rem;
+  font-size: 13pt;
+  font-weight: 500;
+  color: #000000c4;
+  margin-top: 0.8rem;
+}
+.cardd.mood textarea.settings {
+  display: none;
+}
+.cardd.mood textarea:focus {
+  background: #ffffff73;
+  box-shadow: 0 0 8px #0000001a;
+}
+.cardd.mood textarea::placeholder {
+  opacity: 0.7;
+}
+
+</style>
 <script>
 
   import emoji from './mood/emoji.f7.html'
 
   export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
-
+    console.log(props.role);
+    
 
     const q_textarea = (props, { $h }) => {
       return () => $h`
-      <textarea placeholder="Расскажи что-то..." @input=${(e)=>{inp(e)}} class="resizable"></textarea>
+      <textarea placeholder="Расскажи что-то..." @input=${(e)=>{inp(e)}} class="resizable ${props.role}"></textarea>
       `;
     }
+
+    let pr = props.role;
     const pcVer = (props, { $h }) => {
       return () => $h`
       <div>
         <span>Настроениe</span>
       <div class="la">${nameQ} себя чувствуешь?</div>
       <div class="emojies">
-        <${emoji} img='-1' />
-        <${emoji} img='0' />
-        <${emoji} img='1' />
-        <${emoji} img='2' />
+        <${emoji} emo='-1'  num='0' emoji=${$store.state.userData.mood.emo1} role='${pr}' />
+        <${emoji} emo='0' num='1'  emoji=${$store.state.userData.mood.emo2} role='${pr}' />
+        <${emoji} emo='1'  num='2' emoji=${$store.state.userData.mood.emo3} role='${pr}' />
+        <${emoji} emo='2' num='3'  emoji=${$store.state.userData.mood.emo4} role='${pr}' />
       </div>
-      <${q_textarea} />
-      <button class="ripple ripple-dark-white overflow-hidden">записать</button>
+      <${q_textarea} role='${props.role}'/>
+      <button class="ripple ripple-dark-white overflow-hidden ${props.role}">записать</button>
       </div>
       `;
     }
@@ -68,6 +211,10 @@
         el.style.transform = ''
       }, 200);
     }
+
+    $f7.on('e-changeEmoji', ()=>{
+      $update()
+    })
 
 
     function holdChange() {
@@ -117,10 +264,12 @@
 
       $('.cardd.mood').on('click', (e) => {
 
-        if (e.altitudeAngle == null && e.toElement.classList.contains('cardd')) {
+        if (props.role=='carddd') {
+          if (e.altitudeAngle == null && e.toElement.classList.contains('cardd')) {
           nav()
         } else if (e.target.classList.contains('cardd')) {
           nav()
+        }
         }
 
 

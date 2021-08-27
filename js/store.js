@@ -20,6 +20,12 @@ const store = createStore({
         lastUpdate:false,
         yesterdayStreak:0
       },
+      mood:{
+        emo1:'😢',
+        emo2:'☹',
+        emo3:'🙂',
+        emo4:'😄',
+      },
       teach:{
         widgetPress:false
       }

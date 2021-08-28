@@ -2,7 +2,7 @@
   <div @click=${(e)=>{change(e)}} class="cup" >
     <div class="cupIn ripple ripple-dark-white overflow-hidden">
       <img src="static/img/cups/${props.img1}.webp" alt="" style='transform:scale(${props.scale})' />
-      <div class="label">${props.ml}</div>
+      <div class="label">${thisMl}</div>
 
       <div style="position: absolute;" class="teach"></div>
     </div>
@@ -14,6 +14,14 @@
 <script>
   export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
     var bodymovin = require('../../js/lottie');
+
+    let thisMl = +$store.state.userData.water['cup' + props.num]
+
+    $f7.on('e-cupMlChange', ()=>{
+      console.log($store.state.userData.water['cup' + (props.num)]);
+      thisMl = +$store.state.userData.water['cup' + props.num]
+      $update()
+    })
 
 
 
@@ -53,11 +61,12 @@
     }
 
     function change(e) {
-      $store.state.gf.bounse(e.target)
+      if (props.role!=='settings') {
+        $store.state.gf.bounse(e.target)
       // navigator.vibrate([30])
       $store.state.gf.vibrate('lil success')
 
-      $f7.emit('e-waterChange', +props.ml)
+      $f7.emit('e-waterChange', +thisMl)
       $f7.emit('e-waterPageChange')
       var animation = false
       if ($store.state.appData.desktop && !$store.state.userData.teach.rightCup && +new Date - $store.state.appData.rihtClickTeachTime > 5000) {
@@ -125,7 +134,7 @@
 
 
 
-                $f7.emit('e-waterChange', (+props.ml) * -1)
+                $f7.emit('e-waterChange', (+thisMl) * -1)
                 $f7.emit('e-waterPageChange', '-')
 
                 shake($el.value[0].firstChild)
@@ -136,6 +145,7 @@
           }, 3000);
         }, 1000);
       }
+      }
 
     }
 
@@ -143,7 +153,8 @@
 
     $onMounted(() => {
 
-      if ($store.state.appData.desktop) {
+      if (props.role!=='settings') {
+        if ($store.state.appData.desktop) {
         $($el.value[0]).on('contextmenu', function (e) {
           toastBottom.close()
 
@@ -165,10 +176,11 @@
           $f7.emit('e-backp')
         });
       }
+      }
 
       function minusWater(device){
         if ($store.state.userData.water.todayMl>0) {
-          $f7.emit('e-waterChange', (+props.ml) * -1)
+          $f7.emit('e-waterChange', (+thisMl) * -1)
           $f7.emit('e-waterPageChange', '-')
         
         if (device == 'desktop') {

@@ -1,0 +1,186 @@
+<template>
+  <div class="page ws" data-name="settings">
+    <div class="page-content">
+      <div class="header">
+        Настройка кружек
+      </div>
+
+      <div class="cards">
+        <div class="inset list links-list block-strong c">
+          <div class="title padding margin-bottom">Выберите, какую кружку редактировать:</div>
+          <div class="cups" id="msCups">
+            <${cup} num='1' scale='0.6' img1='cup50' role='settings'/>
+            <${cup} num='2' scale='0.8' img1='cup100' role='settings'/>
+            <${cup} num='3' scale='1' img1='cup200' role='settings'/>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="inset list block-strong slide no-margin-top">
+
+        <div class="title padding">Выберите миллилитры:</div>
+        <div class='actions'>
+                    <div class="range-slider">
+                      <input type="range" />
+                    </div>
+          <div class="confirm" @click='${()=>{confirm()}}'>
+            ок
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+</template>
+<style>
+
+</style>
+<script>
+  import '../css/waterWidgetSettings.css';
+  import cup from './../comps/water/cup.f7.html';
+
+
+  export default (props, {
+    $store,
+    $onMounted,
+    $f7,
+    $,
+    $update,
+    $el,
+    $onUnmounted
+  }) => {
+    let inputSlideOpened = false;
+
+    function confirm(smile) {
+      let parent = inputSlideOpened.parentElement
+      let newSmile = smile !== undefined ? smile : $el.value[0].querySelector('#smileInput').value
+      console.log($(inputSlideOpened).index(), $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)]);
+      $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)] = newSmile
+      $store.state.userData.mood.emojiChanges++
+      if (!$store.state.userData.mood.lastEmojies.includes(newSmile)) {
+        $store.state.userData.mood.lastEmojies.push(newSmile);
+      } else {
+        $store.state.userData.mood.lastEmojies = $store.state.userData.mood.lastEmojies.filter(item => item !==
+          newSmile)
+        $store.state.userData.mood.lastEmojies.push(newSmile);
+      }
+      if ($store.state.userData.mood.lastEmojies.length > 20) {
+        $store.state.userData.mood.lastEmojies = $store.state.userData.mood.lastEmojies.slice(1)
+      }
+      $f7.emit('e-backp')
+      $f7.emit('e-changeEmoji')
+
+      $store.state.gf.vibrate('success')
+      $update()
+    }
+
+    $onMounted(() => {
+
+      let slider = $f7.range.create({
+        el:$el.value[0].querySelector('.range-slider'),
+        label:true,
+        min:50,
+        step:10,
+        max: 350,
+        scale:true,
+        scaleSteps:3,
+        on:{
+          change:(v)=>{
+            let val=v.value
+
+            $store.state.userData.water. ['cup' + ($(inputSlideOpened.parentElement).index() + 1)] = val
+            $f7.emit('e-cupMlChange')
+            $f7.emit('e-backp')
+
+
+            
+
+          }
+        }
+      })
+
+      $(document).on('click', '#msCups .cup', (e)=>{
+        try {
+          $(e.target.parentElement.parentElement.querySelector('.cup.active')).removeClass('active')
+        } catch (error) {}
+        e.target.parentElement.classList.add('active')
+        if (!inputSlideOpened) {
+          setTimeout(() => {
+            $el.value[0].querySelector('.slide').style.opacity = '1'
+            $el.value[0].querySelector('.slide').style.transform = 'translateY(0px) scale(1)'
+          }, 10);
+        }
+        inputSlideOpened = e.target
+        // debugger
+
+        slider.setValue(inputSlideOpened.querySelector('.label').innerText)
+      })
+
+      if ($f7.device.windows) {
+        var inputHelpTooltip = $f7.tooltip.create({
+          targetEl: $el.value[0].querySelector('#smileInput'),
+          text: 'Win+ю чтобы открыть меню'
+        });
+      }
+
+      var errorTooltip = $f7.tooltip.create({
+        targetEl: $el.value[0].querySelector('.error'),
+        text: 'Нет, нужен именно эмодзи',
+        trigger: 'manual',
+        cssClass: 'error'
+      });
+
+      $($el.value[0].querySelector('#smileInput')).on('input', (e) => {
+
+
+
+        if (/\p{Extended_Pictographic}/u.test(e.target.value) || e.target.value == '') {
+          errorTooltip.hide()
+          let confirmEl = $el.value[0].querySelector('.confirm')
+          if (e.target.value !== '') {
+            confirmEl.style.display = 'block'
+            setTimeout(() => {
+              confirmEl.style.opacity = '1'
+            }, 10);
+          } else {
+            confirmEl.style.opacity = '0'
+            setTimeout(() => {
+              confirmEl.style.display = 'none'
+            }, 250);
+          }
+        } else {
+          let confirmEl = $el.value[0].querySelector('.confirm')
+          $store.state.gf.vibrate('fail')
+          errorTooltip.show()
+          confirmEl.style.opacity = '0'
+          setTimeout(() => {
+            confirmEl.style.display = 'none'
+          }, 250);
+          setTimeout(() => {
+            if (!(/\p{Extended_Pictographic}/u.test(e.target.value) || e.target.value == '')) {
+              e.target.value = ''
+              errorTooltip.hide()
+            }
+          }, 2500);
+        }
+
+        if (e.target.value.length > 1) {
+          e.target.value = stringSlice(e.target.value, -1)
+        }
+      })
+
+
+      $($el.value[0].querySelector('#smileInput')).on('focusout', (e) => {
+        errorTooltip.hide()
+      })
+
+      $(document).on('click', '#msExamples span', (e) => {
+        confirm(e.target.innerText)
+      })
+    })
+    return $render;
+  };
+</script>

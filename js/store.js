@@ -18,7 +18,10 @@ const store = createStore({
         streak:0,
         goal:1500,
         lastUpdate:false,
-        yesterdayStreak:0
+        yesterdayStreak:0,
+        cup1:100,
+        cup2:200,
+        cup3:300
       },
       mood:{
         emo1:'😢',

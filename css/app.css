@@ -1058,7 +1058,7 @@ non {
 }
 .page[data-name='settings'] .title {
   font-size: 13pt;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--headerC);
   padding-top: 0px !important;
 }

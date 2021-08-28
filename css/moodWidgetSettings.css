@@ -11,6 +11,12 @@
 }
 .page.ws .list.c .cardd {
   align-self: center;
+  width: 110%;
+}
+@media (min-width: 900px) {
+  .page.ws .list.c .cardd {
+    width: initial;
+  }
 }
 .page.ws .list.c .cardd .emoji {
   margin: 0rem 0.2rem;
@@ -21,8 +27,7 @@
   transform: translateY(0%) scale(0);
   transition: 0.5s cubic-bezier(0.25, 0.1, 0.27, 1.69);
   opacity: 0;
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
 }
 .page.ws .slide input {
   width: 4rem;
@@ -58,6 +63,9 @@
   align-self: center;
   display: flex;
   align-items: center;
+  margin: auto;
+  margin-bottom: 1rem;
+  width: fit-content;
 }
 .page.ws .slide .actions .confirm {
   margin-left: -0.8rem;
@@ -86,6 +94,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
 .page.ws .slide .examples .smiles span {
   font-size: 23pt;
@@ -94,9 +103,11 @@
   transition: 0.25s cubic-bezier(0.25, 0.1, 0.27, 1.53);
   filter: drop-shadow(0px 0px 0px #00000054);
 }
-.page.ws .slide .examples .smiles span:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0px 0px 6px #00000054);
+@media (hover: hover) and (pointer: fine) {
+  .page.ws .slide .examples .smiles span:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0px 0px 6px #00000054);
+  }
 }
 .page.ws .slide .examples .smiles span.active-state {
   transform: scale(0.95);

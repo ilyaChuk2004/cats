@@ -65,7 +65,7 @@ const listItem = (props, { $h }) => {
   function clear() {
     app.dialog.confirm('точно точно удалить все данные о вас? мы полностью забудем ваши достижения.', ()=>{
       localStorage.userData= ''
-    document.location.reload()
+    window.location.reload(true)
     }, ()=>{
 
     })

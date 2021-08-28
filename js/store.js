@@ -22,9 +22,11 @@ const store = createStore({
       },
       mood:{
         emo1:'😢',
-        emo2:'☹',
+        emo2:'🙁',
         emo3:'🙂',
         emo4:'😄',
+        emojiChanges:0,
+        lastEmojies:[]
       },
       teach:{
         widgetPress:false

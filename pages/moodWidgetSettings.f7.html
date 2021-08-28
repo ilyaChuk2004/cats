@@ -13,7 +13,7 @@
 
 
       </div>
-      <div class="inset list links-list block-strong slide">
+      <div class="inset list block-strong slide">
 
         <div class="title padding">Введите смайлик, на который заменить:</div>
         <div class='actions'>
@@ -25,47 +25,87 @@
           </div>
         </div>
         <div id="msExamples" class="examples">
-          <div class="cry">
-            <div class="title margin-top padding-top padding-horizontal">Например, очень грустные:</div>
-            <div class="smiles margin-horizontal">
-              <span>😢</span>
+            <ul>
+
+              <li class="accordion-item">
+                <a href="" class="item-link item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Например, очень грустные</div>
+                  </div>
+                </a>
+                <div class="accordion-item-content smiles margin-horizontal">
+                  <span>😢</span>
               <span>😭</span>
               <span>😔</span>
               <span>😞</span>
               <span>😖</span>
               <span>😡</span>
-            </div>
-          </div>
-          <div class="sad">
-            <div class="title margin-top padding-top padding-horizontal">Грустные:</div>
-            <div class="smiles margin-horizontal">
-              <span>😟</span>
-              <span>☹</span>
-              <span>😒</span>
-              <span>😕</span>
-              <span>🙁</span>
-            </div>
-          </div>
-          <div class="smile">
-            <div class="title margin-top padding-top padding-horizontal">Улыбчивые:</div>
-            <div class="smiles margin-horizontal">
-              <span>😊</span>
-              <span>🙂</span>
-              <span>😉</span>
-            </div>
-          </div>
-          <div class="happy">
-            <div class="title margin-top padding-top padding-horizontal">Радостные:</div>
-            <div class="smiles margin-horizontal">
-              <span>😃</span>
-              <span>😄</span>
-              <span>😁</span>
-              <span>😀</span>
-              <span>😆</span>
-              <span>😋</span>
-              <span>🤤</span>
-            </div>
-          </div>
+                </div>
+              </li>
+
+              <li class="accordion-item">
+                <a href="" class="item-link item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Грустные</div>
+                  </div>
+                </a>
+                <div class="accordion-item-content smiles margin-horizontal">
+                  <span>😟</span>
+                  <span>😒</span>
+                  <span>😕</span>
+                  <span>🙁</span>
+                </div>
+              </li>
+
+              <li class="accordion-item">
+                <a href="" class="item-link item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Улыбчивые</div>
+                  </div>
+                </a>
+                <div class="accordion-item-content smiles margin-horizontal">
+                    <span>😊</span>
+                    <span>🙂</span>
+                    <span>😉</span>
+                </div>
+              </li>
+
+              <li class="accordion-item">
+                <a href="" class="item-link item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Радостные</div>
+                  </div>
+                </a>
+                <div class="accordion-item-content">
+                  <div class="smiles margin-horizontal">
+                    <span>😃</span>
+                    <span>😄</span>
+                    <span>😁</span>
+                    <span>😀</span>
+                    <span>😆</span>
+                    <span>😋</span>
+                    <span>🤤</span>
+                  </div>
+                </div>
+              </li>
+              ${$store.state.userData.mood.emojiChanges > 0 && $h`
+              <li class="accordion-item">
+                <a href="" class="item-link item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Последние</div>
+                  </div>
+                </a>
+                <div class="accordion-item-content smiles margin-horizontal">
+                  ${$store.state.userData.mood.lastEmojies.map((it)=>$h`
+                    <span>${it}</span>
+                  `)}
+                    <span>😊</span>
+                    <span>🙂</span>
+                    <span>😉</span>
+                </div>
+              </li>
+              `}
+            </ul>
         </div>
 
       </div>
@@ -81,26 +121,55 @@
   import mood from '../comps/home/cards/mood.f7.html'
   import '../css/moodWidgetSettings.css';
 
-  export default (props, { $store, $onMounted, $f7, $, $update, $el }) => {
-    var ems = require('emoji-slice').stringSlice
+  import {
+    stringSlice
+  } from 'emoji-slice'
+
+  export default (props, {
+    $store,
+    $onMounted,
+    $f7,
+    $,
+    $update,
+    $el,
+    $onUnmounted
+  }) => {
     let inputSlideOpened = false;
 
-    function confirm(smile){
+    function confirm(smile) {
       let parent = inputSlideOpened.parentElement
-      let newSmile = smile!==undefined?smile:$el.value[0].querySelector('#smileInput').value
-      console.log($(inputSlideOpened).index(), $store.state.userData.mood.['emo'+($(inputSlideOpened).index()+1)]);
-      $store.state.userData.mood.['emo'+($(inputSlideOpened).index()+1)]=newSmile
+      let newSmile = smile !== undefined ? smile : $el.value[0].querySelector('#smileInput').value
+      console.log($(inputSlideOpened).index(), $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)]);
+      $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)] = newSmile
+      $store.state.userData.mood.emojiChanges++
+      if (!$store.state.userData.mood.lastEmojies.includes(newSmile)) {
+        $store.state.userData.mood.lastEmojies.push(newSmile);
+      } else {
+        $store.state.userData.mood.lastEmojies = $store.state.userData.mood.lastEmojies.filter(item => item !==
+          newSmile)
+        $store.state.userData.mood.lastEmojies.push(newSmile);
+      }
+      if ($store.state.userData.mood.lastEmojies.length > 20) {
+        $store.state.userData.mood.lastEmojies = $store.state.userData.mood.lastEmojies.slice(1)
+      }
       $f7.emit('e-backp')
       $f7.emit('e-changeEmoji')
 
-      $store.state.gf.vibrate('big success')
+      $store.state.gf.vibrate('success')
+      $update()
     }
+
+    $onUnmounted(() => {
+      $f7.off('e-moodCardEmojiClicked')
+    })
 
     $onMounted(() => {
       $f7.on('e-moodCardEmojiClicked', (el) => {
         if (!inputSlideOpened) {
-          $el.value[0].querySelector('.slide').style.opacity = '1'
-          $el.value[0].querySelector('.slide').style.transform = 'translateY(0px) scale(1)'
+          setTimeout(() => {
+            $el.value[0].querySelector('.slide').style.opacity = '1'
+            $el.value[0].querySelector('.slide').style.transform = 'translateY(0px) scale(1)'
+          }, 10);
         }
         inputSlideOpened = el
       })
@@ -111,7 +180,7 @@
           text: 'Win+ю чтобы открыть меню'
         });
       }
-      
+
       var errorTooltip = $f7.tooltip.create({
         targetEl: $el.value[0].querySelector('.error'),
         text: 'Нет, нужен именно эмодзи',
@@ -127,34 +196,34 @@
           errorTooltip.hide()
           let confirmEl = $el.value[0].querySelector('.confirm')
           if (e.target.value !== '') {
-            confirmEl.style.display='block'
-          setTimeout(() => {
-            confirmEl.style.opacity='1'
-          }, 10);
-          }else{
-            confirmEl.style.opacity='0'
-          setTimeout(() => {
-            confirmEl.style.display='none'
-          }, 250);
+            confirmEl.style.display = 'block'
+            setTimeout(() => {
+              confirmEl.style.opacity = '1'
+            }, 10);
+          } else {
+            confirmEl.style.opacity = '0'
+            setTimeout(() => {
+              confirmEl.style.display = 'none'
+            }, 250);
           }
         } else {
           let confirmEl = $el.value[0].querySelector('.confirm')
           $store.state.gf.vibrate('fail')
           errorTooltip.show()
-          confirmEl.style.opacity='0'
+          confirmEl.style.opacity = '0'
           setTimeout(() => {
-            confirmEl.style.display='none'
+            confirmEl.style.display = 'none'
           }, 250);
           setTimeout(() => {
             if (!(/\p{Extended_Pictographic}/u.test(e.target.value) || e.target.value == '')) {
-              e.target.value=''
+              e.target.value = ''
               errorTooltip.hide()
             }
           }, 2500);
         }
 
-        if (e.target.value.length>1) {
-          e.target.value=ems(e.target.value, -1)
+        if (e.target.value.length > 1) {
+          e.target.value = stringSlice(e.target.value, -1)
         }
       })
 
@@ -163,7 +232,9 @@
         errorTooltip.hide()
       })
 
-      $('#msExamples span').on('click', (e)=>{confirm(e.target.innerText)})
+      $(document).on('click', '#msExamples span', (e) => {
+        confirm(e.target.innerText)
+      })
     })
     return $render;
   };

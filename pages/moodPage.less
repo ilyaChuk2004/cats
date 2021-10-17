@@ -1,0 +1,49 @@
+.page[data-name="mood"]{
+    .page-content{
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        --backdrop:#ffe2d2;
+        body.theme-dark & {
+            --backdrop:#784930;
+          }
+    
+        .info{
+            overflow: scroll;
+            position: relative;
+            z-index: 2;
+
+            &::after{
+                content: ""
+            }
+        }
+        .sh{
+            width: 100%;
+            box-shadow: 0 0 20px 20px  #fff4e7;
+            position: relative;
+            z-index: 2;
+            body.theme-dark & {
+                box-shadow: 0 0 20px 20px #0f0c09;
+              }
+        }
+        .control{
+            background-color: var(--backdrop);
+            position: relative;
+            z-index: 3;
+
+            
+        }
+    
+        &::after{
+            content: '';
+            background-color: var(--backdrop);
+            height: 13rem;
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            z-index: -1;
+        }
+    }
+}

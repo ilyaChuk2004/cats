@@ -13,12 +13,17 @@
 
 
       </div>
-      <div class="control">
+      <div class="sh"></div>
+      <div class="control border-squircle25-25">
 
         ${$store.state.appData.desktop ? $h`
 
         ` : $h`
-        
+        <div class="cards">
+            <${mood} role='carddd' hold='1' />
+  
+  
+        </div>
         `}
 
 
@@ -32,7 +37,9 @@
   </div>
 </template>
 <script>
+  import './moodPage.css'
   import timeline from '../comps/mood/timeline/timeline.f7.html'
+  import mood from '../comps/home/cards/mood.f7.html'
   export default (props, { $store, $onMounted, $f7, $update }) => {
 
 

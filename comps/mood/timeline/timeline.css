@@ -30,6 +30,7 @@
 }
 .timeline-item-content .mood .timeline-item-inner {
   max-width: 60rem;
+  transform: translateY(5pt);
 }
 .timeline-item-content .mood .timeline-item-inner .time {
   opacity: 0.5;
@@ -45,8 +46,6 @@
 }
 .timeline-item-content .mood .text {
   font-size: 14pt;
-  user-select: text;
   cursor: text;
   position: relative;
-  z-index: 6;
 }

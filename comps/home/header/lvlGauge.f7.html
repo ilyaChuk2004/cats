@@ -3,7 +3,7 @@
   <div class="st" innerHTML=${st}></div>
 
     
-  <div class="gauge" id=${rid}>
+  <div class="gauge ll" id=${rid}>
     <div class="glab">${$store.state.userData.lvl}</div>
   </div>
   </div>
@@ -30,11 +30,11 @@
     font-weight: bold;
     font-size: 10pt;
   }
-  .gauge-svg circle{
+  .gauge.ll .gauge-back-circle{
     stroke:#eeeeee
   }
 
-  body.theme-dark .gauge-svg circle {
+  body.theme-dark .gauge.ll .gauge-back-circle {
     stroke:#31423c
   }
   </style>
@@ -151,13 +151,6 @@
         $f7.emit('e-backp')
       })
 
-      $f7.on('e-themeChanged', ()=>{
-        console.log('newtheme');
-        ga.update({
-          borderBgColor:$store.state.appData.theme=='light'?
-        '#eeeeee':'#31423c',
-        });
-      })
     })
     return $render;
   }

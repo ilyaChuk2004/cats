@@ -56,7 +56,7 @@
           return 'Сегодня'
         } else if (d == new Date().getDate() - 1) {
           return 'Вчера'
-        } else if (y == new Date().getYear()) {
+        } else if (y == new Date().getFullYear()) {
           return `${new Date(+props.day.date).toLocaleString('default', { day: 'numeric', month: 'long' })}`
         } else {
           return `${new Date(+props.day.date).toLocaleString('default', { day: 'numeric', month: 'long' })} ${y}г.`

@@ -93,6 +93,7 @@
   .cardd.mood .la {
     opacity: 0.5;
     color: #ffffff;
+    font-size: 13.5pt;
   }
 
   .cardd.mood span {
@@ -332,23 +333,38 @@
     
 
     let pr = props.role;
+    let ph = props.hold
     const pcVer = (props, { $h }) => {
       function tt() {
         if ($el.value[0].querySelector('textarea').value.trim() !== '') {
           $store.state.userData.moodTextarea = ''
-          $f7.emit('e-writeMood', {
+          var splitter = require('../../../../node_modules/grapheme-splitter/index.js');
+          console.log();
+          debugger
+          if (splitter().splitGraphemes($el.value[0].querySelector('textarea').value.trim()).length==1 &&
+          /\p{Extended_Pictographic}/u.test($el.value[0].querySelector('textarea').value.trim())) {
+            $f7.emit('e-writeMood', {
+            emo: $el.value[0].querySelector('textarea').value.trim()
+          })
+          }else{
+            $f7.emit('e-writeMood', {
             text: $el.value[0].querySelector('textarea').value.trim(),
             emo: $store.state.appData.selectedEmojii
           })
+          }
+          // debugger
+          
 
           $f7.emit('e-writedMood')
           $el.value[0].querySelector('textarea').value = ''
 
         }
       }
+
+      let hi = ph=='1'?'':'Настроениe'
       return () => $h`
       <div>
-        <span>Настроениe</span>
+        <span>${hi}</span>
         <div class="la">${nameQ} себя чувствуешь?</div>
         <${emojiSlider} role='${props.role}'/>
         <textarea placeholder="Расскажи что-то..." @input=${(e) => { inp(e) }} class="resizable ${props.role}"></textarea>
@@ -358,6 +374,9 @@
     }
 
     let hold = false
+    if (props.hold=='1') {
+      hold = true
+    }
 
     let nameQ = $store.state.userData.name == '' ? 'Как ты' : `${$store.state.userData.name}, как ты`
     $f7.on('e-userNameAnswer', () => {
@@ -376,6 +395,12 @@
     
 
     $onMounted(() => {
+      if (props.hold=='1') {
+      hold = true
+      $($el.value[0]).addClass('border-squircle25-25')
+    }
+
+
       if (props.role == 'carddd') {
         $($el.value[0]).on('taphold', function () {
           holdChange()
@@ -385,6 +410,12 @@
       function holdChange() {
       // navigator.vibrate([30, 10, 30,])
       $store.state.gf.vibrate('success')
+      if (hold==true) {
+        
+        $($el.value[0]).removeClass('border-squircle25-25')
+      }else{
+        $($el.value[0]).addClass('border-squircle25-25')
+      }
 
       hold = hold ? false : true
       $update(() => {

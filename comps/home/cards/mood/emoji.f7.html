@@ -28,7 +28,7 @@
     
 
     function cl(e) {
-
+      
       let el = e.target
       console.log(props.role, el.classList);
       if (props.role=='carddd') { 
@@ -38,9 +38,16 @@
         $store.state.appData.selectedEmoji = ''
           
         $f7.emit('e-writeMood', {
-          emo:$store.state.appData.selectedEmojii
+          emo:props.emoji
         })
         $store.state.appData.selectedEmojii=''
+
+        for (let index = 0; index < $el.value[0].parentElement.querySelectorAll('.active').length; index++) {
+        const element = $el.value[0].parentElement.querySelectorAll('.active')[index];
+        console.log('noo');
+        $(element).removeClass('active')
+        
+      }
         }else{
            $f7.views.main.router.navigate('/moodWidgetSet/')
         }
@@ -48,6 +55,13 @@
         
       } else {
         if (props.emoji!=='+') {
+
+          for (let index = 0; index < $el.value[0].parentElement.querySelectorAll('.active').length; index++) {
+        const element = $el.value[0].parentElement.querySelectorAll('.active')[index];
+        console.log('noo');
+        $(element).removeClass('active')
+        
+      }
           el.classList.add("active")
         $store.state.appData.selectedEmoji = props.emo
         $store.state.appData.selectedEmojii = props.emoji
@@ -78,7 +92,7 @@
         $f7.emit('e-moodCardEmojiClicked', el)
         $f7.emit('e-activeNewEmo', props.num, props.emoji)
         
-
+        
         
         if (props.emoji!=='+') {
           $store.state.appData.mood.selectedSettEmoji=props.num

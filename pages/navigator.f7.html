@@ -1,0 +1,73 @@
+<template>
+  <div class="page" data-name="navigator">
+
+    <!-- Scrollable page content-->
+    <div class="page-content">
+      <div id="compass" @click=${(e)=>{cl(e)}}>
+        ${canUseWebm ? $h`
+          <video class="compassUnder" src="static/compass.webm"></video>
+          <video class="compassV" src="static/compass.webm"></video>
+          ` : $h`
+          <img class="compassUnder" src="static/compass.gif"/>
+          <img class="compassV" src="static/compass.gif"/>
+        `}
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+  #compass{
+    width: 5rem;
+    position: relative;
+    margin: 5rem;
+  }
+
+  .compassV{
+    width: 10rem;
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+    cursor: pointer;
+  }
+
+  .compassUnder{
+
+
+    position: absolute;
+    width: 10rem;
+    filter: blur(7px) opacity(0.6);
+    z-index: 1;
+    padding: 1rem;
+  }
+
+  @keyframes compassShake {
+    from{transform: translateY(0%);}
+    10%{transform: translateY(10%);}
+    40%{transform: translateY(-20%);}
+    87%{transform: translateY(-20%)}
+    to{transform: translateY(0%);}
+  }
+</style>
+<script>
+
+export default () => {
+
+  let canUseWebm = false
+    if (!app.device.ie && !app.device.ios && !app.device.ipad && !app.device.iphone && !app.device.macos) {
+      canUseWebm = true
+    }
+
+
+    function cl(ell) {
+      console.log(ell);
+      ell.target.parentElement.firstChild.play()
+      ell.target.parentElement.lastChild.play()
+
+      ell.target.parentElement.style.animation='compassShake 1.5s ease forwards'
+      setTimeout(() => {
+        ell.target.parentElement.style.animation='none'
+      }, 1500);
+    }
+  return $render;
+}
+</script>

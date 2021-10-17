@@ -1,5 +1,5 @@
 <template>
-  <div class="page" data-name="settings">
+  <div class="page set" data-name="settings">
     <div class="page-content">
       <div class="header">
         Настройки воды <br /><br />
@@ -57,7 +57,7 @@
 
       <div class="list inset block-strong no-padding-horizontal padding-vertical-half">
         <ul>
-          <li>
+          <li class="ripple ripple-dark-white overflow-hidden">
           
             <a href="/waterWidgetSet/" class="item-link item-content">
               <div class="item-media">
@@ -79,7 +79,7 @@
 
         <ul>
           <li class="accordion-item">
-            <a href="" class="item-link item-content">
+            <a href="" class="item-link item-content ripple ripple-dark-white overflow-hidden">
               <div class="item-inner">
                 <div class="item-title">Калькулятор</div>
               </div>
@@ -94,7 +94,7 @@
             </div></div>
           </li>
           <li class="accordion-item">
-            <a href="" class="item-link item-content">
+            <a href="" class="item-link item-content ripple ripple-dark-white overflow-hidden">
               <div class="item-inner">
                 <div class="item-title">Как стоит сделать</div>
               </div>
@@ -105,7 +105,7 @@
             </div></div>
           </li>
           <li class="accordion-item">
-            <a href="" class="item-link item-content">
+            <a href="" class="item-link item-content ripple ripple-dark-white overflow-hidden">
               <div class="item-inner">
                 <div class="item-title">Спросите у врача</div>
               </div>
@@ -115,7 +115,7 @@
             </div></div>
           </li>
           <li class="accordion-item">
-            <a href="" class="item-link item-content">
+            <a href="" class="item-link item-content ripple ripple-dark-white overflow-hidden">
               <div class="item-inner">
                 <div class="item-title">Что такое вода</div>
               </div>
@@ -232,7 +232,6 @@
 
 
       pickerDevice = $f7.picker.create({
-        inputEl: '#demo-picker-device',
         rotateEffect: true,
         backdrop: true,
         cssClass: 'picker',

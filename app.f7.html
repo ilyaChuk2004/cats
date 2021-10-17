@@ -17,7 +17,7 @@
           <a href="#view-home" data-way='home' class="itc home tab-link tab-link-active">
             <div data-way='home' class="it home"></div>
           </a>
-          <a href="#view-catalog" data-way="note" class="itc note tab-link">
+          <a href="#view-navigator" data-way="note" class="itc note tab-link">
             <div class="it note" data-way="note"></div>
           </a>
           <a href="#view-settings" data-way="settings" class="itc settings tab-link">
@@ -33,10 +33,10 @@
           <i class="icon material-icons if-md" data-way='home'>home</i>
           <span class="tabbar-label" data-way='home'>дом</span>
         </a>
-        <a href="#view-catalog" data-way="note" class="tab-link ripple-dark-white ripple">
-          <i class="icon f7-icons if-not-md" data-way="note">square_list_fill</i>
-          <i class="icon material-icons if-md" data-way="note">view_list</i>
-          <span class="tabbar-label" data-way="note">Catalog</span>
+        <a href="#view-navigator" data-way="note" class="tab-link ripple-dark-white ripple">
+          <i class="icon f7-icons if-not-md" data-way="note">compass_fill</i>
+          <i class="icon material-icons if-md" data-way="note">compass_fill</i>
+          <span class="tabbar-label" data-way="note">Навигатор</span>
         </a>
         <a href="#view-settings" class="tab-link ripple-dark-white ripple" data-way="settings">
           <i class="icon f7-icons if-not-md" data-way="settings">gear</i>
@@ -57,7 +57,8 @@
       <${home} />
     </div>
 
-    <div id="view-catalog" class="view view-init tab" data-name="catalog" data-url="/catalog/">
+    <div id="view-navigator" class="view view-init tab" data-url="/navigator/" data-browser-history='true'>
+      <${navigator} />
     </div>
 
 
@@ -70,15 +71,16 @@
 
 
   <div id="appCss97"></div>
+  <div id="appCss97Color"></div>
   </div>
 </template>
 <script>
   import home from './pages/home.f7.html'
-  import catalog from './pages/catalog.f7.html'
+  import navigator from './pages/navigator.f7.html'
   import settings from './pages/settings.f7.html'
 
   import lvl from './comps/home/header/lvlGauge.f7.html'
-  export default (props, { $f7, $update, $el, $, $onMounted }) => {
+  export default (props, { $f7, $update, $el, $, $onMounted, $store }) => {
     // Login screen demo data
     let username = '';
     let password = '';
@@ -108,7 +110,7 @@
         })
         $f7.tooltip.create({
           targetEl: $('.itc.note')[0],
-          text: 'Блокнот',
+          text: 'Навигатор',
           cssClass: 'menuTooltip',
           containerEl: $('.itc.note')[0]
         })
@@ -135,6 +137,11 @@
         $f7.emit('e-appMount')
 
       }, 50);
+
+
+      $f7.emit('e-updColors', $store.state.userData.pref.color, $store.state.userData.pref.colorRgb )
+
+                
     })
 
 

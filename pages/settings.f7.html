@@ -1,5 +1,5 @@
 <template>
-<div class="page" data-name="settings">
+<div class="page set" data-name="settings">
   <div class="page-content">
     <div class="header">
       Настройки
@@ -16,7 +16,6 @@
     </div>
     <div class="list inset block-strong">
       <ul>
-        <li>
           
           <${listItem} hhref="/waterSet/" ico="drop_fill" text="Вода" class="water"/>
 
@@ -24,7 +23,13 @@
 
           <${listItem} hhref="/moodWidgetSet/" ico="app_badge_fill" text="Виджет настроения" class="mood"/>
 
-        </li>
+
+      </ul>
+    </div>
+
+    <div class="list inset block-strong no-margin-top">
+      <ul>
+          <${listItem} hhref="/appSet/" ico="command" text="Приложение" class="app"/>
         <li><button class="button button-outline button-round" @click=${clear}>удалить данные</button></li>
       </ul>
     </div>
@@ -41,6 +46,7 @@ export default (props, {$store, $f7, $update, $onMounted, $}) => {
 
 const listItem = (props, { $h }) => {
   return () => $h`
+  <li class='ripple ripple-dark-white overflow-hidden'>
   <a href="${props.hhref}" class="item-link item-content">
             <div class="item-media">
               <i class="f7-icons ${props.class}">${props.ico}</i>
@@ -48,7 +54,9 @@ const listItem = (props, { $h }) => {
             <div class="item-inner">
               <div class="item-title">${props.text}</div>
             </div>
-          </a>`;
+          </a>
+          </li>`
+          ;
 }
 
 

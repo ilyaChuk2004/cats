@@ -1,0 +1,191 @@
+<template>
+  <div class="page set" data-name="settings">
+    <div class="page-content">
+      <div class="header">
+        Настройки приложения
+      </div>
+
+      <div class="list simple-list inset block-strong">
+            <ul>
+
+              <li class="togglee ripple ripple-dark-white overflow-hidden" >
+                <label>
+                  <span class="disc">Размытие 
+                    <span class="down">Размытие заднего фона. Например, при всплывающих окнах. На слабых устройствах может подвисать</span>
+                  </span>
+                
+                  <span class="toggle" id="toggleBlur">
+                    <input type="checkbox" checked />
+                    <span class="toggle-icon"></span>
+                  </span>
+                </label>  
+              </li>
+
+              <li class="togglee ripple ripple-dark-white overflow-hidden">
+                <label>
+                  <span class="disc">Акцентный цвет 
+                    
+                  </span>
+                  <div id="prew"></div>
+                  <input type="text" class="display-none" placeholder="Color" readonly="readonly" id="color-input" />
+                </label>
+              </li>
+
+              <li class="togglee ripple ripple-dark-white overflow-hidden" @click=${themeChange}>
+                <label>
+                  <span class="disc">Цветовая тема
+                    
+                  </span>
+                  ${currentThemeRu}
+                </label>
+              </li>
+
+            </ul>
+      </div>
+
+
+
+    </div>
+  </div>
+</template>
+<script>
+
+  export default (props, { $store, $onMounted, $f7, $, $update, $el }) => {
+
+    let currentThemeRu;
+    if ($store.state.userData.pref.theme == 'auto') {
+      currentThemeRu = 'Авто'
+    }else if ($store.state.userData.pref.theme == 'dark'){
+      currentThemeRu = 'Тёмная'
+    }else{
+      currentThemeRu = 'Светлая'
+    }
+
+
+    function themeChange(){
+      let choise = $f7.actions.create({
+        closeOnEscape:true,
+        convertToPopover:true,
+        cssClass: 'action-center',
+        buttons:[
+          {
+            text:'авто',
+            onClick:()=>{
+              doo('auto')
+            }
+          },
+          {
+            text:'тёмная',
+            onClick:()=>{
+              doo('dark')
+            }
+          },
+          {
+            text:'светлая',
+            onClick:()=>{
+              doo('light')
+            }
+          }
+        ]
+      })
+
+      choise.open()
+
+      function doo(theme){
+        if (theme=='dark') {
+          $store.state.userData.pref.theme=theme
+        }else if(theme=='auto'){
+          $store.state.userData.pref.theme=theme
+        }else if(theme=='light'){
+          $store.state.userData.pref.theme=theme
+          console.log('l');
+        }
+
+        $f7.emit('e-backp')
+        if ($store.state.userData.pref.theme == 'auto') {
+      currentThemeRu = 'Авто'
+    }else if ($store.state.userData.pref.theme == 'dark'){
+      currentThemeRu = 'Тёмная'
+    }else{
+      currentThemeRu = 'Светлая'
+    }
+        $update()
+      }
+    }
+
+
+    $onMounted(() => {
+
+      var toggleBlur = $f7.toggle.create({el:$el.value[0].querySelector('#toggleBlur')});
+
+      if ($store.state.userData.pref.blur!=='blur') {
+          toggleBlur.toggle();
+      }
+
+
+      toggleBlur.on('change', (e)=>{
+        if (e.checked) {
+          $store.state.userData.pref.blur='blur'
+        }else{
+          $store.state.userData.pref.blur='noblur'
+        }
+
+        
+
+        $f7.emit('e-backp')
+        document.body.setAttribute('data-blur', $store.state.userData.pref.blur)
+      })
+
+
+      var colorPicker = $f7.colorPicker.create({
+  inputEl: $el.value[0].querySelector('#color-input'),
+  targetEl: $el.value[0].querySelector('#prew'),
+modules:['sb-spectrum', 'hue-slider', 'initial-current-colors'],
+targetElSetBackgroundColor: true,
+value:{
+  hex:$store.state.userData.pref.color
+},
+routableModals :true
+});
+
+colorPicker.on('closed', (e)=>{
+  console.log(e.value);
+  let confirm = $f7.dialog.create({
+    closeByBackdropClick:true,
+    title:'Акцентный цвет',
+    text:`Изменить акцентный цвет на <span style='color:${e.value.hex}'>такой</span>?`,
+    buttons:[
+      {
+        text:'Нет'
+      },
+      {
+        text:'Да',
+        bold:true,
+        onClick:()=>{
+          
+          $store.state.userData.pref.color=e.value.hex
+          $store.state.userData.pref.colorRgb=e.value.rgb.join(',')
+    $f7.emit('e-backp')
+
+    var col = $store.state.userData.pref.color;
+    $f7.emit('e-updColors', col, e.value.rgb.join(','))
+        }
+      }
+    ]
+  })
+
+  if ($store.state.userData.pref.color!==e.value.hex) {
+    confirm.open()
+    
+
+    
+
+                
+
+  }
+})
+
+    })
+    return $render;
+  };
+</script>

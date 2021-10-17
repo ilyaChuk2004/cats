@@ -30,6 +30,13 @@
     font-weight: bold;
     font-size: 10pt;
   }
+  .gauge-svg circle{
+    stroke:#eeeeee
+  }
+
+  body.theme-dark .gauge-svg circle {
+    stroke:#31423c
+  }
   </style>
 <script>
   export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
@@ -142,6 +149,14 @@
         });
         $update()
         $f7.emit('e-backp')
+      })
+
+      $f7.on('e-themeChanged', ()=>{
+        console.log('newtheme');
+        ga.update({
+          borderBgColor:$store.state.appData.theme=='light'?
+        '#eeeeee':'#31423c',
+        });
       })
     })
     return $render;

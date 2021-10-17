@@ -1,10 +1,11 @@
 <template>
   <div class="cardd mood">
+    <div class="leftShadow"></div>
 
     ${hold ? $h`
 
     <div class="hold">
-      <${pcVer} role=${props.role}/>
+      <${pcVer} role=${props.role} />
     </div>
 
 
@@ -12,208 +13,355 @@
     ${!$store.state.appData.desktop ? $h`
     <span>Настроениe</span>
     <div class="la">${nameQ} себя чувствуешь?</div>
-    <div class="emojies">
-      <${emoji} emo='-1' role=${props.role} num='0' emoji=${$store.state.userData.mood.emo1} />
-      <${emoji} emo='0' role=${props.role} num='1' emoji=${$store.state.userData.mood.emo2} />
-      <${emoji} emo='1' role=${props.role} num='2' emoji=${$store.state.userData.mood.emo3} />
-      <${emoji} emo='2' role=${props.role} num='3' emoji=${$store.state.userData.mood.emo4} />
-    </div>
+    <${emojiSlider} role=${props.role}/>
     ` : $h`
-    <${pcVer} role=${props.role}/>
+    <${pcVer} role=${props.role} />
     `}
     `}
-
   </div>
 </template>
 <style>
- .cardd.mood {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  transform: scale(1);
-  transition: 0.8s cubic-bezier(0.04, 0.93, 0.76, 0.98);
-  box-shadow: var(--moodCardBSH);
-  background: var(--moodCardGrad);
-}
-.cardd.mood::after {
-  content: '';
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.cardd.mood.active-state {
-  transform: scale(0.93);
-  transition: 0.3s cubic-bezier(0.92, 0.01, 1, 0.9) !important;
-}
-@media (min-width: 900px) {
-  .cardd.mood.active-state {
-    transform: scale(0.99);
+  .cardd.mood {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    transform: scale(1);
+    transition: 0.8s cubic-bezier(0.04, 0.93, 0.76, 0.98);
+    box-shadow: var(--moodCardBSH);
+    background: var(--moodCardGrad);
+    max-width: 30rem;
   }
-}
-.cardd.mood .la {
-  opacity: 0.5;
-  color: #ffffff;
-}
-.cardd.mood span {
-  color: #d75c178f;
-  font-weight: 900;
-  font-size: 26pt;
-}
-@media (prefers-color-scheme: dark) {
+
+  .set .cardd.mood{
+    cursor: default;
+  }
+
+  @media (max-width: 900px) {
+    .cardd.mood {
+      max-width: inherit;
+    }
+  }
+  .cardd.mood .leftShadow {
+    z-index: 4;
+    height: 100%;
+    width: 0%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    box-shadow: 1px 1px 20px 13px #ffc7a7;
+  }
+
+  body.theme-dark .cardd.mood .leftShadow {
+    box-shadow: 1px 1px 20px 13px #cd7d4f;
+  }
+
+  .cardd.mood::after {
+    content: '';
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .cardd.mood::before {
+    content: '';
+    z-index: 4;
+    height: 100%;
+    width: 0%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    box-shadow: 1px 1px 20px 13px #ffa979;
+  }
+
+  body.theme-dark .cardd.mood::before {
+    box-shadow: 1px 1px 20px 13px #f69965;
+  }
+
+  .cardd.mood.active-state {
+    transform: scale(0.93);
+    transition: 0.3s cubic-bezier(0.92, 0.01, 1, 0.9) !important;
+  }
+
+  @media (min-width: 900px) {
+    .cardd.mood.active-state {
+      transform: scale(0.99);
+    }
+  }
+
+  .cardd.mood .la {
+    opacity: 0.5;
+    color: #ffffff;
+  }
+
   .cardd.mood span {
+    color: #d75c178f;
+    font-weight: 900;
+    font-size: 26pt;
+  }
+
+  body.theme-dark .cardd.mood span {
     color: #aa3d008f;
   }
-}
-@media (min-width: 900px) {
-  .cardd.mood span {
-    font-size: 35pt;
+
+  @media (min-width: 900px) {
+    .cardd.mood span {
+      font-size: 35pt;
+    }
   }
-}
-.cardd.mood .emojies {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 0.7rem;
-}
-.cardd.mood .emojies .emoji {
-  opacity: 0.8;
-  position: relative;
-  z-index: 4;
-  filter: drop-shadow(0px 0px transparent);
-  transition: 0.3s cubic-bezier(0.42, 0, 0.31, 2.5);
-  margin: 0rem 0.4rem;
-    font-size: 13vw;
-  transform: scale(1);
-}
-@media (min-width: 900px) {
+
+  .cardd.mood .emojies {
+    /* display: flex; */
+    /* justify-content: space-around; */
+    margin-top: 0.7rem;
+    width: calc(100% + 2rem);
+    max-width: calc(100% + 2rem);
+    max-height: 100vh;
+    min-height: 0;
+    min-width: 0;
+    margin-left: -1rem;
+    overflow: initial
+  }
+
   .cardd.mood .emojies .emoji {
-    margin: 0rem 0.5rem;
-  font-size: 3.3rem;
+    opacity: 0.8;
+    position: relative;
+    z-index: 4;
+    filter: drop-shadow(0px 0px transparent);
+    transition: all 0.3s cubic-bezier(0.42, 0, 0.31, 2.5), font-size 0.2s ease;
+    margin: 0rem 0.4rem;
+    font-size: 13vw;
+    width: 17vw;
+    height: 17vw;
+    transform: scale(1);
+    display: inline-block;
+    cursor: pointer;
+    color:#ffb68c
   }
-}
-.cardd.mood .emojies .emoji:before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-.cardd.mood .emojies .emoji:hover {
-  opacity: 1;
-  transform: scale(0.95);
-}
-.cardd.mood .emojies .emoji.active {
-  opacity: 1;
-  filter: drop-shadow(0px 12px 11px #00000042);
-  transform: scale(1.1);
-}
-.cardd.mood .emojies .emoji.active-state {
-  transform: scale(0.9);
-}
-.cardd.mood .emojies .emoji img {
-  width: 4rem;
-  height: 4rem;
-}
-.cardd.mood button {
-  z-index: 5;
-  cursor: pointer;
-  border: none;
-  background: #ffffff2e;
-  border: 1px solid #ffffff45;
-  font-family: 'Inter';
-  font-weight: 500;
-  font-size: 12pt;
-  color: #000000ba;
-  position: relative;
-  border-radius: 90rem;
-  width: auto;
-  margin: 1rem auto -1rem;
-  display: block;
-  padding: 0.5rem 2rem !important;
-  transition: 0.3s ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .cardd.mood button:hover {
+
+  @media (min-width: 900px) {
+    .cardd.mood .emojies .emoji {
+      margin: 0rem 0.5rem;
+      font-size: 3.3rem;
+      width: 4.3rem;
+      height: 4.3rem;
+
+    }
+  }
+
+  .cardd.mood .emojies .emoji:not(:empty):before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .cardd.mood .emojies .emoji:empty{
+    pointer-events: none;
+  }
+
+
+  .cardd.mood .emojies .emoji:hover {
+    opacity: 1;
+    transform: scale(0.95);
+  }
+  .cardd.mood .emojies .emoji:not(:has(:not(:blank))){
+    pointer-events: none;
+  }
+
+  .cardd.mood .emojies .emoji.active {
+    opacity: 1;
+    filter: drop-shadow(0px 12px 11px #00000042);
+    transform: scale(1.1);
+  }
+
+  .cardd.mood .emojies .emoji.active-state {
+    transform: scale(0.9);
+  }
+
+  .cardd.mood .emojies .emoji img {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .cardd.mood .emojies .swiper-slide {
+    /* width: min-content;*/
+    /* display: flex;  */
+    /* width: 80% */
+    /* width: max-content;*/
+
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .cardd.mood .emojies .plusEmoji {
+    width: 13vw;
+    height: 13vw;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%) scale(1);
+    /* background-color: #f00; */
+    border-radius: 100%;
+    line-height: 3rem;
+    opacity: 0.9;
+    margin: 0rem 0.4rem;
+    font-size: 13vw;
+    background-image: url(static/img/plus.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    box-sizing: border-box;
+    transition:  0.3s cubic-bezier(0.42, 0, 0.34, 1.63);
+    filter:none;
+  }
+
+  .cardd.mood .emojies .plusEmoji.active {
+    filter: drop-shadow(0px 0px 9px) drop-shadow(0px 0px 9px);
+    color: rgba(var(--f7-theme-color-rgb));
+    transform:translateY(-50%) scale(1.2 );
+  }
+
+  @media (min-width: 900px) {
+    .cardd.mood .emojies .plusEmoji {
+      width: 3.3rem;
+    height: 3.3rem;
+      margin: 0rem 0.5rem;
+      font-size: 3.3rem;
+
+    }
+  }
+
+  .cardd.mood .emojies .plusEmoji::after{
+    content: '';
+    position: absolute;
+    top: -7%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 0px;
+  }
+
+
+  .cardd.mood button {
+    z-index: 5;
+    cursor: pointer;
+    border: none;
+    background: #ffffff2e;
+    border: 1px solid #ffffff45;
+    font-family: 'Inter';
+    font-weight: 500;
+    font-size: 12pt;
+    color: #000000ba;
+    position: relative;
+    border-radius: 90rem;
+    width: auto;
+    margin: 1rem auto -1rem;
+    display: block;
+    padding: 0.5rem 2rem !important;
+    transition: 0.3s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cardd.mood button:hover {
+      background: #ffffff6b;
+      box-shadow: 0 0 8px #0000001a;
+    }
+  }
+
+  .cardd.mood button.active-state {
     background: #ffffff6b;
     box-shadow: 0 0 8px #0000001a;
   }
-}
-.cardd.mood button.active-state{
-  background: #ffffff6b;
-    box-shadow: 0 0 8px #0000001a;
-}
-.cardd.mood button .ripple-wave {
-  background-color: #00000010;
-}
-.cardd.mood button.settings {
-  display: none;
-}
-.cardd.mood textarea {
-  z-index: 8;
-  position: relative;
-  transition: 0.3s ease, 0s height;
-  width: 100%;
-  border-radius: 1.5rem;
-  background: #ffffff45;
-  border: 1px solid #ffffff45;
-  padding: 0.7rem 1rem;
-  font-size: 13pt;
-  font-weight: 500;
-  color: #000000c4;
-  margin-top: 0.8rem;
-}
-.cardd.mood textarea.settings {
-  display: none;
-}
-.cardd.mood textarea:focus {
-  background: #ffffff73;
-  box-shadow: 0 0 8px #0000001a;
-}
-.cardd.mood textarea::placeholder {
-  opacity: 0.7;
-}
 
+  .cardd.mood button .ripple-wave {
+    background-color: #00000010;
+  }
+
+  .cardd.mood button.settings {
+    display: none;
+  }
+
+  .cardd.mood textarea {
+    z-index: 8;
+    position: relative;
+    transition: 0.3s ease, 0s height;
+    width: 100%;
+    border-radius: 1.5rem;
+    background: #ffffff45;
+    border: 1px solid #ffffff45;
+    padding: 0.7rem 1rem;
+    font-size: 13pt;
+    font-weight: 500;
+    color: #000000c4;
+    margin-top: 0.8rem;
+  }
+
+  .cardd.mood textarea.settings {
+    display: none;
+  }
+
+  .cardd.mood textarea:focus {
+    background: #ffffff73;
+    box-shadow: 0 0 8px #0000001a;
+  }
+
+  .cardd.mood textarea::placeholder {
+    opacity: 0.7;
+  }
 </style>
 <script>
 
-  import emoji from './mood/emoji.f7.html'
+  
+  import emojiSlider from './mood/emojiSlider.f7.html'
 
   export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
     console.log(props.role);
-    
+
 
     const q_textarea = (props, { $h }) => {
       return () => $h`
-      <textarea placeholder="Расскажи что-то..." @input=${(e)=>{inp(e)}} class="resizable ${props.role}"></textarea>
+      
       `;
     }
 
+    
+
     let pr = props.role;
     const pcVer = (props, { $h }) => {
+      function tt() {
+        if ($el.value[0].querySelector('textarea').value.trim() !== '') {
+          $store.state.userData.moodTextarea = ''
+          $f7.emit('e-writeMood', {
+            text: $el.value[0].querySelector('textarea').value.trim(),
+            emo: $store.state.appData.selectedEmojii
+          })
+
+          $f7.emit('e-writedMood')
+          $el.value[0].querySelector('textarea').value = ''
+
+        }
+      }
       return () => $h`
       <div>
         <span>Настроениe</span>
-      <div class="la">${nameQ} себя чувствуешь?</div>
-      <div class="emojies">
-        <${emoji} emo='-1'  num='0' emoji=${$store.state.userData.mood.emo1} role='${pr}' />
-        <${emoji} emo='0' num='1'  emoji=${$store.state.userData.mood.emo2} role='${pr}' />
-        <${emoji} emo='1'  num='2' emoji=${$store.state.userData.mood.emo3} role='${pr}' />
-        <${emoji} emo='2' num='3'  emoji=${$store.state.userData.mood.emo4} role='${pr}' />
-      </div>
-      <${q_textarea} role='${props.role}'/>
-      <button class="ripple ripple-dark-white overflow-hidden ${props.role}">записать</button>
+        <div class="la">${nameQ} себя чувствуешь?</div>
+        <${emojiSlider} role='${props.role}'/>
+        <textarea placeholder="Расскажи что-то..." @input=${(e) => { inp(e) }} class="resizable ${props.role}"></textarea>
+        <button @click=${tt} class="ripple ripple-dark-white overflow-hidden confirmBtnn ${props.role}">записать</button>
       </div>
       `;
     }
 
     let hold = false
-    
-    let nameQ = $store.state.userData.name==''?'Как ты':`${$store.state.userData.name}, как ты`
-    $f7.on('e-userNameAnswer', ()=>{
-      nameQ = $store.state.userData.name==''?'Как ты':`${$store.state.userData.name}, как ты`
+
+    let nameQ = $store.state.userData.name == '' ? 'Как ты' : `${$store.state.userData.name}, как ты`
+    $f7.on('e-userNameAnswer', () => {
+      nameQ = $store.state.userData.name == '' ? 'Как ты' : `${$store.state.userData.name}, как ты`
       $update()
     })
 
@@ -224,12 +372,17 @@
       }, 200);
     }
 
-    $f7.on('e-changeEmoji', ()=>{
-      $update()
-    })
 
+    
 
-    function holdChange() {
+    $onMounted(() => {
+      if (props.role == 'carddd') {
+        $($el.value[0]).on('taphold', function () {
+          holdChange()
+        });
+      }
+
+      function holdChange() {
       // navigator.vibrate([30, 10, 30,])
       $store.state.gf.vibrate('success')
 
@@ -238,19 +391,12 @@
         setTimeout(() => {
           $f7.emit('e-moodCardHold')
 
-          if ($el.value[0].querySelector('textarea').value=='') {
-          $el.value[0].querySelector('textarea').value=$store.state.userData.moodTextarea
-        }
+          if ($el.value[0].querySelector('textarea').value == '') {
+            $el.value[0].querySelector('textarea').value = $store.state.userData.moodTextarea
+          }
         }, 10);
       })
     }
-
-    $onMounted(() => {
-      if (props.role=='carddd') {
-        $($el.value[0]).on('taphold', function () {
-        holdChange()
-      });
-      }
 
       function nav() {
         if (!$store.state.userData.teach.cardClick) {
@@ -278,37 +424,46 @@
 
       $('.cardd.mood').on('click', (e) => {
 
-        if (props.role=='carddd') {
+        if (props.role == 'carddd') {
           if (e.altitudeAngle == null && e.toElement.classList.contains('cardd')) {
-          nav()
-        } else if (e.target.classList.contains('cardd')) {
-          nav()
-        }
+            nav()
+          } else if (e.target.classList.contains('cardd')) {
+            nav()
+          }
         }
 
 
       })
 
 
-      $($el.value[0].querySelector('textarea')).on('change', (e)=>{
+      $($el.value[0].querySelector('textarea')).on('change', (e) => {
         console.log(e);
       })
 
       setTimeout(() => {
         console.log($el.value[0].querySelector('textarea'));
-        if ($el.value[0].querySelector('textarea').value=='') {
-          $el.value[0].querySelector('textarea').value=$store.state.userData.moodTextarea
+        try {
+          if ($el.value[0].querySelector('textarea').value == '') {
+          $el.value[0].querySelector('textarea').value = $store.state.userData.moodTextarea
+        }
+        } catch (error) {
+          
         }
       }, 10);
+
+
+      
+
 
     })
 
     function inp(e) {
       let val = e.target.value
 
-      $store.state.userData.moodTextarea=val
+      $store.state.userData.moodTextarea = val
       $f7.emit('e-backp', '-')
     }
+    
 
 
 

@@ -2,7 +2,7 @@
     "allowedExtensions":[".less"],
     "minified": false,
     "sourceMap": false,
-    "watchFolder": "css",
-    "outputFolder": "css",
+    "watchFolder": "./",
+    "outputFolder": "./",
     "lessArgs": "m=always"
 }

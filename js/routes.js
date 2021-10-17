@@ -1,11 +1,12 @@
 
 import HomePage from '../pages/home.f7.html';
-import CatalogPage from '../pages/catalog.f7.html';
+import navigatorPage from '../pages/navigator.f7.html';
 import SettingsPage from '../pages/settings.f7.html';
 import water from '../pages/water.f7.html';
 import mood from '../pages/mood.f7.html';
 import waterSet from '../pages/waterSettings.f7.html';
 import moodSet from '../pages/moodSettings.f7.html';
+import appSet from '../pages/appSettings.f7.html';
 import moodWidgetSet from '../pages/moodWidgetSettings.f7.html';
 import waterWidgetSet from '../pages/waterWidgetSettings.f7.html';
 import avaChange from '../comps/avaChange.f7.html';
@@ -28,11 +29,12 @@ var routes = [
     },
   },
   {
-    path: '/catalog/',
-    component: CatalogPage, 
+    path: '/navigator/',
+    component: navigatorPage, 
     options: {
       transition: transition,
     },
+    
   },
   {
     path: '/settings/',
@@ -40,6 +42,11 @@ var routes = [
     options: {
       transition: transition,
     },
+    on: {
+      pageInit: function (event, page) {
+       console.log(44);
+      },
+    }
   },
 
 
@@ -67,6 +74,13 @@ var routes = [
   {
     path: '/moodSet/',
     component: moodSet,  
+    options: {
+      transition: transition,
+    },
+  },
+  {
+    path: '/appSet/',
+    component: appSet,  
     options: {
       transition: transition,
     },

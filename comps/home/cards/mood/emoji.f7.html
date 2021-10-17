@@ -6,8 +6,9 @@
 <style>
 </style>
 <script>
-  export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
-    console.log(props);
+  export default (props, { $store, $f7, $update, $el, $, $onMounted, $onBeforeUnmount }) => {
+    
+    $store.state.appData.thumbAniTime=0
 
     let toastClose = $f7.toast.create({
       text: 'Нажмите ещё раз, чтобы записать',
@@ -20,8 +21,11 @@
     })
 
     $f7.on('e-changeEmoji', ()=>{
+      // console.log(props);
       $update()
     })
+
+    
 
     function cl(e) {
 
@@ -29,57 +33,123 @@
       console.log(props.role, el.classList);
       if (props.role=='carddd') { 
         if (el.classList.contains('active')) {
-        $(el).removeClass('active')
+        if (props.emoji!=='+') {
+          $(el).removeClass('active')
         $store.state.appData.selectedEmoji = ''
-
-        let toast = $f7.toast.create({
-          icon: '<i class="f7-icons">👍</i>',
-          text: 'Настроение записано',
-          position: 'center',
-          horizontalPosition: 'center',
-          closeTimeout: 2000
+          
+        $f7.emit('e-writeMood', {
+          emo:$store.state.appData.selectedEmojii
         })
+        $store.state.appData.selectedEmojii=''
+        }else{
+           $f7.views.main.router.navigate('/moodWidgetSet/')
+        }
 
-        toast.open()
-        $store.state.gf.vibrate('big success')
-
-        $store.state.userData.teach.doubleClickEmoji=true
-        $f7.emit('e-backp')
+        
       } else {
-        $(el.parentElement.querySelector('.active')).removeClass('active')
-        el.classList.add("active")
+        if (props.emoji!=='+') {
+          el.classList.add("active")
         $store.state.appData.selectedEmoji = props.emo
+        $store.state.appData.selectedEmojii = props.emoji
+
+        $f7.emit('e-activeNewEmo', props.num)
+
+       
 
         if (!$store.state.userData.teach.doubleClickEmoji) {
           setTimeout(() => {
             toastClose.open()
           }, 500);
         }
+      }else{
+           $f7.views.main.router.navigate('/moodWidgetSet/')
+           setTimeout(() => {
+            $store.state.appData.mood.selectedSettEmoji=props.num
+           $store.state.appData.mood.isPlus=true
+            $f7.emit('e-redirToSettEmo')
+            $f7.emit('e-moodCardEmojiClicked', $el.value[0])
+            $f7.emit('e-activeIt', props.num)
+           }, 200);
+        }
+        
         }
       }else{
-        $(el.parentElement.querySelector('.active')).removeClass('active')
         el.classList.add("active")
         $f7.emit('e-moodCardEmojiClicked', el)
+        $f7.emit('e-activeNewEmo', props.num, props.emoji)
+        
+
+        
+        if (props.emoji!=='+') {
+          $store.state.appData.mood.selectedSettEmoji=props.num
+          $store.state.appData.mood.isPlus=false
+        }else{
+           $store.state.appData.mood.selectedSettEmoji=props.num
+           $store.state.appData.mood.isPlus=true
+        }
+        console.log('num:',$store.state.appData.mood.selectedSettEmoji);
       }
+
+      
+      
+
+      //todo вызов события записи эмоции
+      
 
 
     }
 
+    
+    $f7.on('e-activeIt', (id)=>{
+        // console.log('atit',props.num, id );
+          setTimeout(() => { 
+            if(props.num ==id && props.role=='settings'){
+            $el.value[0].lastChild.classList.add("active") 
+            $store.state.appData.mood.selectedSettEmoji=props.num
+            $store.state.appData.mood.isPlus=true
+            console.log('DOOONE');
+            
+          }
+          }, 400);
+      })
 
+    function def(){
+      try {
+        $($el.value[0]).removeClass('active') 
+      } catch (error) {
+        
+      }
+        $store.state.appData.selectedEmoji = ''
+        $store.state.appData.selectedEmojii=''
+    }
+
+    $f7.on('e-writedMood', ()=>{def()})
+
+    $f7.on('e-activeNewEmo', (id,s)=>{
+        console.log(props.num, id)
+          if(props.num !==id){
+            $($el.value[0]).removeClass('active')
+          }else{ 
+            if (s=='+') {
+            $store.state.appData.mood.isPlus=true
+            }else{
+            $store.state.appData.mood.isPlus=false
+            }
+            $store.state.appData.mood.selectedSettEmoji=props.num
+            $el.value[0].classList.add("active") 
+          }
+      })
 
     $onMounted(() => {
+      
+
       var ell = $el.value[0]
       $f7.on('e-moodCardHold', () => {
-        console.log(props.emo, $store.state.appData.selectedEmoji, ell);
-        if (props.emo == $store.state.appData.selectedEmoji) {
-          // debugger
-          console.log('yessss', ell);
-
-          ell.classList.add("active")
-          console.log(ell.classList);
-
-        }
+        $f7.emit('e-activeNewEmo', $store.state.appData.mood.selectedSettEmoji, '')
       })
+    })
+    $onBeforeUnmount(()=>{
+      $f7.off('e-activeNewEmo')
     })
     return $render;
   }

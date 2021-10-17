@@ -7,7 +7,10 @@ const store = createStore({
       weatherClicks:0,
       xpFromWaterStreak:100,
       rihtClickTeachTime:0,
-      pressCupTeachTime:0
+      pressCupTeachTime:0,
+      lastMoodWrite:0,
+      view:0,
+      mood:{}
     },
     userData:{
       name:'',
@@ -24,15 +27,35 @@ const store = createStore({
         cup3:300
       },
       mood:{
-        emo1:'😢',
-        emo2:'🙁',
-        emo3:'🙂',
-        emo4:'😄',
+        emojies:['😢','🙁','🙂','😄', '+'],
         emojiChanges:0,
-        lastEmojies:[]
+        lastEmojies:[],
+        days:[
+          {
+            date:'1631991136176',
+            moods:[
+              {
+                emo:'😢',
+                time:'1631991136176'
+              },
+              {
+                emo:'😃',
+                time:'1631991136174'
+              },
+            ]
+          },
+          
+        ]
       },
       teach:{
-        widgetPress:false
+        widgetPress:false,
+        deleteMood:false
+      },
+      pref:{
+        blur:'blur',
+        color:'#5acca8',
+        colorRgb:'90, 204, 168',
+        theme:'auto'
       }
     },
     gf:{

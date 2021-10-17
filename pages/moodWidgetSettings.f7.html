@@ -1,5 +1,5 @@
 <template>
-  <div class="page ws" data-name="settings">
+  <div class="page ws set" data-name="settings">
     <div class="page-content">
       <div class="header">
         Настройки виджета настроения
@@ -99,14 +99,16 @@
                   ${$store.state.userData.mood.lastEmojies.map((it)=>$h`
                     <span>${it}</span>
                   `)}
-                    <span>😊</span>
-                    <span>🙂</span>
-                    <span>😉</span>
                 </div>
               </li>
               `}
             </ul>
         </div>
+
+        ${!$store.state.appData.mood.isPlus && $h`
+          <button @click=${deletee} class="col color-red button button-outline button-round no-margin-vertical ripple ripple-dark-white overflow-hidden">Удалить</button>
+        `}
+        
 
       </div>
 
@@ -139,8 +141,7 @@
     function confirm(smile) {
       let parent = inputSlideOpened.parentElement
       let newSmile = smile !== undefined ? smile : $el.value[0].querySelector('#smileInput').value
-      console.log($(inputSlideOpened).index(), $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)]);
-      $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)] = newSmile
+      $store.state.userData.mood.emojies[$store.state.appData.mood.selectedSettEmoji] = newSmile
       $store.state.userData.mood.emojiChanges++
       if (!$store.state.userData.mood.lastEmojies.includes(newSmile)) {
         $store.state.userData.mood.lastEmojies.push(newSmile);
@@ -152,6 +153,17 @@
       if ($store.state.userData.mood.lastEmojies.length > 20) {
         $store.state.userData.mood.lastEmojies = $store.state.userData.mood.lastEmojies.slice(1)
       }
+      console.log('num:',$store.state.appData.mood.selectedSettEmoji);
+      if ($store.state.appData.mood.isPlus) {
+        $store.state.userData.mood.emojies.push('+')
+        $store.state.appData.mood.isPlus=false
+        // if (($store.state.appData.mood.selectedSettEmoji+1)%4==0) {
+          
+            $f7.emit('e-newEmojiSliderPage')
+            $f7.emit('e-activeNewEmo', $store.state.appData.mood.selectedSettEmoji, newSmile)
+          
+        // }
+      }
       $f7.emit('e-backp')
       $f7.emit('e-changeEmoji')
 
@@ -159,8 +171,36 @@
       $update()
     }
 
+    function deletee() {
+      let nArr=$store.state.userData.mood.emojies
+
+      nArr.splice($store.state.appData.mood.selectedSettEmoji, 1)
+
+      $store.state.userData.mood.emojies=nArr
+
+      $store.state.userData.mood.emojiChanges++
+      $store.state.appData.mood.isPlus=true
+      $store.state.appData.mood.selectedSettEmoji=$store.state.appData.mood.selectedSettEmoji>1?
+      $store.state.appData.mood.selectedSettEmoji-1:$store.state.appData.mood.selectedSettEmoji
+
+      $f7.emit('e-backp')
+      $f7.emit('e-activeNewEmo', '-547ip')
+      $f7.emit('e-changeEmoji')
+      $f7.emit('e-emojiSettDeleted')
+      
+
+      $store.state.gf.vibrate('success')
+      $update()
+    }
+
+    $f7.on('e-moodCardEmojiClicked', ()=>{
+      console.log($store.state.appData.mood.isPlus);
+      $update()
+    })
+
     $onUnmounted(() => {
       $f7.off('e-moodCardEmojiClicked')
+      $(document).off('click', '#msExamples span')
     })
 
     $onMounted(() => {

@@ -6,7 +6,12 @@
         <div class="header">
           Настроение
         </div>
-        кам инг сун
+        
+
+        <${timeline}/>
+        
+
+
       </div>
       <div class="control">
 
@@ -27,9 +32,27 @@
   </div>
 </template>
 <script>
+  import timeline from '../comps/mood/timeline/timeline.f7.html'
   export default (props, { $store, $onMounted, $f7, $update }) => {
-    $onMounted(()=>{
 
+
+   
+    $onMounted(()=>{
+      if (!$store.state.userData.teach.deleteMood && !$store.state.appData.desktop) {
+        let text = 'Зажать на записи — удалить'
+          let toast = $f7.toast.create({
+            text:text,
+            closeTimeout:2000
+          })
+
+          toast.open()
+
+          toast.on('close', ()=>{
+            $store.state.userData.teach.deleteMood=true
+            $f7.emit('e-backp')
+          })
+        
+      }
     })
 
     return $render;

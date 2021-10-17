@@ -1,0 +1,220 @@
+<template>
+  <!-- Timeline -->
+  <div class="timeline">
+
+    <!-- Timeline item with special timeline elements -->
+    ${$store.state.userData.mood.days.slice().reverse().map((el=>$h`
+
+    <${item} day=${el} />
+
+    `))}
+
+
+  </div>
+</template>
+
+<script>
+  import './timeline.css'
+  export default (props, { $store, $f7, $update, $el, $, $onMounted, $onUnmounted }) => {
+
+
+    const mood = (el) => {
+
+      if (el.emo==undefined) {
+        el.emo=''
+      }
+
+
+      if (el.text == undefined) {
+        return `
+          <div class='time'>${new Date(+el.time).toLocaleString('default', { hour: 'numeric', minute: 'numeric' })}</div>
+          <div class='emoji'>${el.emo}</div>
+
+        `
+      }else{
+        return `
+        <div class="timeline-item-inner">
+        <div class='time'>${new Date(+el.time).toLocaleString('default', { hour: 'numeric', minute: 'numeric' })}</div>
+        <div class='emoji'>${el.emo}</div>
+        <div class='text'>${el.text}</div>
+        </div>
+        `
+      }
+
+
+
+
+    }
+
+    const item = (props) => {
+      console.log(props.day)
+      let cDay = () => {
+        let d = new Date(+props.day.date).getDate()
+        let y = new Date(+props.day.date).getFullYear()
+
+        if (d == new Date().getDate()) {
+          return 'Сегодня'
+        } else if (d == new Date().getDate() - 1) {
+          return 'Вчера'
+        } else if (y == new Date().getYear()) {
+          return `${new Date(+props.day.date).toLocaleString('default', { day: 'numeric', month: 'long' })}`
+        } else {
+          return `${new Date(+props.day.date).toLocaleString('default', { day: 'numeric', month: 'long' })} ${y}г.`
+        }
+      }
+
+
+
+      return () => (
+        <div class="timeline-item">
+
+          <div class="timeline-item-divider"></div>
+          <div class="timeline-item-content">
+            <div class="timeline-item-date">{cDay()}</div>
+            {props.day.moods.slice().reverse().map((el => (
+              <div class='mood' data-id={el.time} innerHTML={mood(el)}></div>
+            )))}
+          </div>
+        </div>
+      )
+    }
+
+
+    function moodPress(e) {
+      let elStore
+      let dayN
+      let moodN
+
+      toastTeach.close()
+
+      for (let index = 0; index < $store.state.userData.mood.days.length; index++) {
+        const element = $store.state.userData.mood.days[index];
+        
+
+        for (let indexx = 0; indexx < element.moods.length; indexx++) {
+          const elementt = element.moods[indexx];
+          
+          if (elementt.time == +e.target.getAttribute('data-id')) {
+            elStore = elementt
+            dayN = index
+            moodN = indexx
+            
+          }
+
+        }
+      }
+
+      console.log(elStore, dayN, moodN);
+
+      function del() {
+        console.log($store.state.userData.mood.days[dayN].moods[moodN])
+
+        $store.state.userData.mood.days[dayN].moods.splice(moodN, 1)
+        if ($store.state.userData.mood.days[dayN].moods.length==0) {
+          $store.state.userData.mood.days.splice(dayN, 1)
+          $store.state.userData.mood.lastMoodWrite=-1
+            app.emit('e-backp')
+        }
+
+        $store.state.gf.vibrate('success')
+        $store.state.userData.teach.deleteMood=true
+
+        $f7.emit('e-backp')
+        $update()
+      }
+      let dialog = $f7.dialog.create({
+        title:'Подтвердите',
+        text: 'Удалить запись?',
+        buttons: [
+          {
+            text: 'Нет'
+          },
+          {
+            text: 'Да',
+            onClick: function () {
+              console.log(elStore);
+              if (elStore.text !== undefined) {
+                let dialogg = $f7.dialog.create({
+                title:'Подтвердите',
+                text: 'Точно удалить запись с текстом?',
+                buttons: [
+                    {
+                      text: 'Нет'
+                    },
+                    {
+                    text: 'Да',
+                      onClick: function () {
+                        del()
+                      }
+                    },
+                  ]
+                })
+
+                dialogg.open()
+              }else{
+                del()
+              }
+            }
+          },
+        ]
+      })
+
+      dialog.open()
+
+    }
+
+    if ($store.state.appData.desktop) {
+      $(document).on('contextmenu', '.timeline-item-content .mood', function (e) {
+        e.preventDefault()
+        console.log('here');
+        moodPress(e)
+      })
+    } else {
+      $(document).on('taphold', '.timeline-item-content .mood', function (e) {
+        moodPress(e)
+      });
+    }
+
+    $f7.on('e-moodWrited', ()=>{
+      $update()
+    })
+
+    let text = 'Зажать на записи — удалить'
+        if ($store.state.appData.desktop) {
+          text = 'ПКМ по записи — удалить'
+        }
+          let toastTeach = $f7.toast.create({
+            text:text,
+            closeButton:true,
+          })
+
+    $(document).on('mouseover', '.timeline-item-content .mood', function (e) {
+      if (!$store.state.userData.teach.deleteMood) {
+        
+
+          toastTeach.open()
+
+          toastTeach.on('close', ()=>{
+            $store.state.userData.teach.deleteMood=true
+            $f7.emit('e-backp')
+          })
+        
+      }
+    })
+
+
+
+    $onUnmounted(()=>{
+      $(document).off('contextmenu', '.timeline-item-content .mood')
+      $(document).off('taphold', '.timeline-item-content .mood')
+    })
+
+
+    // <div class="timeline-item-time">12:33</div>
+    //               <div class="timeline-item-title">Item Title</div>
+    //               <div class="timeline-item-subtitle">Item Subtitle</div>
+    //               <div class="timeline-item-text">Item Text</div>
+
+    return $render;
+  }
+</script>

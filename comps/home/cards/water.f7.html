@@ -102,21 +102,20 @@
   left: 0;
   top: 0;
 }
-@media (prefers-color-scheme: dark) {
-  .cardd.water .water {
+
+  body.theme-dark .cardd.water .water {
     opacity: 0.7;
   }
-}
 .cardd.water span {
   color: #73bcc5;
   font-weight: 900;
   font-size: 26pt;
 }
-@media (prefers-color-scheme: dark) {
-  .cardd.water span {
+
+  body.theme-dark .cardd.water span {
     color: #3a4768;
   }
-}
+
 @media (min-width: 900px) {
   .cardd.water span {
     font-size: 35pt;
@@ -134,12 +133,12 @@
   box-shadow: none;
   border: 4px #ffffff59 solid;
 }
-@media (prefers-color-scheme: dark) {
-  .cardd.water .waterBox {
+
+body.theme-dark .cardd.water .waterBox {
     border: 4px rgba(0, 0, 0, 0.548) solid;
     color: #a7c0cc;
   }
-}
+
 .cardd.water .waterBox::after {
   content: '';
 }
@@ -176,11 +175,11 @@
   z-index: 4;
   position: relative;
 }
-@media (prefers-color-scheme: dark) {
-  .cardd.water .gaugeControl .btn {
+
+body.theme-dark .cardd.water .gaugeControl .btn {
     color: #136c79;
   }
-}
+
 .cardd.water .gaugeControl .btn::before {
   content: '';
   position: absolute;

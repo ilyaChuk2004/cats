@@ -41,20 +41,16 @@
   background-color: #f5f5f5;
   transition: 0.25s cubic-bezier(0.25, 0.1, 0.27, 1.53);
 }
-@media (prefers-color-scheme: dark) {
-  .page.ws .slide input {
-    background-color: #434345ab;
-    border: 1px #bcbcbc26 solid;
-  }
+body.theme-dark .page.ws .slide input {
+  background-color: #434345ab;
+  border: 1px #bcbcbc26 solid;
 }
 .page.ws .slide input:focus {
   box-shadow: 0px 8px 10px #00000014;
 }
-@media (prefers-color-scheme: dark) {
-  .page.ws .slide input:focus {
-    background-color: #434345d6;
-    border: 1px #bcbcbc42 solid;
-  }
+body.theme-dark .page.ws .slide input:focus {
+  background-color: #434345d6;
+  border: 1px #bcbcbc42 solid;
 }
 .page.ws .slide input::placeholder {
   opacity: 0.3;
@@ -84,11 +80,9 @@
   display: none;
   transition: 0.25s cubic-bezier(0.25, 0.1, 0.27, 1.53);
 }
-@media (prefers-color-scheme: dark) {
-  .page.ws .slide .actions .confirm {
-    background-color: #434345;
-    color: #82a185;
-  }
+body.theme-dark .page.ws .slide .actions .confirm {
+  background-color: #434345;
+  color: #82a185;
 }
 .page.ws .slide .examples .smiles {
   display: flex;

@@ -1,0 +1,328 @@
+<template>
+    <div class="swiper-container sce emojies" id='swpr${id}' style=" position:relative; z-index: 3;">
+        <!-- Slides wrapper -->
+        <div class="swiper-wrapper">
+            ${emojiesArr().map((it, i)=> $h`
+
+            <div class="swiper-slide" key=${i}>
+                <${emoji} role=${props.role} num=${cou(i, 0)} key=${cou(i, 0)} emoji=${it[0]} />
+
+
+                <${emoji} role=${props.role} num=${cou(i, 1)} key=${cou(i, 0)} emoji=${it[1]} />
+
+
+                <${emoji} role=${props.role} num=${cou(i, 2)} key=${cou(i, 0)} emoji=${it[2]} />
+
+
+                <${emoji} role=${props.role} num=${cou(i, 3)} key=${cou(i, 0)} emoji=${it[3]} />
+            </div>
+
+
+            `)}
+        </div>
+    </div>
+</template>
+<style>
+</style>
+<script>
+    import emoji from './emoji.f7.html'
+    export default (props, { $store, $f7, $update, $el, $, $onMounted, $onBeforeUnmount }) => {
+
+        let n = +new Date
+
+        function emojiesArr() {
+            var arr = $store.state.userData.mood.emojies;
+            var groups = arr.map(function (e, i) {
+                return i % 4 === 0 ? arr.slice(i, i + 4) : null;
+            }).filter(function (e) { return e; });
+            console.log({ arr, groups })
+
+            return groups
+        }
+        var lastCou = 0
+        function cou(it, n) {
+            let r = ((it + 1) * 4) - 4 + (n)
+            return r
+        }
+
+        let id = $store.state.gf.getRandomInRange(0, 10000000000000)
+
+        var swiper = 0;
+
+        function curr() {
+            let wrapper = $el.value[0].firstElementChild
+            let lSlide = wrapper.lastElementChild
+            let lastN = 0
+            
+            if (lSlide.childNodes[3].innerText == '+'  ) {
+                lastN = 3
+            }
+            else if (lSlide.childNodes[2].innerText == '+'  ) {
+                lastN = 2
+            }
+            else if (lSlide.childNodes[1].innerText == '+'  ) {
+                lastN = 1
+            }
+            else if (lSlide.childNodes[0].innerText == '+'  ) {
+                lastN = 0
+            }else{
+                if (lSlide.childNodes[3].innerText=='') {
+                    lastN = 3
+                }
+                if (lSlide.childNodes[2].innerText=='') {
+                    lastN = 2
+                }
+                if (lSlide.childNodes[1].innerText=='') {
+                    lastN = 1
+                }
+                if (lSlide.childNodes[0].innerText=='') {
+                    lastN = 0
+                }
+            }
+            // else{
+            //     if (lSlide.childNodes[3].innerText == '' || lSlide.childNodes[3].getAttribute('emoji')== '' ) {
+            //         lastN = 3
+            //     }
+            //     if (lSlide.childNodes[2].innerText == '' || lSlide.childNodes[2].getAttribute('emoji')== '' ) {
+            //         lastN = 2
+            //     }
+            //     if (lSlide.childNodes[1].innerText == '' || lSlide.childNodes[1].getAttribute('emoji')== '' ) {
+            //         lastN = 1
+            //     }
+            //     if (lSlide.childNodes[0].innerText == '' || lSlide.childNodes[0].getAttribute('emoji')== '' ) {
+            //         lastN = 0
+            //     }else{
+            //         lSlide.childNodes[lastN].innerText = '+'
+            //     }
+            // }
+
+            let plusEl = lSlide.childNodes[lastN]
+
+            return { wrapper: wrapper, lSlide: lSlide, lastN: lastN, plusEl: plusEl }
+        }
+
+   let pr = props.role
+
+   
+   $f7.on('e-changeEmoji', () => {
+      $update()
+    })
+
+        $onMounted(() => {
+
+            $f7.on('e-newEmojiSliderPage', () => {
+
+
+
+// debugger
+
+curr().plusEl.style.fontSize = ''
+// console.log(curr());
+// curr().plusEl.style.opacity = '0'  
+curr().plusEl.lastChild.textContent=''
+
+$(curr().plusEl.lastChild).remove()
+
+
+
+
+
+$update(() => {
+
+
+    setTimeout(() => {
+        // debugger
+
+
+    curr().plusEl.style.fontSize = '0pt'
+    curr().plusEl.style.opacity = '1'
+
+    let div = document.createElement('div');
+    div.className = "plusEmoji";
+
+    curr().plusEl.append(div);
+}, 50);
+
+
+    
+
+    swiper = $f7.swiper.create('#swpr' + id, {
+        speed: 400,
+        spaceBetween: 10,
+        resistanceRatio: 0.8,
+
+        effect: 'slide',
+        touchRatio: 0.5,
+        longSwipesRatio: 0.4,
+        grabCursor: true,
+        observer:true,
+        mousewheel: {
+            invert: false,
+        },
+        on: {
+            afterInit: function () {
+
+
+                console.log('swiper initialized');
+                lastCou = 0
+                let sw = this
+
+                $f7.on('e-redirToSettEmo', () => {
+
+                    if (pr == 'settings') {
+                        sw.slideTo(sw.slides.length, 200)
+                        console.log('itmeeee');
+
+                    } else {
+                        // 
+                    }
+                })
+
+            },
+        }
+
+    });
+})
+})
+
+$f7.on('e-emojiSettDeleted', ()=>{
+curr().plusEl.style.fontSize = ''
+console.log(curr());
+curr().plusEl.style.opacity = '0'
+$(curr().plusEl.lastElementChild).remove()
+curr().plusEl.lastChild.textContent=''
+// 
+
+$update(()=>{
+    // 
+    setTimeout(() => {
+        
+        curr().plusEl.style.fontSize = '0pt'
+        curr().plusEl.style.opacity = ''
+        console.log(curr());
+        let div = document.createElement('div');
+        div.className = "plusEmoji";
+
+        curr().plusEl.append(div);
+
+        setTimeout(() => {
+            
+
+    swiper = $f7.swiper.create('#swpr' + id, {
+        speed: 400,
+        spaceBetween: 10,
+        resistanceRatio: 0.8,
+
+        effect: 'slide',
+        touchRatio: 0.5,
+        longSwipesRatio: 0.4,
+        grabCursor: true,
+        observer:true,
+        mousewheel: {
+            invert: false,
+        },
+        on: {
+            afterInit: function () {
+
+
+                console.log('swiper initialized');
+                lastCou = 0
+                let sw = this
+
+                $f7.on('e-redirToSettEmo', () => {
+
+                    if (pr == 'settings') {
+                        sw.slideTo(sw.slides.length, 200)
+                        console.log('itmeeee');
+
+                    } else {
+                        // 
+                    }
+                })
+
+            },
+        }
+
+    });
+        }, 20);
+    }, 200);
+})
+})
+
+
+
+            // 
+            setTimeout(() => {
+
+
+                curr().plusEl.style.fontSize = '0pt' 
+
+                let div = document.createElement('div');
+                div.className = "plusEmoji";
+
+                curr().plusEl.append(div);
+            }, 10);
+
+        })
+
+        let interval = setInterval(() => {
+            if ($el.value[0].closest('.tab').classList.contains('tab-active') && swiper == 0) {
+                setTimeout(() => {
+
+
+                    // plusEl.textContent=` `
+                    setTimeout(() => {
+
+
+                        swiper = $f7.swiper.create('#swpr' + id, {
+                            speed: 400,
+                            spaceBetween: 10,
+                            resistanceRatio: 0.8,
+
+                            effect: 'slide',
+                            touchRatio: 0.5,
+                            longSwipesRatio: 0.4,
+                            grabCursor: true,
+                            observer:true,
+                            mousewheel: {
+                                invert: false,
+                            },
+                            on: {
+                                afterInit: function () {
+
+
+                                    console.log('swiper initialized');
+                                    lastCou = 0
+                                    let sw = this
+
+                                    $f7.on('e-redirToSettEmo', () => {
+
+                                        if (pr == 'settings') {
+                                            setTimeout(() => {
+                                                sw.slideTo(sw.slides.length, 200)
+                                                console.log('itmeeee');
+                                            })
+                                        } else {
+                                            // 
+                                        }
+                                    })
+
+                                },
+                            }
+
+                        });
+                    }, 10);
+                }, 10);
+            }
+        }, 100);
+
+        $onBeforeUnmount(() => {
+            $f7.off('e-newEmojiSliderPage');
+            $f7.off('e-emojiSettDeleted');
+            lastCou = 0
+            swiper.destroy(true, true)
+            clearInterval(interval)
+        })
+        return $render;
+    }
+</script>

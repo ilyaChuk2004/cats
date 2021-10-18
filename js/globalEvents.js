@@ -96,6 +96,8 @@ export function globalEvents(app, store, $) {
           store.state.userData.teach.doubleClickEmoji=true
         
           if(store.state.userData.mood.lastMoodWrite !== new Date().getDate()){
+            app.emit('e-changeLvl', 100)
+
             store.state.userData.mood.days.push(
               {
                 date:+new Date,

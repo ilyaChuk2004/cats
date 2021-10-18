@@ -10,7 +10,8 @@ const store = createStore({
       pressCupTeachTime:0,
       lastMoodWrite:0,
       view:0,
-      mood:{}
+      mood:{},
+      yourText:{}
     },
     userData:{
       name:'',

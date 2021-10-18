@@ -1,0 +1,85 @@
+<template>
+  <div class="ask" innerHTML=${text()}>
+
+  </div>
+</template>
+<script>
+  export default (props, {$store, $f7, $update, $el, $onMounted}) => {
+    //нужны обновления от: изменение мл воды, создание эмоции
+    let data = $store.state.userData;
+    let waterT
+    let moodT
+
+    if ($store.state.appData.yourText.water==undefined) {
+      waterT=waterF()
+      moodT=moodF()
+
+      $store.state.appData.yourText.water=waterT
+      $store.state.appData.yourText.mood=moodT
+    }
+
+    $onMounted(()=>{
+      waterT=waterF()
+      moodT=moodF()
+
+      $store.state.appData.yourText.water=waterT
+      $store.state.appData.yourText.mood=moodT
+    })
+
+    let text = ()=>{
+      
+
+      return `${waterT}<br/>${moodT}`
+    }
+
+    function waterF(){
+      if (data.water.todayMl==0) {
+        return 'Выпей чуть-чуть воды.'
+      }else{
+        if (data.water.todayMl>=data.water.goal) {
+        return 'Ты выпил достаточно воды, молодец! 🤗'
+      }else{
+        if (+data.water.goal-+data.water.todayMl>+data.water.goal/3) {
+          return 'Попей ещё водички.'
+        }else{
+          return 'Попей водички, осталось чуть-чуть!'
+        }
+      }
+      }
+    }
+
+    function moodF(){
+      if (data.mood.days.length>0) {
+        if (new Date(data.mood.days[data.mood.days.length-1].date).getDate() == new Date().getDate() &&
+      new Date(data.mood.days[data.mood.days.length-1].date).getMonth() == new Date().getMonth()) {
+        return randStr(['О.. так вот какое у тебя настроение.', 'Блин, ты такой необычный..',
+        'Молодец, записывай настроение — будет что вспомнить.'])
+      }else if(new Date(data.mood.days[data.mood.days.length-1].date).getMonth() == new Date().getMonth() &&
+      (new Date(data.mood.days[data.mood.days.length-1].date).getDate() == new Date().getDate()-1 || 
+      new Date(data.mood.days[data.mood.days.length-1].date).getDate() == new Date().getDate()-2)){
+        return randStr(['Расскажешь сегодня, как дела?', 'Интересно, как ты сегодня'])
+      }else{
+        return randStr(['Давно ты ничего не рассказывал..', 'Помнишь как приятно было записывать настроение?'])
+      }
+      }else{
+        return 'Как ты себя чувствуешь?'
+      }
+    }
+
+    $f7.on('e-waterChange', ()=>{
+      waterT=waterF()
+      $store.state.appData.yourText.water=waterT
+      $update()
+    })
+    $f7.on('e-moodWrited', ()=>{
+      moodT=moodF()
+      $store.state.appData.yourText.mood=moodT
+      $update()
+    })
+
+    function randStr(arr){
+      return arr[$store.state.gf.getRandomInRange(0, arr.length-1)]
+    }
+    return $render;
+  }
+</script>

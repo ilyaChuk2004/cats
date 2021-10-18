@@ -112,6 +112,7 @@
 
         $store.state.userData.mood.days[dayN].moods.splice(moodN, 1)
         if ($store.state.userData.mood.days[dayN].moods.length==0) {
+          $f7.emit('e-changeLvl', -100)
           $store.state.userData.mood.days.splice(dayN, 1)
           $store.state.userData.mood.lastMoodWrite=-1
             app.emit('e-backp')

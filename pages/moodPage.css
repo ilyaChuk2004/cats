@@ -6,6 +6,11 @@
   justify-content: space-between;
   --backdrop: #ffe2d2;
 }
+@media (min-width: 900px) {
+  .page[data-name="mood"] .page-content {
+    flex-direction: row;
+  }
+}
 body.theme-dark .page[data-name="mood"] .page-content {
   --backdrop: #784930;
 }
@@ -13,15 +18,52 @@ body.theme-dark .page[data-name="mood"] .page-content {
   overflow: scroll;
   position: relative;
   z-index: 2;
+  height: inherit;
+}
+@media (min-width: 900px) {
+  .page[data-name="mood"] .page-content .info {
+    width: 100%;
+  }
 }
 .page[data-name="mood"] .page-content .info::after {
   content: "";
+}
+.page[data-name="mood"] .page-content .info .emptySad {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 120%;
+  opacity: 0.7;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+}
+@media (min-width: 900px) {
+  .page[data-name="mood"] .page-content .info .emptySad {
+    height: 100%;
+    width: 70%;
+  }
+}
+.page[data-name="mood"] .page-content .info .emptySad .emoji {
+  font-size: 24pt;
+}
+.page[data-name="mood"] .page-content .info .emptySad .word {
+  margin-top: 1rem;
+  font-size: 14pt;
+  font-weight: 200;
+  opacity: 0.5;
 }
 .page[data-name="mood"] .page-content .sh {
   width: 100%;
   box-shadow: 0 0 20px 20px #fff4e7;
   position: relative;
   z-index: 2;
+}
+@media (min-width: 900px) {
+  .page[data-name="mood"] .page-content .sh {
+    display: none;
+  }
 }
 body.theme-dark .page[data-name="mood"] .page-content .sh {
   box-shadow: 0 0 20px 20px #0f0c09;
@@ -31,6 +73,17 @@ body.theme-dark .page[data-name="mood"] .page-content .sh {
   position: relative;
   z-index: 3;
 }
+@media (min-width: 900px) {
+  .page[data-name="mood"] .page-content .control {
+    z-index: 3;
+    height: fit-content;
+    position: relative;
+    bottom: 0;
+    right: 0;
+    margin: 0rem;
+    align-self: flex-end;
+  }
+}
 .page[data-name="mood"] .page-content::after {
   content: '';
   background-color: var(--backdrop);
@@ -39,6 +92,13 @@ body.theme-dark .page[data-name="mood"] .page-content .sh {
   bottom: 0px;
   width: 100%;
   z-index: -1;
+}
+@media (min-width: 900px) {
+  .page[data-name="mood"] .page-content::after {
+    width: 9rem;
+    right: 0px;
+    z-index: 2;
+  }
 }
 .page[data-name="mood"] .page-content::before {
   content: '';

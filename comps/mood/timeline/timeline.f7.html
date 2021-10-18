@@ -2,7 +2,7 @@
   <!-- Timeline -->
   <div class="timeline">
 
-    <!-- Timeline item with special timeline elements -->
+
     ${$store.state.userData.mood.days.slice().reverse().map((el=>$h`
 
     <${item} day=${el} />
@@ -121,6 +121,7 @@
         $store.state.userData.teach.deleteMood=true
 
         $f7.emit('e-backp')
+        $f7.emit('e-moodWrited')
         $update()
       }
       let dialog = $f7.dialog.create({

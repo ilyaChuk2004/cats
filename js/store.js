@@ -31,19 +31,7 @@ const store = createStore({
         emojiChanges:0,
         lastEmojies:[],
         days:[
-          {
-            date:'1631991136176',
-            moods:[
-              {
-                emo:'😢',
-                time:'1631991136176'
-              },
-              {
-                emo:'😃',
-                time:'1631991136174'
-              },
-            ]
-          },
+          
           
         ]
       },

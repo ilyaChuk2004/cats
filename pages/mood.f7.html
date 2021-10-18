@@ -8,7 +8,12 @@
         </div>
         
 
-        <${timeline}/>
+        
+        ${state.userData.mood.days.length>0 ? $h`
+          <${timeline}/>
+          ` : $h`
+          <${emptySad}/>
+          `}
         
 
 
@@ -17,7 +22,11 @@
       <div class="control border-squircle25-25">
 
         ${$store.state.appData.desktop ? $h`
-
+          <div class="cards">
+            <${mood} role='carddd' hold='1' />
+  
+  
+        </div>
         ` : $h`
         <div class="cards">
             <${mood} role='carddd' hold='1' />
@@ -42,7 +51,21 @@
   import mood from '../comps/home/cards/mood.f7.html'
   export default (props, { $store, $onMounted, $f7, $update }) => {
 
+    $f7.on('e-moodWrited', ()=>{
+      $update()
+    })
 
+    const emptySad = (props, {$h}) => {
+      let arr=['(ノへ￣、)', '＞﹏＜', '╯︿╰', '〒▽〒', '≧ ﹏ ≦', 'ಥ_ಥ', '(╯︵╰)', '(❛︵❛。)', '˚‧º·(˚ ˃̣̣̥⌓˂̣̣̥ )‧º·˚', '(˵¯͒⌢͗¯͒˵)', 'へ[ •́ ‸ •̀ ]ʋ'];
+      let randArr=arr[$store.state.gf.getRandomInRange(0, arr.length-1)]
+      return () => (
+    <div class="emptySad">
+      
+      <span class='emoji'>{randArr}</span>
+      <span class='word'>пусто..</span>
+    </div>
+      )
+}
    
     $onMounted(()=>{
       if (!$store.state.userData.teach.deleteMood && !$store.state.appData.desktop) {

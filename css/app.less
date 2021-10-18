@@ -188,6 +188,8 @@ body.theme-dark {
 body {
   --f7-grid-gap: 2rem !important;
   --f7-list-link-pressed-bg-color:transparent !important;
+  --f7-dialog-title-font-size: 16pt !important;
+  --f7-dialog-font-size: 14pt !important;
 }
 
 ::selection {
@@ -382,19 +384,18 @@ non {
 }
 
 .dialog{
-  @media not screen and (@bp-tablet) {
     --f7-dialog-width:80vw !important;
     backdrop-filter: blur(3px);
+    max-width: 80vw;
+      @media (@bp-tablet) {
+        --f7-dialog-width:30vw !important;
+      }
 
-    .dialog-text{
-      font-size: 13pt;
-      margin-top: 0.6rem !important;
-    }
 
-    .dialog-title{
-      font-size: 16pt
+    .dialog-inner{
+      
     }
-  }
+  
 }
 
 body[data-blur='blur'] .custom-modal-backdrop, body[data-blur='blur'] .actions-backdrop, body[data-blur='blur'] .dialog-backdrop, body[data-blur='blur'] .popover-backdrop, body[data-blur='blur'] .popup-backdrop, body[data-blur='blur'] .preloader-backdrop, body[data-blur='blur'] .sheet-backdrop, body[data-blur='blur'] .fab-backdrop{

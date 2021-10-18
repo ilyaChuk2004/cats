@@ -61,7 +61,7 @@ body.theme-dark .page.ws .slide input:focus {
   align-items: center;
   margin: auto;
   margin-bottom: 1rem;
-  width: fit-content;
+  width: 93%;
 }
 .page.ws .slide .actions .confirm {
   margin-left: -0.8rem;

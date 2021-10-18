@@ -96,6 +96,8 @@ body.theme-dark #mediaFlag500 {
 body {
   --f7-grid-gap: 2rem !important;
   --f7-list-link-pressed-bg-color: transparent !important;
+  --f7-dialog-title-font-size: 16pt !important;
+  --f7-dialog-font-size: 14pt !important;
 }
 ::selection {
   background: rgba(108, 65, 36, 0.7);
@@ -264,17 +266,14 @@ body.theme-dark .ripple.ripple-dark-white .ripple-wave {
   border-right: 1px #ffffff26 solid;
   backdrop-filter: blur(7px);
 }
-@media not screen and (min-width: 900px) {
+.dialog {
+  --f7-dialog-width: 80vw !important;
+  backdrop-filter: blur(3px);
+  max-width: 80vw;
+}
+@media (min-width: 900px) {
   .dialog {
-    --f7-dialog-width: 80vw !important;
-    backdrop-filter: blur(3px);
-  }
-  .dialog .dialog-text {
-    font-size: 13pt;
-    margin-top: 0.6rem !important;
-  }
-  .dialog .dialog-title {
-    font-size: 16pt;
+    --f7-dialog-width: 30vw !important;
   }
 }
 body[data-blur='blur'] .custom-modal-backdrop,

@@ -1,3 +1,4 @@
+@bp-tablet: ~"min-width: 900px";
 .page[data-name="mood"]{
     .page-content{
         height: 100%;
@@ -6,6 +7,9 @@
         flex-direction: column;
         justify-content: space-between;
         --backdrop:#ffe2d2;
+        @media (@bp-tablet) {
+            flex-direction: row;
+          }
         body.theme-dark & {
             --backdrop:#784930;
           }
@@ -14,9 +18,39 @@
             overflow: scroll;
             position: relative;
             z-index: 2;
+            height: inherit;
+            @media (@bp-tablet) {
+                width: 100%;
+              }
 
             &::after{
                 content: ""
+            }
+
+            .emptySad{
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                height: 120%;
+                opacity: 0.7;
+                justify-content: center;
+                position: absolute;
+                top: 0;
+                @media (@bp-tablet) {
+                    height: 100%;
+                    width: 70%;
+                  }
+                
+                .emoji{
+                    font-size: 24pt;
+                }
+                .word{
+                    margin-top: 1rem;
+                    font-size: 14pt;
+                    font-weight: 200;
+                    opacity: 0.5;
+                }
             }
         }
         .sh{
@@ -24,6 +58,9 @@
             box-shadow: 0 0 20px 20px  #fff4e7;
             position: relative;
             z-index: 2;
+            @media (@bp-tablet) {
+                display:none
+              }
             body.theme-dark & {
                 box-shadow: 0 0 20px 20px #0f0c09;
               }
@@ -32,6 +69,15 @@
             background-color: var(--backdrop);
             position: relative;
             z-index: 3;
+            @media (@bp-tablet) {
+                z-index: 3;
+                height: fit-content;
+                position: relative;
+                bottom: 0;
+                right: 0;
+                margin: 0rem;
+                align-self: flex-end;
+              }
 
             
         }
@@ -44,6 +90,11 @@
             bottom: 0px;
             width: 100%;
             z-index: -1;
+            @media (@bp-tablet) {
+                width: 9rem;
+                right: 0px;
+                z-index: 2;
+              }
         }
         &::before{
             content: '';

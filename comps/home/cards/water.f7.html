@@ -36,7 +36,7 @@
         <div @click=${(e)=>{change(100, true, e.target)}} class="plus btn">+100</div>
       </div>
       ` : $h`
-      <${waterBox}/>
+      <${nyuu}/>
       <div class="la">выберите, сколько выпили:</div>
       <div class="cups">
         <${cup} num='1' scale='0.6' img1='cup50'/>
@@ -137,6 +137,11 @@
 body.theme-dark .cardd.water .waterBox {
     border: 4px rgba(0, 0, 0, 0.548) solid;
     color: #a7c0cc;
+    
+  }
+
+  body.theme-dark .cardd.water .waterBox .water{
+    filter: brightness(0.8);
   }
 
 .cardd.water .waterBox::after {
@@ -267,7 +272,7 @@ body.theme-dark .cardd.water .gaugeControl .btn {
 }
 </style>
 <script>
-    import waterBox from './../../water/waterBox.f7.html';
+    import nyuu from './../../water/nyuu.f7.html';
   import cup from './../../water/cup.f7.html';
   import gauge from './waterGauge.f7.html'
   import eee from './eee.f7.html'

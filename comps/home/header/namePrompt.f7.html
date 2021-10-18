@@ -3,7 +3,7 @@
     <input type="text" @input=${()=>{inp(this)}} placeholder="как вас зовут?" />
     <div @click=${submit} class="confirm">ок</div>
     ${error!=='-' && $h`
-      <div class="error">${error}</div>
+    <div class="error">${error}</div>
     `}
   </div>
 </template>
@@ -27,12 +27,12 @@
     opacity: 0;
     transition: .15s ease;
     color: #84ac94;
-    
+
   }
 </style>
 <script>
-  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
-    let error='-'
+  export default (props, { $store, $f7, $update, $el, $, $onMounted, $onBeforeUnmount }) => {
+    let error = '-'
 
     let minSymb = 1
     let maxSymb = 14
@@ -41,113 +41,117 @@
       let el = t.el.firstChild
       let text = el.value
 
-      
 
-      if (el.value.trim().length>=minSymb && el.value.trim().length<maxSymb) {
-        el.value=text[0].toUpperCase()+text.slice(1)
 
-        $el.value[0].querySelector('.confirm').style.display='flex'
-        $el.value[0].querySelector('input').style.paddingRight='4rem'
+      if (el.value.trim().length >= minSymb && el.value.trim().length < maxSymb) {
+        el.value = text[0].toUpperCase() + text.slice(1)
+
+        $el.value[0].querySelector('.confirm').style.display = 'flex'
+        $el.value[0].querySelector('input').style.paddingRight = '4rem'
         setTimeout(() => {
-          $el.value[0].querySelector('.confirm').style.opacity='1'
+          $el.value[0].querySelector('.confirm').style.opacity = '1'
         }, 10);
-      }else{
-        $el.value[0].querySelector('.confirm').style.opacity='0'
-        $el.value[0].querySelector('input').style.paddingRight='0rem'
+      } else {
+        $el.value[0].querySelector('.confirm').style.opacity = '0'
+        $el.value[0].querySelector('input').style.paddingRight = '0rem'
 
         setTimeout(() => {
-          $el.value[0].querySelector('.confirm').style.display='none'
+          $el.value[0].querySelector('.confirm').style.display = 'none'
         }, 150);
-        
+
       }
     }
 
 
     function submit() {
       let el = $el.value[0].firstChild
-            if (el.value.trim().length>=minSymb && el.value.trim().length<maxSymb) {
-                fo()
-              }else if(el.value.trim().length<minSymb){
-                err('напиши что-то!')
-              }else if (el.value.trim().length>maxSymb){
-                err('много букав')
-              }
+      if (el.value.trim().length >= minSymb && el.value.trim().length < maxSymb) {
+        fo()
+      } else if (el.value.trim().length < minSymb) {
+        err('напиши что-то!')
+      } else if (el.value.trim().length > maxSymb) {
+        err('много букав')
+      }
 
 
 
-              function err(text) {
-                error = text
-                $update(()=>{
-                  $el.value[0].lastChild.style.display='block'
-                  setTimeout(() => {
-                    $el.value[0].lastChild.style.opacity=1
-
-                  }, 30);
-
-
-
-                  setTimeout(() => {
-                    $el.value[0].lastChild.style.opacity=0
-                  setTimeout(() => {
-                    $el.value[0].lastChild.style.display='none'
-                  }, 300);
-                  }, 2000);
-                })
-              }
-
-              function fo() {
-
-                if ($store.state.userData.name == undefined || $store.state.userData.name=='') {
-                  $f7.emit('e-changeLvl', 30)
-                }
-                $store.state.userData.name=el.value.trim()
-                $store.state.gf.vibrate('big success')
-              
-
-              $el.value[0].style.opacity='0'
-              setTimeout(() => {
-                $el.value[0].style.display='none'
-
-                setTimeout(() => {
-                  $f7.emit('e-userNameAnswer')
-                  $f7.emit('e-backp')
-                }, 1000 );
-            
-              }, 500);
-              }
-          }
-
-
-
-      $f7.on('e-userNameRequest', ()=>{
-        setTimeout(() => {
-            let el = $el.value[0].firstChild
-          console.log($el.value[0]);
-
-          $el.value[0].style.display='block'
+      function err(text) {
+        error = text
+        $update(() => {
+          $el.value[0].lastChild.style.display = 'block'
           setTimeout(() => {
-          $el.value[0].style.opacity='1'
-            
-          }, 10);
-          
+            $el.value[0].lastChild.style.opacity = 1
 
-          $(el).keyup(function(e){
-            if(e.keyCode == 13){
-              submit()
-            }
-          });
-        }, 600);
+          }, 30);
+
+
+
+          setTimeout(() => {
+            $el.value[0].lastChild.style.opacity = 0
+            setTimeout(() => {
+              $el.value[0].lastChild.style.display = 'none'
+            }, 300);
+          }, 2000);
+        })
+      }
+
+      function fo() {
+
+        if ($store.state.userData.name == undefined || $store.state.userData.name == '') {
+          $f7.emit('e-changeLvl', 30)
+        }
+        $store.state.userData.name = el.value.trim()
+        $store.state.gf.vibrate('big success')
+
+
+        $el.value[0].style.opacity = '0'
+        setTimeout(() => {
+          $el.value[0].style.display = 'none'
+
+          setTimeout(() => {
+            $f7.emit('e-userNameAnswer')
+            $f7.emit('e-backp')
+          }, 1000);
+
+        }, 500);
+      }
+    }
+
+
+
+    $f7.on('e-userNameRequest', () => {
+      setTimeout(() => {
+        let el = $el.value[0].firstChild
+        console.log($el.value[0]);
+
+        $el.value[0].style.display = 'block'
+        setTimeout(() => {
+          $el.value[0].style.opacity = '1'
+
+        }, 10);
+
+
+        $(el).keyup(function (e) {
+          if (e.keyCode == 13) {
+            submit()
+          }
+        });
+      }, 600);
 
 
     })
 
-    $f7.on('e-userNameAnswer', ()=>{
-                console.log(1)
-                $el.value[0].style.opacity='0',
-                setTimeout(() => {
-                  $el.value[0].style.display='none'
-                }, 1000);
-              })
-    return $render;
-  }
+    $f7.on('e-userNameAnswer', () => {
+      console.log(1)
+      $el.value[0].style.opacity = '0',
+        setTimeout(() => {
+          $el.value[0].style.display = 'none'
+        }, 1000);
+    })
+
+    $onBeforeUnmount(() => {
+      $f7.off('e-userNameRequest');
+    })
+      return $render;
+    }
 </script>

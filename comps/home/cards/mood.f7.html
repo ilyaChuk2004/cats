@@ -340,7 +340,6 @@
           $store.state.userData.moodTextarea = ''
           var splitter = require('../../../../node_modules/grapheme-splitter/index.js');
           console.log();
-          debugger
           if (splitter().splitGraphemes($el.value[0].querySelector('textarea').value.trim()).length==1 &&
           /\p{Extended_Pictographic}/u.test($el.value[0].querySelector('textarea').value.trim())) {
             $f7.emit('e-writeMood', {

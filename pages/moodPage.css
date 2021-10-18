@@ -40,3 +40,6 @@ body.theme-dark .page[data-name="mood"] .page-content .sh {
   width: 100%;
   z-index: -1;
 }
+.page[data-name="mood"] .page-content::before {
+  content: '';
+}

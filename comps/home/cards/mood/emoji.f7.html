@@ -6,7 +6,7 @@
 <style>
 </style>
 <script>
-  export default (props, { $store, $f7, $update, $el, $, $onMounted, $onBeforeUnmount }) => {
+  export default (props, { $store, $f7, $update, $el, $, $onMounted, $onUnmounted }) => {
     
     $store.state.appData.thumbAniTime=0
 
@@ -30,7 +30,7 @@
     function cl(e) {
       
       let el = e.target
-      console.log(props.role, el.classList);
+      // console.log(props.role, el.classList);
       if (props.role=='carddd') { 
         if (el.classList.contains('active')) {
         if (props.emoji!=='+') {
@@ -44,7 +44,7 @@
 
         for (let index = 0; index < $el.value[0].parentElement.querySelectorAll('.active').length; index++) {
         const element = $el.value[0].parentElement.querySelectorAll('.active')[index];
-        console.log('noo');
+        // console.log('noo');
         $(element).removeClass('active')
         
       }
@@ -58,7 +58,7 @@
 
           for (let index = 0; index < $el.value[0].parentElement.querySelectorAll('.active').length; index++) {
         const element = $el.value[0].parentElement.querySelectorAll('.active')[index];
-        console.log('noo');
+        // console.log('noo');
         $(element).removeClass('active')
         
       }
@@ -101,7 +101,7 @@
            $store.state.appData.mood.selectedSettEmoji=props.num
            $store.state.appData.mood.isPlus=true
         }
-        console.log('num:',$store.state.appData.mood.selectedSettEmoji);
+        // console.log('num:',$store.state.appData.mood.selectedSettEmoji);
       }
 
       
@@ -121,7 +121,7 @@
             $el.value[0].lastChild.classList.add("active") 
             $store.state.appData.mood.selectedSettEmoji=props.num
             $store.state.appData.mood.isPlus=true
-            console.log('DOOONE');
+            // console.log('DOOONE');
             
           }
           }, 400);
@@ -140,7 +140,8 @@
     $f7.on('e-writedMood', ()=>{def()})
 
     $f7.on('e-activeNewEmo', (id,s)=>{
-        console.log(props.num, id)
+        if (mounted) {
+          // console.log(props.num, id)
           if(props.num !==id){
             $($el.value[0]).removeClass('active')
           }else{ 
@@ -152,18 +153,23 @@
             $store.state.appData.mood.selectedSettEmoji=props.num
             $el.value[0].classList.add("active") 
           }
+        }
       })
-
+      let mounted=false
     $onMounted(() => {
-      
+      mounted=true
 
       var ell = $el.value[0]
       $f7.on('e-moodCardHold', () => {
         $f7.emit('e-activeNewEmo', $store.state.appData.mood.selectedSettEmoji, '')
       })
     })
-    $onBeforeUnmount(()=>{
-      $f7.off('e-activeNewEmo')
+    $onUnmounted(()=>{
+      mounted=false
+      console.log(0);
+      // $f7.off('e-activeNewEmo')
+      $f7.off('e-activeIt')
+      $f7.off('e-moodCardHold')
     })
     return $render;
   }

@@ -26,7 +26,7 @@
 </style>
 <script>
     import emoji from './emoji.f7.html'
-    export default (props, { $store, $f7, $update, $el, $, $onMounted, $onBeforeUnmount }) => {
+    export default (props, { $store, $f7, $update, $el, $, $onMounted, $onUnmounted }) => {
 
         let n = +new Date
 
@@ -35,7 +35,7 @@
             var groups = arr.map(function (e, i) {
                 return i % 4 === 0 ? arr.slice(i, i + 4) : null;
             }).filter(function (e) { return e; });
-            console.log({ arr, groups })
+            // console.log({ arr, groups })
 
             return groups
         }
@@ -47,7 +47,7 @@
 
         let id = $store.state.gf.getRandomInRange(0, 10000000000000)
 
-        var swiper = 0;
+        let swiper = 0;
 
         function curr() {
             let wrapper = $el.value[0].firstElementChild
@@ -105,13 +105,17 @@
 
    
    $f7.on('e-changeEmoji', () => {
-      $update()
+    if (mounted) {
+        console.log('e-changeEmoji');
+      $update(()=>{
+          swiper.update()
+      })
+    }
     })
 
-        $onMounted(() => {
-
-            $f7.on('e-newEmojiSliderPage', () => {
-
+    $f7.on('e-newEmojiSliderPage', () => {
+if (mounted) {
+    console.log('newEmojiSliderPage');
 
 
 // debugger
@@ -141,53 +145,23 @@ $update(() => {
     div.className = "plusEmoji";
 
     curr().plusEl.append(div);
+    setTimeout(() => {
+        swiper.update()
+    }, 50);
 }, 50);
 
 
-    
 
-    swiper = $f7.swiper.create('#swpr' + id, {
-        speed: 400,
-        spaceBetween: 10,
-        resistanceRatio: 0.8,
-
-        effect: 'slide',
-        touchRatio: 0.5,
-        longSwipesRatio: 0.4,
-        grabCursor: true,
-        observer:true,
-        mousewheel: {
-            invert: false,
-        },
-        on: {
-            afterInit: function () {
-
-
-                console.log('swiper initialized');
-                lastCou = 0
-                let sw = this
-
-                $f7.on('e-redirToSettEmo', () => {
-
-                    if (pr == 'settings') {
-                        sw.slideTo(sw.slides.length, 200)
-                        console.log('itmeeee');
-
-                    } else {
-                        // 
-                    }
-                })
-
-            },
-        }
-
-    });
 })
+}
 })
+
+let mounted=false;
 
 $f7.on('e-emojiSettDeleted', ()=>{
-curr().plusEl.style.fontSize = ''
-console.log(curr());
+if (mounted) {
+    curr().plusEl.style.fontSize = ''
+// console.log(curr());
 curr().plusEl.style.opacity = '0'
 $(curr().plusEl.lastElementChild).remove()
 curr().plusEl.lastChild.textContent=''
@@ -199,7 +173,7 @@ $update(()=>{
         
         curr().plusEl.style.fontSize = '0pt'
         curr().plusEl.style.opacity = ''
-        console.log(curr());
+        // console.log(curr());
         let div = document.createElement('div');
         div.className = "plusEmoji";
 
@@ -233,7 +207,7 @@ $update(()=>{
 
                     if (pr == 'settings') {
                         sw.slideTo(sw.slides.length, 200)
-                        console.log('itmeeee');
+                        // console.log('itmeeee');
 
                     } else {
                         // 
@@ -247,7 +221,12 @@ $update(()=>{
         }, 20);
     }, 200);
 })
+}
 })
+        $onMounted(() => {
+            mounted=true;
+
+
 
 
 
@@ -291,19 +270,21 @@ $update(()=>{
                                 afterInit: function () {
 
 
-                                    console.log('swiper initialized');
+                                    // console.log('swiper initialized');
                                     lastCou = 0
                                     let sw = this
 
                                     $f7.on('e-redirToSettEmo', () => {
 
-                                        if (pr == 'settings') {
+                                        if (mounted) {
+                                            if (pr == 'settings') {
                                             setTimeout(() => {
                                                 sw.slideTo(sw.slides.length, 200)
-                                                console.log('itmeeee');
+                                                // console.log('itmeeee');
                                             })
                                         } else {
                                             // 
+                                        }
                                         }
                                     })
 
@@ -316,11 +297,14 @@ $update(()=>{
             }
         }, 100);
 
-        $onBeforeUnmount(() => {
-            $f7.off('e-newEmojiSliderPage');
-            $f7.off('e-emojiSettDeleted');
+        $onUnmounted(() => {
+            console.log('byu byu');
+            // $f7.off('e-newEmojiSliderPage');
+            // $f7.off('e-redirToSettEmo');
+            // $f7.off('e-emojiSettDeleted');
+            // $f7.off('e-changeEmoji');
             lastCou = 0
-            swiper.destroy(true, true)
+            mounted=false
             clearInterval(interval)
         })
         return $render;

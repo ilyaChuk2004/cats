@@ -29,6 +29,11 @@
   opacity: 0;
   display: inline-block;
 }
+.page.ws .slide .error {
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+}
 .page.ws .slide input {
   width: 4rem;
   border-radius: 1rem;

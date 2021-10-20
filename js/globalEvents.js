@@ -1,4 +1,4 @@
-
+import lottie from 'lottie-web'
 export function globalEvents(app, store, $) {
 
     //возвращение назад при повтором нажатии на таб

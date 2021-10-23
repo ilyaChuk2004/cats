@@ -76,7 +76,8 @@
           }, 500);
         }
       }else{
-           $f7.views.main.router.navigate('/moodWidgetSet/')
+           if ($store.state.userData.lvl>=2) {
+            $f7.views.main.router.navigate('/moodWidgetSet/')
            setTimeout(() => {
             $store.state.appData.mood.selectedSettEmoji=props.num
            $store.state.appData.mood.isPlus=true
@@ -84,22 +85,68 @@
             $f7.emit('e-moodCardEmojiClicked', $el.value[0])
             $f7.emit('e-activeIt', props.num)
            }, 200);
+           }else{
+            $store.state.gf.vibrate('big fail')
+      
+
+      let toastBottom = $f7.toast.create({
+          text: `Недостаточный уровень. Требуется 2, а у вас — ${$store.state.userData.lvl}`,
+          cssClass:'error',
+          closeButton:true,
+          closeButtonText:'что?',
+          closeTimeout: 3000,
+          on:{
+            closeButtonClick:()=>{
+              $f7.views.current.router.navigate('/lvlTeach/')
+            }
+          }
+      });
+
+      toastBottom.open()
+           }
         }
         
         }
       }else{
-        el.classList.add("active")
-        $f7.emit('e-moodCardEmojiClicked', el)
-        $f7.emit('e-activeNewEmo', props.num, props.emoji)
+        
         
         
         
         if (props.emoji!=='+') {
           $store.state.appData.mood.selectedSettEmoji=props.num
           $store.state.appData.mood.isPlus=false
+
+          el.classList.add("active")
+        $f7.emit('e-moodCardEmojiClicked', el)
+        $f7.emit('e-activeNewEmo', props.num, props.emoji)
         }else{
-           $store.state.appData.mood.selectedSettEmoji=props.num
+           
+           if ($store.state.userData.lvl>=2) {
+             $store.state.appData.mood.selectedSettEmoji=props.num
            $store.state.appData.mood.isPlus=true
+
+           el.classList.add("active")
+        $f7.emit('e-moodCardEmojiClicked', el)
+        $f7.emit('e-activeNewEmo', props.num, props.emoji)
+           }else{
+            $store.state.gf.vibrate('big fail')
+      
+
+      let toastBottom = $f7.toast.create({
+          text: `Недостаточный уровень. Требуется 2, а у вас — ${$store.state.userData.lvl}`,
+          cssClass:'error',
+          closeButton:true,
+          closeButtonText:'что?',
+          closeTimeout: 3000,
+          on:{
+            closeButtonClick:()=>{
+              $f7.views.current.router.navigate('/lvlTeach/')
+            }
+          }
+      });
+
+      toastBottom.open()
+           }
         }
         // console.log('num:',$store.state.appData.mood.selectedSettEmoji);
       }
@@ -115,7 +162,7 @@
 
     
     $f7.on('e-activeIt', (id)=>{
-        // console.log('atit',props.num, id );
+        console.log('atit',props.num, id );
           setTimeout(() => { 
             if(props.num ==id && props.role=='settings'){
             $el.value[0].lastChild.classList.add("active") 
@@ -146,7 +193,28 @@
             $($el.value[0]).removeClass('active')
           }else{ 
             if (s=='+') {
-            $store.state.appData.mood.isPlus=true
+            
+            if ($store.state.userData.lvl>=2) {
+             $store.state.appData.mood.isPlus=true
+            }else{
+             $store.state.gf.vibrate('big fail')
+       
+ 
+       let toastBottom = $f7.toast.create({
+           text: `Недостаточный уровень. Требуется 2, а у вас — ${$store.state.userData.lvl}`,
+           cssClass:'error',
+           closeButton:true,
+           closeButtonText:'что?',
+           closeTimeout: 3000,
+           on:{
+             closeButtonClick:()=>{
+               $f7.views.current.router.navigate('/lvlTeach/')
+             }
+           }
+       });
+ 
+       toastBottom.open()
+            }
             }else{
             $store.state.appData.mood.isPlus=false
             }

@@ -5,11 +5,11 @@ import SettingsPage from '../pages/settings.f7.html';
 import water from '../pages/water.f7.html';
 import mood from '../pages/mood.f7.html';
 import waterSet from '../pages/waterSettings.f7.html';
-import moodSet from '../pages/moodSettings.f7.html';
 import appSet from '../pages/appSettings.f7.html';
 import moodWidgetSet from '../pages/moodWidgetSettings.f7.html';
 import waterWidgetSet from '../pages/waterWidgetSettings.f7.html';
 import avaChange from '../comps/avaChange.f7.html';
+import lvlTeach from '../pages/lvlTeach.f7.html';
 import Framework7 from 'framework7/bundle';
 
 let transition = 'f7-parallax'
@@ -72,13 +72,6 @@ var routes = [
     },
   },
   {
-    path: '/moodSet/',
-    component: moodSet,  
-    options: {
-      transition: transition,
-    },
-  },
-  {
     path: '/appSet/',
     component: appSet,  
     options: {
@@ -110,6 +103,18 @@ var routes = [
       component: avaChange,
       closeOnEscape: true,
       swipeHandler:'#avaChangeHandler',
+      swipeToClose:'to-bottom'
+    }
+  },
+  {
+    path: '/lvlTeach/',  
+    options: {
+      transition: transition,
+    },
+    popup: {
+      component: lvlTeach,
+      closeOnEscape: true,
+      swipeHandler:'#lvlTeachHandler',
       swipeToClose:'to-bottom'
     }
   },

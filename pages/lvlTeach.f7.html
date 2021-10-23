@@ -1,0 +1,188 @@
+<template>
+  <div id='lvlTeachPopup' class="popup">
+    <div class="view">
+      <div class="page">
+        <div style="padding-left: 0px;" class="page-content">
+          <div class="handler" id="lvlTeachHandler"></div>
+
+
+          <div class="swiper-container">
+
+            <div class="swiper-wrapper">
+
+              <div class="swiper-slide">
+                <div class="h" l='0'>У вас есть уровень!</div>
+                <div class="cont">
+                  <s style="height: 9rem;" innerHTML=${lvl}></s>
+                <p>Он обозначается такой диаграммой.</p>
+                <p>Теперь он — ваша цель в жизни. Получать <span class="cur">ор</span> — очки уровня, вы можете ежедневно достигая нормы питья, записывая настроение, выполняя свои задачи.</p>
+                <p>Когда кружок заполнится — получите новый уровень и соответствующие плюшки. Листайте влево 👈</p>
+                </div>
+
+
+              </div>
+              <div class="swiper-slide">
+                <div class="h" l='1'>1 уровень</div>
+                
+                <div class="cont">
+                  <s innerHTML=${lvl1}></s>
+                <p>За уровни вы получаете аватарки. Выбрать можно в <a href="/popup-content/">настройках</a>.</p>
+                <p>С самого начала с вами Боб, Грибочек и Арбуз.</p>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="h" l='2'>2 уровень</div>
+                <div class="cont">
+                  <s innerHTML=${lvl2}></s>
+                <p>Выразите всю свою индивидуальность, добавив в быстрый доступ новые смайлики!</p>
+                <p>Просто листайте свои эмоции и выбирайте то, что чувствуете.</p>
+                </div>
+                
+              </div>
+              <div class="swiper-slide">
+                <div class="h" l='3'>3 уровень</div>
+                <div style="margin-top:2rem" class="cont">
+                  <s innerHTML=${lvl3}></s>
+                <p>Ещё больше персонализации!</p>
+                <p>Выберите ваш любимый цвет, и всё приложение окрасится в него.</p>
+                <p>В «настройки» → «приложение» есть ещё пара интересных переключателей.</p>
+                </div>
+                
+              </div>
+              <div class="swiper-slide">
+                <div class="h" l='4'>4 уровень</div>
+                <div class="cont">
+                  <s innerHTML=${lvl4}></s>
+                <p>У вас новые друзья: Перчик, Попкорн и легендарный Орехус.</p>
+                <p>Выберите фруктоовощ, олицетворяющий вас</p>
+                </div>
+                
+              </div>
+              <div class="swiper-slide">
+                <div class="h" l='5'>5 уровень</div>
+                <div style="margin-top:2rem" class="cont">
+                  <s innerHTML=${lvl5}></s>
+                <p>Получите ещё возможность подстроить всё под себя.</p>
+                <p>Вы можете отрегулировать объём каждой из трёх кружек, чтобы они соответствовали вашим реальным.</p>
+                </div>
+                
+              </div>
+              <div class="swiper-slide">
+                <div class="h" l='7'>7 уровень</div>
+                <div style="margin-top:2rem" class="cont">
+                  <s innerHTML=${lvl7}></s>
+                <p>Кокос, редис и Яичко приходят к вам на седьмом уровне.</p>
+                </div>
+                
+              </div>
+              <div class="swiper-slide">
+                <div class="h" l='9'>9 уровень</div>
+                <div style="margin-top:2rem" class="cont">
+                  <s innerHTML=${lvl9}></s>
+                <${lvl9text}/>
+                </div>
+                
+              </div>
+
+
+            </div>
+
+            <div class="swiper-pagination"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<script>
+  import './lvlTeach.css'
+  import lvl from '../static/img/teach/lvl/gauge.svg'
+  import lvl1 from '../static/img/teach/lvl/lvl1.svg'
+  import lvl2 from '../static/img/teach/lvl/lvl2.svg'
+  import lvl3 from '../static/img/teach/lvl/lvl3.svg'
+  import lvl4 from '../static/img/teach/lvl/lvl4.svg'
+  import lvl5 from '../static/img/teach/lvl/lvl5.svg'
+  import lvl7 from '../static/img/teach/lvl/lvl7.svg'
+  import lvl9 from '../static/img/teach/lvl/lvl9.svg'
+  export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
+    var swiper
+
+
+    const lvl9text = (props, {$h}) => {
+     
+
+      if ($store.state.userData.lvl<9) {
+        return () => (
+          <p>На последнем девятом уровне вы получите самые лучшие аватарки — два котика и настоящая кошка&#x2060;–&#x2060;жена.</p>
+        )
+      }else{
+        return () => (
+          <div style='display:contents'>
+            <p>Вы дошли до девятого уровня! Поздравляю!</p>
+            <p>Я благодарен вам, лично тебе, за то что пользуешься приложением. 
+              Если ты дошёл до сюда, значит оно тебе нравится, и я очень из-за этого рад.</p>
+              
+          <p>Прийми как награду самые лучшие аватарки — два котика и настоящая кошка&#x2060;–&#x2060;жена.</p>
+          <p>Спасибо, что долистал до сюда.</p>
+          </div>
+        )
+      }
+}
+    $onMounted(() => {
+
+      
+      if ($store.state.userData.teach.lvl!==true) {
+        $store.state.userData.teach.lvl=true
+        $f7.emit('e-backp')
+      }
+
+      for (let index = 0; index < $el.value[0].querySelectorAll('.h').length; index++) {
+        const el = $el.value[0].querySelectorAll('.h')[index];
+        if (+el.getAttribute('l')<=$store.state.userData.lvl) {
+          $(el.parentElement).addClass('got')
+        }
+        
+      }
+
+      setTimeout(() => {
+        swiper = app.swiper.create($el.value[0].querySelector('.swiper-container'), {
+          speed: 400,
+          spaceBetween: 10,
+          resistanceRatio: 0.8,
+          autoHeight:true,
+
+          effect: 'slide',
+          touchRatio: 0.7,
+          longSwipesRatio: 0.4,
+          grabCursor: true,
+          observer: true,
+          mousewheel: false,
+          pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable:true
+          },
+          on:{
+            init:(e)=>{
+              setTimeout(() => {
+                for (let index = 0; index < e.pagination.bullets.length; index++) {
+                  if (+(e.slides[index].firstChild.getAttribute('l'))<=$store.state.userData.lvl) {
+                    $(e.pagination.bullets[index]).addClass('got')
+                  }
+                  
+                  
+                }
+              }, 10);
+            }
+          }
+        });
+      }, 50);
+
+      
+    })
+    return $render;
+  }
+</script>

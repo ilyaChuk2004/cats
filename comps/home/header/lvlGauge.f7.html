@@ -1,12 +1,12 @@
 <template>
-  <div class="gaugeCont">
+  <a href="/lvlTeach/" class="gaugeCont">
   <div class="st" innerHTML=${st}></div>
 
     
   <div class="gauge ll" id=${rid}>
     <div class="glab">${$store.state.userData.lvl}</div>
   </div>
-  </div>
+  </a>
 </template>
 <style>
   .glab{
@@ -16,11 +16,11 @@
     transform: translate(-50%, -55%);
     font-weight: bold;
     font-size: 26pt;
-    color: #9FD3C2;
+    color: var(--f7-theme-color);
+    filter:brightness(120%) saturate(0.5);
   }
   .gauge::after{
     content: 'уровень';
-    color: rgba(97, 130, 119, 0.47);
     width: 100%;
     bottom: 0;
     left: 0;
@@ -29,17 +29,21 @@
     transform: translateY(100%);
     font-weight: bold;
     font-size: 10pt;
+    color: rgba(var(--f7-theme-color-rgb), 0.4);
+    filter:saturate(0.7)
+
   }
   .gauge.ll .gauge-back-circle{
-    stroke:#eeeeee
+    stroke: rgba(var(--f7-theme-color-rgb), 0.15);
+    filter:saturate(0.7)
+  }
+  .gauge.ll .gauge-front-circle{
+    filter:saturate(0.7)
   }
 
-  body.theme-dark .gauge.ll .gauge-back-circle {
-    stroke:#31423c
-  }
   </style>
 <script>
-  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+  export default (props, {$store, $f7, $update, $el, $, $onMounted, $onUnmounted}) => {
 
     if ($store.state.userData.lvl==undefined) {
       $store.state.userData.lvl=1
@@ -78,9 +82,19 @@
     }
     </style>`
 
-
+    let interval
     
     $onMounted(()=>{
+      if ($store.state.userData.teach.lvl==undefined) {
+      interval = setInterval(() => {
+        console.log($store.state.userData.teach.lvl);
+        if ($store.state.userData.teach.lvl==undefined) {
+        $el.value[0].querySelector('.gauge').style.animation='colorPulse 2s ease infinite'
+      }else{
+        $el.value[0].querySelector('.gauge').style.animation=''
+      }
+      }, 1000);
+    }
 
       let lvl2 = $store.state.userData.lvl>1?300:100
         console.log($store.state.userData.xp, get300($store.state.userData.xp),$store.state.userData.xpGoal,lvl2, get300($store.state.userData.xp)/lvl2);
@@ -90,7 +104,7 @@
         value:get300($store.state.userData.xp)/lvl2,
         size:props.size==undefined?80:props.size,
         borderWidth:8,
-        borderColor:'#87E0C3',
+        borderColor:'rgba(var(--f7-theme-color-rgb), 0.7)',
         borderBgColor:$store.state.appData.theme=='light'?
         '#eeeeee':'#31423c',
       })
@@ -109,10 +123,17 @@
             var not = $f7.notification.create({
               icon: '<i class="f7-icons">gift_fill</i>',
               title: 'Поздравление',
+              closeOnClick:true,
               titleRightText: 'сейчас',
               subtitle: 'У вас новый уровень!',
+              cssClass:'pointer',
               text: `Теперь у вас ${$store.state.userData.lvl} уровень.`,
               closeTimeout: 3000,
+              on:{
+                click:()=>{
+                  $f7.views.current.router.navigate('/lvlTeach/')
+                }
+              }
             });
 
            not.open()
@@ -151,6 +172,10 @@
         $f7.emit('e-backp')
       })
 
+    })
+
+    $onUnmounted(()=>{
+      clearInterval(interval)
     })
     return $render;
   }

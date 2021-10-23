@@ -1,5 +1,5 @@
 <template>
-  <div class="page ws" data-name="settings">
+  <div class="page wss" data-name="settings">
     <div class="page-content">
       <div class="header">
         Настройка кружек
@@ -20,13 +20,10 @@
       <div class="inset list block-strong slide no-margin-top">
 
         <div class="title padding">Выберите миллилитры:</div>
-        <div class='actions'>
+        <div class='actions padding-horizontal'>
                     <div class="range-slider">
                       <input type="range" />
                     </div>
-          <div class="confirm" @click='${()=>{confirm()}}'>
-            ок
-          </div>
         </div>
 
       </div>
@@ -53,33 +50,11 @@
     $onUnmounted
   }) => {
     let inputSlideOpened = false;
-
-    function confirm(smile) {
-      let parent = inputSlideOpened.parentElement
-      let newSmile = smile !== undefined ? smile : $el.value[0].querySelector('#smileInput').value
-      console.log($(inputSlideOpened).index(), $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)]);
-      $store.state.userData.mood. ['emo' + ($(inputSlideOpened).index() + 1)] = newSmile
-      $store.state.userData.mood.emojiChanges++
-      if (!$store.state.userData.mood.lastEmojies.includes(newSmile)) {
-        $store.state.userData.mood.lastEmojies.push(newSmile);
-      } else {
-        $store.state.userData.mood.lastEmojies = $store.state.userData.mood.lastEmojies.filter(item => item !==
-          newSmile)
-        $store.state.userData.mood.lastEmojies.push(newSmile);
-      }
-      if ($store.state.userData.mood.lastEmojies.length > 20) {
-        $store.state.userData.mood.lastEmojies = $store.state.userData.mood.lastEmojies.slice(1)
-      }
-      $f7.emit('e-backp')
-      $f7.emit('e-changeEmoji')
-
-      $store.state.gf.vibrate('success')
-      $update()
-    }
+    let slider
 
     $onMounted(() => {
 
-      let slider = $f7.range.create({
+       slider = $f7.range.create({
         el:$el.value[0].querySelector('.range-slider'),
         label:true,
         min:50,
@@ -103,7 +78,26 @@
       })
 
       $(document).on('click', '#msCups .cup', (e)=>{
-        try {
+        if ($store.state.userData.lvl<5) {
+          $store.state.gf.vibrate('big fail')
+      
+
+      let toastBottom = $f7.toast.create({
+          text: `Недостаточный уровень. Требуется 5, а у вас — ${$store.state.userData.lvl}`,
+          cssClass:'error',
+          closeButton:true,
+          closeButtonText:'что?',
+          closeTimeout: 3000,
+          on:{
+            closeButtonClick:()=>{
+              $f7.views.current.router.navigate('/lvlTeach/')
+            }
+          }
+      });
+
+      toastBottom.open()
+        }else{
+          try {
           $(e.target.parentElement.parentElement.querySelector('.cup.active')).removeClass('active')
         } catch (error) {}
         e.target.parentElement.classList.add('active')
@@ -117,69 +111,9 @@
         // debugger
 
         slider.setValue(inputSlideOpened.querySelector('.label').innerText)
-      })
-
-      if ($f7.device.windows) {
-        var inputHelpTooltip = $f7.tooltip.create({
-          targetEl: $el.value[0].querySelector('#smileInput'),
-          text: 'Win+ю чтобы открыть меню'
-        });
-      }
-
-      var errorTooltip = $f7.tooltip.create({
-        targetEl: $el.value[0].querySelector('.error'),
-        text: 'Нет, нужен именно эмодзи',
-        trigger: 'manual',
-        cssClass: 'error'
-      });
-
-      $($el.value[0].querySelector('#smileInput')).on('input', (e) => {
-
-
-
-        if (/\p{Extended_Pictographic}/u.test(e.target.value) || e.target.value == '') {
-          errorTooltip.hide()
-          let confirmEl = $el.value[0].querySelector('.confirm')
-          if (e.target.value !== '') {
-            confirmEl.style.display = 'block'
-            setTimeout(() => {
-              confirmEl.style.opacity = '1'
-            }, 10);
-          } else {
-            confirmEl.style.opacity = '0'
-            setTimeout(() => {
-              confirmEl.style.display = 'none'
-            }, 250);
-          }
-        } else {
-          let confirmEl = $el.value[0].querySelector('.confirm')
-          $store.state.gf.vibrate('fail')
-          errorTooltip.show()
-          confirmEl.style.opacity = '0'
-          setTimeout(() => {
-            confirmEl.style.display = 'none'
-          }, 250);
-          setTimeout(() => {
-            if (!(/\p{Extended_Pictographic}/u.test(e.target.value) || e.target.value == '')) {
-              e.target.value = ''
-              errorTooltip.hide()
-            }
-          }, 2500);
-        }
-
-        if (e.target.value.length > 1) {
-          e.target.value = stringSlice(e.target.value, -1)
         }
       })
 
-
-      $($el.value[0].querySelector('#smileInput')).on('focusout', (e) => {
-        errorTooltip.hide()
-      })
-
-      $(document).on('click', '#msExamples span', (e) => {
-        confirm(e.target.innerText)
-      })
     })
     return $render;
   };

@@ -21,13 +21,12 @@
                 </label>  
               </li>
 
-              <li class="togglee ripple ripple-dark-white overflow-hidden">
+              <li @click=${openColor} class="togglee ripple ripple-dark-white overflow-hidden" >
                 <label>
                   <span class="disc">Акцентный цвет 
                     
                   </span>
                   <div id="prew"></div>
-                  <input type="text" class="display-none" placeholder="Color" readonly="readonly" id="color-input" />
                 </label>
               </li>
 
@@ -113,7 +112,34 @@
       }
     }
 
+    var colorPicker;
 
+    function openColor(){
+      console.log(colorPicker);
+      if ($store.state.userData.lvl>=3) {
+        colorPicker.open()
+      } else {
+        $store.state.gf.vibrate('big fail')
+      
+
+      let toastBottom = $f7.toast.create({
+          text: `Недостаточный уровень. Требуется 3, а у вас — ${$store.state.userData.lvl}`,
+          cssClass:'error',
+          closeButton:true,
+          closeButtonText:'что?',
+          closeTimeout: 3000,
+          on:{
+            closeButtonClick:()=>{
+              $f7.views.current.router.navigate('/lvlTeach/')
+            }
+          }
+      });
+
+      toastBottom.open()
+
+
+      }
+    }
     $onMounted(() => {
 
       var toggleBlur = $f7.toggle.create({el:$el.value[0].querySelector('#toggleBlur')});
@@ -137,8 +163,7 @@
       })
 
 
-      var colorPicker = $f7.colorPicker.create({
-  inputEl: $el.value[0].querySelector('#color-input'),
+       colorPicker = $f7.colorPicker.create({
   targetEl: $el.value[0].querySelector('#prew'),
 modules:['sb-spectrum', 'hue-slider', 'initial-current-colors'],
 targetElSetBackgroundColor: true,
@@ -147,6 +172,8 @@ value:{
 },
 routableModals :true
 });
+
+
 
 colorPicker.on('closed', (e)=>{
   console.log(e.value);

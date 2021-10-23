@@ -3,7 +3,7 @@
     <div class="view">
       <div class="page">
         <div style="padding-left: 0px;" class="page-content">
-          <div id="avaChangeHandler"></div>
+          <div class="handler" id="avaChangeHandler"></div>
         <h1>Изменить аватарку</h1>
 
 
@@ -33,17 +33,28 @@
             <${ava} l='1' n='' />
             <${ava} l='1' n='2' />
             <${ava} l='1' n='3' />
-            <${ava} l='1' n='4' />
           </div>
         </div>
-        <div class="sec ${l3}">
+        <div class="sec ${l4}">
           <p class="tit">
-            <i class="f7-icons">${l3}fill</i>
-            3 уровень
+            <i class="f7-icons">${l4}fill</i>
+            4 уровень
           </p>
           <div class="avas">  
-            <${ava} l='3' n='1' />
-            <${ava} l='3' n='2' />
+            <${ava} l='4' n='1' />
+            <${ava} l='4' n='2' />
+            <${ava} l='4' n='3' />
+          </div>
+        </div>
+        <div class="sec ${l7}">
+          <p class="tit">
+            <i class="f7-icons">${l7}fill</i>
+            7 уровень
+          </p>
+          <div class="avas">  
+            <${ava} l='7' n='1' />
+            <${ava} l='7' n='2' />
+            <${ava} l='7' n='3' />
           </div>
         </div>
         <div class="sec ${l9}">
@@ -53,6 +64,8 @@
           </p>
           <div class="avas">
             <${ava} l='9' n='1' />
+            <${ava} l='9' n='2' />
+            <${ava} l='9' n='3' />
           </div>
         </div>
         </div>
@@ -76,9 +89,13 @@
       `
 }
 
-    let l3 = 'lock_'
-    if ($store.state.userData.lvl>=3) {
-      l3='lock_open_'
+    let l4 = 'lock_'
+    if ($store.state.userData.lvl>=4) {
+      l4='lock_open_'
+    }
+    let l7 = 'lock_'
+    if ($store.state.userData.lvl>=7) {
+      l7='lock_open_'
     }
     let l9 = 'lock_'
     if ($store.state.userData.lvl>=9) {
@@ -109,7 +126,14 @@
       let toastBottom = $f7.toast.create({
           text: `Недостаточный уровень. Требуется ${el.getAttribute('lvl')}, а у вас — ${$store.state.userData.lvl}`,
           cssClass:'error',
+          closeButton:true,
+          closeButtonText:'что?',
           closeTimeout: 3000,
+          on:{
+            closeButtonClick:()=>{
+              $f7.views.current.router.navigate('/lvlTeach/')
+            }
+          }
       });
 
       toastBottom.open()

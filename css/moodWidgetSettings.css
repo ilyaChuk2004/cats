@@ -105,7 +105,7 @@ body.theme-dark .page.ws .slide .actions .confirm {
 @media (hover: hover) and (pointer: fine) {
   .page.ws .slide .examples .smiles span:hover {
     transform: scale(1.1);
-    filter: drop-shadow(0px 0px 6px #00000054);
+    filter: drop-shadow(0px 0px 4px #00000054);
   }
 }
 .page.ws .slide .examples .smiles span.active-state {

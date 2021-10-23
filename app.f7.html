@@ -13,7 +13,7 @@
       ${$store.state.appData.desktop ? $h`
       <div class="menu">
         <${lvl} size='60' />
-        <a class="items">
+        <div class="items">
           <a href="#view-home" data-way='home' class="itc home tab-link tab-link-active">
             <div data-way='home' class="it home"></div>
           </a>
@@ -23,7 +23,7 @@
           <a href="#view-settings" data-way="settings" class="itc settings tab-link">
             <div class="it settings " data-way="settings"></div>
           </a>
-        </a>
+        </div>
     </div>
     ` : $h`
     <div class="toolbar toolbar-bottom tabbar-labels">

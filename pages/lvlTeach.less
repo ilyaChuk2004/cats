@@ -1,0 +1,158 @@
+@bp-tablet: ~"min-width: 900px";
+.m-wideLilBtn(@p){
+    &::before{
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: @p;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+
+.popup{
+    .page-content{
+        height: 100%;
+    
+        
+
+        .swiper-container{
+            min-height: -webkit-fill-available;
+            margin-bottom: 2rem;
+
+            .swiper-wrapper{
+                min-height: 100% !important;
+            }
+        }
+
+        .swiper-slide{
+            min-width: 0;
+            // min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0.2;
+            transition: opacity 0.3s ease, filter 0.3s ease;
+            body[data-blur='blur'] &{
+                filter: blur(5px);
+            }
+
+            &.got{
+                .h{
+                    text-shadow: 0px 0px 39px rgba(var(--f7-theme-color-rgb), 0.2), 0px 0px 15px rgba(var(--f7-theme-color-rgb), 1);
+                }
+
+                s{
+                    filter:saturate(1)
+                }
+            }
+
+            &-active{
+                opacity: 1;
+                filter: blur(0px) !important;
+            }
+
+            .cont{
+                min-height: 80%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                height: auto;
+                margin-top: 1rem;
+            }
+
+            .h{
+                font-weight: 900;
+                font-size: 18pt;
+                text-align: center;
+                margin-top: 2rem;
+            }
+
+
+            s{
+                display: flex;
+                width: 100%;
+                height: auto;
+                max-height: 40vh;
+                justify-content: center;
+                margin-bottom: 1rem;
+                filter:saturate(0.3);
+
+                svg{
+                    height: inherit;
+                    width: 100%;
+                    @media (@bp-tablet) {
+                        width: 80%;
+                    }
+
+                    
+                }
+
+            }
+
+
+            p{
+                font-size: 14pt;
+                margin: 8pt 0;
+                width: 95%;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                -ms-hyphens: auto;
+                align-self: center;
+                @media (@bp-tablet) {
+    
+                    width: 85%;
+                    align-self: center;
+                  }
+
+                .cur{
+                    text-shadow: 0px 0px 10px var(--f7-theme-color), 0px 0px 19px var(--f7-theme-color);
+                }
+            }
+        }
+
+        .swiper-pagination{
+            position: fixed;
+            bottom: 1rem;
+
+            &::after{
+                content: "";
+                background-color: var(--mainBg);
+                position: fixed;
+                width: 30%;
+                height: 4.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: -1;
+                border-radius: 2.4rem;
+                bottom: -2rem;
+                filter: blur(8px);
+                opacity: 0.8;
+            }
+
+            &-bullet{
+                background: #000;
+                width: 1rem;
+                height: 1rem;
+                transform: scale(0.8);
+                transition: 0.7s cubic-bezier(1, -0.92, 0, 1.63);
+                body.theme-dark & {
+                    background: #fff;
+                  }
+
+                &-active{
+                    transform: scale(1.2);
+                    background: var(--swiper-pagination-color, var(--swiper-theme-color)) !important;
+                    filter: drop-shadow(1px 1px 1px rgba(var(--f7-theme-color-rgb)) 0.6);
+                }
+
+                &.got:not(.swiper-pagination-bullet-active){
+                    background: var(--swiper-theme-color) !important;
+                }
+            }
+        }
+        
+}
+}

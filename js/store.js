@@ -17,6 +17,39 @@ const store = createStore({
       name:'',
       ava:'static/img/avas/l1/ava2.webp',
       moodTextarea:'',
+      navigator:{
+        skills:[
+          {
+            name:'кіт',
+            color:'90, 204, 168',
+            d:[{
+              name:'каво',
+              lvl:4,
+              exp:120
+            },
+            {
+              name:'никаво',
+              lvl:2,
+              exp:120
+            },
+            {
+              name:'чево',
+              lvl:1,
+              exp:120
+            },
+            {
+              name:'ничево',
+              lvl:2,
+              exp:120
+            },
+            {
+              name:'ааа аа',
+              lvl:5,
+              exp:120
+            },]
+          }
+        ]
+      },
       water:{
         todayMl:0,
         streak:0,

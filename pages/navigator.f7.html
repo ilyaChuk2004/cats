@@ -3,54 +3,154 @@
 
     <!-- Scrollable page content-->
     <div class="page-content">
-      <div id="compass" @click=${(e)=>{cl(e)}}>
-        ${canUseWebm ? $h`
-          <!-- <video class="compassUnder" src="static/compass.webm"></video> -->
-          <video class="compassV" src="static/compass.webm"></video>
-          ` : $h`
-          <!-- <img class="compassUnder" src="static/compass.gif"/> -->
-          <img class="compassV" src="static/compass.gif"/>
-        `}
+      <div class="info">
+        <div  style="width:100%; max-height:100%">
+          <canvas id="myChart"></canvas>
+        </div>
+        <div class="d">color test</div>
       </div>
     </div>
   </div>
 </template>
 <style>
-  #compass{
-    width: 5rem;
-    position: relative;
-    margin: 5rem;
-  }
 
-  .compassV{
-    width: 10rem;
-    position: relative;
-    z-index: 2;
-    padding: 1rem;
-    cursor: pointer;
-  }
-
-  .compassUnder{
-
-
-    position: absolute;
-    width: 10rem;
-    filter: blur(7px) opacity(0.6);
-    z-index: 1;
-    padding: 1rem;
-  }
-
-  @keyframes compassShake {
-    from{transform: translateY(0%);}
-    10%{transform: translateY(10%);}
-    40%{transform: translateY(-20%);}
-    87%{transform: translateY(-20%)}
-    to{transform: translateY(0%);}
-  }
 </style>
+<!-- <script src="https://code.jscharting.com/latest/jscharting.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  import "../static/libs/chart.js"; 
+  import "../css/navigator.css"; 
 
-export default () => {
+
+
+export default (props, { $store, $f7, $update, $el, $, $onMounted }) => {
+
+  
+$onMounted(() => {
+
+  let rlabels = $store.state.userData.navigator.skills[0].d.map((i)=>{
+    return i.name    
+  })
+
+  let rdata = $store.state.userData.navigator.skills[0].d.map((i)=>{
+    return i.lvl    
+  })
+
+  const data = {
+  labels: rlabels,
+  datasets: [{
+    data: rdata,
+    skill:$store.state.userData.navigator.skills[0],
+    fill: true,
+    pointHitRadius:15,
+    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    borderCapStyle:'round',
+    borderColor: 'rgb(255, 99, 132)',
+    pointBackgroundColor: 'rgb(255, 99, 132)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgb(255, 99, 132)'
+  }]
+};
+
+let styles = {
+  day:{
+    lines:'#00000020',
+    pointLabels: '#00000070',
+    tooltip:{
+      backgroundColor:'#3d3d3d'
+    },
+    ticks:{
+      color: '#00000040',
+      backdropColor: '#efeff4'
+    }
+  },
+  night:{
+    lines:'#ffffff45',
+    pointLabels: '#ffffff9f',
+    tooltip:{
+      backgroundColor:'#272727ea'
+    },
+    ticks:{
+      color: '#ffffff6f',
+      backdropColor: '#000000'
+    }
+  }
+}
+
+//todo tab tooltips
+
+let cTheme = 'day'
+
+if (document.body.classList.contains('theme-dark')) {
+  cTheme = 'night'
+}
+
+const config = {
+  type: 'radar',
+  data: data,
+  options: {
+    font:{
+      family:'Inter'
+    },
+    plugins:{
+      legend:{
+        display:false
+      },
+      tooltip:{
+        padding:8,
+        displayColors:false,
+        backgroundColor:styles[cTheme].tooltip.backgroundColor,
+        titleFont:{
+          size:19
+        },
+        bodyFont:{
+          size:16
+        },
+        callbacks:{
+          label:function(cur){
+           let item = cur.dataset.skill.d[cur.dataIndex]
+            return [`${item.lvl} уровень.`, `${item.exp} ор.`]
+          }
+        }
+      }
+    },
+    elements: {
+      line: {
+        borderWidth: 1
+      }
+    },
+    scales:{
+      r: {
+        angleLines: {    //сетка
+          color: styles[cTheme].lines
+        },
+        grid: {    //сетка
+          color: styles[cTheme].lines
+        },
+        pointLabels: {
+          color: styles[cTheme].pointLabels,
+          font:{
+            size:16
+          }
+        },
+        ticks: {
+          color: styles[cTheme].ticks.color,
+          backdropColor: styles[cTheme].ticks.backdropColor,
+          stepSize: 2
+        }
+      }
+    }
+  },
+};
+
+const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+      
+})
+
 
   let canUseWebm = false
     if (!app.device.ie && !app.device.ios && !app.device.ipad && !app.device.iphone && !app.device.macos) {

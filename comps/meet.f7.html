@@ -1,0 +1,59 @@
+<template>
+
+  <div class="meest">
+    <!-- <div id="compass">
+     <x-gif src="probably_cats.gif"></x-gif>
+    </div> -->
+  </div>
+
+</template>
+<style>
+  #compass{
+    width: 5rem;
+    position: relative;
+  }
+
+  .compassV{
+    width: 10rem;
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+    cursor: pointer;
+  }
+
+  .compassUnder{
+
+
+    position: absolute;
+    width: 10rem;
+    filter: blur(7px) opacity(0.6);
+    z-index: 1;
+    padding: 1rem;
+  }
+
+  @keyframes compassShake {
+    from{transform: translateY(0%);}
+    10%{transform: translateY(10%);}
+    40%{transform: translateY(-20%);}
+    87%{transform: translateY(-20%)}
+    to{transform: translateY(0%);}
+  }
+</style>
+<script>
+  export default (props, {$store, $f7, $update, $el, $, $onMounted}) => {
+
+    $onMounted(()=>{
+      setTimeout(() => {
+        // $("video[autoplay]").each(function(){ this.play(); });
+      }, 100);
+      // $el.value[0].querySelector('#compass').firstChild.play()
+      // $el.value[0].querySelector('#compass').lastChild.play()
+
+      $el.value[0].querySelector('#compass').style.animation='compassShake 1.5s ease forwards'
+      setTimeout(() => {
+        $el.value[0].querySelector('#compass').style.animation='none'
+      }, 1500);
+    })
+    return $render;
+  }
+</script>
